@@ -6,7 +6,6 @@
 #include "StepperDriver.h"
 
 SoftwareSerial mySerial(3, 2); // RX, TX
-//NewPing sonar(PIN_TRIGGER, PIN_ECHO, maxDistance); 
 volatile int mode = BEGIN ;
 
 #define MOTOR_STEPS 200
