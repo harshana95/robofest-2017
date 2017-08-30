@@ -71,6 +71,7 @@ void mazeRunAdvanced() {
   Serial.print(" ");
   Serial.print(posCount);
   Serial.println(" ");
+  printCurrentMaze();   // Nuwan
 }
 
 void shiftDirVector(int c) {
