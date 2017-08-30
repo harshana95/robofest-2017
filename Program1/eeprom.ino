@@ -28,10 +28,13 @@ void saveEEPROM() {
 
 }
 
-void updateAddress(int i, int j) {
-  EEPROM.update(10 + ((i * 6) + j), maze[i][j]);
+void updateMazeAddress(int i,int j){
+  EEPROM.update(10+((i*6)+j), maze[i][j]);
 }
 
+void updateMazeWallAddress(int i,int j){
+  EEPROM.update(50+((i*6)+j), mazeWalls[i][j]);
+}
 void loadEEPROM() {
   
   int addr = 9;

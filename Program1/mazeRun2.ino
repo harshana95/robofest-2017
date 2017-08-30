@@ -1,113 +1,76 @@
 void mazeRunAdvanced() {
+  readWalls(wall);
+  // TODO: does not store the wall data after forward. it will written when next time this function is called. may occur an error at last position
+  //finding walls making north as the reference
+  int binaryWallCode[4];
+  if (currentFacingDir == 0) {
+    binaryWallCode[0] = wall[FRONT_SENSOR];
+    binaryWallCode[1] = wall[RIGHT_SENSOR];
+    binaryWallCode[2] = 0;
+    binaryWallCode[3] = wall[LEFT_SENSOR];
+  } else if (currentFacingDir == 1) {
+    binaryWallCode[0] = wall[LEFT_SENSOR];
+    binaryWallCode[1] = wall[FRONT_SENSOR];
+    binaryWallCode[2] = wall[RIGHT_SENSOR];
+    binaryWallCode[3] = 0;
+  } else if (currentFacingDir == 2) {
+    binaryWallCode[0] = 0;
+    binaryWallCode[1] = wall[LEFT_SENSOR];
+    binaryWallCode[2] = wall[FRONT_SENSOR];
+    binaryWallCode[3] = wall[RIGHT_SENSOR];
+  } else {
+    binaryWallCode[0] = wall[RIGHT_SENSOR];
+    binaryWallCode[1] = 0;
+    binaryWallCode[2] = wall[LEFT_SENSOR];
+    binaryWallCode[3] = wall[FRONT_SENSOR];
+  }
 
-  readWalls(wall);
-  delay(1000);
-  readWalls(wall);
+  //encrypting walls as int
+  int wallEncryptCode = binaryWallCode[0] * 8 + binaryWallCode[1] * 4 + binaryWallCode[2] * 2 + binaryWallCode[3];
+  mazeWalls[posX][posY] = wallEncryptCode;
+  updateMazeWallAddress(posX, posY);
 
   if (isMazeSolved == 0) {
     if (!wall[RIGHT_SENSOR]) {
       maze_turnRight();
       shiftDirVector(-1);
+      currentFacingDir = (currentFacingDir + 1) % 4;
     }
     else if (!wall[FRONT_SENSOR]) {
       maze_goForward();
     }
     else if (!wall[LEFT_SENSOR]) {
       maze_turnLeft();
+      currentFacingDir = (currentFacingDir - 1) % 4;
       shiftDirVector(1);
     }
     else {
       maze_turnBack();
+      currentFacingDir = (currentFacingDir + 2) % 4;
       shiftDirVector(-2);
     }
 
-
-
     // go forward
     posX += dir[1][0];
     posY += dir[1][1];
+
+    //store the count number in the maze position
     maze[posX][posY] = posCount;
-    updateAddress(posX, posY);
+    //save the count position in EEPROM
+    updateMazeAddress(posX, posY);
+    
     posCount++;
 
-
-
   } else {
-    int rightCount, leftCount, frontCount, backCount;
-    if (posX + dir[0][0] >= 0 && posX + dir[0][0] < 6 && posY + dir[0][0] >= 0 && posY + dir[0][0] < 6)
-      rightCount = maze[posX + dir[0][0]][posY + dir[0][0]];
-    else
-      rightCount = -1;
-
-    if (posX + dir[1][0] >= 0 && posX + dir[1][0] < 6 && posY + dir[1][0] >= 0 && posY + dir[1][0] < 6)
-      frontCount = maze[posX + dir[1][0]][posY + dir[1][0]];
-    else
-      frontCount = -1;
-
-    if (posX + dir[2][0] >= 0 && posX + dir[2][0] < 6 && posY + dir[2][0] >= 0 && posY + dir[2][0] < 6)
-      leftCount = maze[posX + dir[2][0]][posY + dir[2][0]];
-    else
-      leftCount = -1;
-    if (posX + dir[3][0] >= 0 && posX + dir[3][0] < 6 && posY + dir[3][0] >= 0 && posY + dir[3][0] < 6)
-      backCount = maze[posX + dir[3][0]][posY + dir[3][0]];
-    else
-      backCount = -1;
-    int countAroundMe[4] = {rightCount, frontCount , leftCount, backCount};
-    int currentBestIndex = -1;
-    int currentBestCount = -1;
-
-    bool endLoop = false; // boolean to store whether the loop should break. (because in switch
-    for (int i = 0; i < 4; i++) {
-      //finding the index that where the count around me is MAX!
-      for (int j = 0; j < 3; j++) {
-        if (countAroundMe[j] > currentBestCount) {
-          currentBestCount = countAroundMe[j];
-          currentBestIndex = j;
-        }
-      }
-
-      //checking the best move and see whether it is possible to turn to that side.
-      if (currentBestIndex == 0 && !wall[RIGHT_SENSOR]) {
-        // best move is to go right
-        maze_turnRight();
-        shiftDirVector(-1);
-        break;
-
-      } else if (currentBestIndex == 1 && !wall[FRONT_SENSOR]) {        // TODO: curreentBestIndex ???
-        // best move is to go forward
-        maze_goForward();
-        break;
-      } else if (currentBestIndex == 2 && !wall[LEFT_SENSOR]) {
-        // best move is to go left
-        maze_turnLeft();
-        shiftDirVector(1);
-        break;
-      } else {
-        // should be unlikely to happen. best position is in previous position. Causes an infinite loop.
-
-      }
-      countAroundMe[currentBestIndex] = -1;
-      currentBestIndex = -1;
-      currentBestCount = -1;
-    }
-
-    // go forward
-    posX += dir[1][0];
-    posY += dir[1][1];
-
+    executeCommand(commandNo);
+    commandNo++;
   }
-
   Serial.print(posX);
   Serial.print(" ");
   Serial.print(posY);
   Serial.print(" ");
   Serial.print(posCount);
   Serial.println(" ");
-
-  //loadEEPROM();
-  printCurrentMaze();
-
-
 }
 
 void shiftDirVector(int c) {
@@ -122,6 +85,22 @@ void shiftDirVector(int c) {
   }
 }
 
+void maze_turnRight() {}
+void maze_goForward() {}
+void maze_turnLeft() {}
+void maze_turnBack() {}
+
+void executeCommand(int i){ 
+  if (solvedCommandQueue[i] == 0){ // these values need to chage appropriately
+    maze_turnLeft();
+  }else if (solvedCommandQueue[i] == 1){
+    maze_goForward();
+  }else if (solvedCommandQueue[i] == 2){
+    maze_turnRight();
+  }else{
+    maze_turnBack(); // never happens :P
+  }
+}
 
 void printCurrentMaze() {
   for (int i = 0; i < 6; i++) {
