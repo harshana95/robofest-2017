@@ -58,7 +58,7 @@ void mazeRunAdvanced() {
     maze[posX][posY] = posCount;
     //save the count position in EEPROM
     updateMazeAddress(posX, posY);
-    
+
     posCount++;
 
   } else {
@@ -86,19 +86,41 @@ void shiftDirVector(int c) {
   }
 }
 
-void maze_turnRight() {}
-void maze_goForward() {}
-void maze_turnLeft() {}
-void maze_turnBack() {}
 
-void executeCommand(int i){ 
-  if (solvedCommandQueue[i] == 3){ // these values need to chage appropriately
+void maze_goForward() {
+  
+  if (debug)Serial.println("---> Move Forward");
+  motorForward(300);
+}
+void maze_turnLeft() {
+  if (debug)Serial.println("---> Move Left");
+  motorRotate(-100);
+  motorRotate(10);
+  motorForward(maze_forward_Steps);
+
+}
+void maze_turnRight() {
+  if (debug)Serial.println("---> Move Right");
+  motorRotate(100);
+  motorRotate(-10 );
+  motorForward(maze_forward_Steps);
+
+}
+void maze_turnBack() {
+  if (debug)Serial.println("---> Move Back");
+  motorRotate(-190);
+  motorRotate(10);
+  motorForward(maze_forward_Steps);
+}
+
+void executeCommand(int i) {
+  if (solvedCommandQueue[i] == 3) { // these values need to chage appropriately
     maze_turnLeft();
-  }else if (solvedCommandQueue[i] == 0){
+  } else if (solvedCommandQueue[i] == 0) {
     maze_goForward();
-  }else if (solvedCommandQueue[i] == 1){
+  } else if (solvedCommandQueue[i] == 1) {
     maze_turnRight();
-  }else{
+  } else {
     maze_turnBack(); // never happens :P
   }
 }
