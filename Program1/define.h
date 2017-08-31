@@ -11,8 +11,8 @@ boolean debug = 1;
 #define RIGHT 6
 #define BACK 2
 
-//#define GEARED_MOTORS
-#define STEPPER_MOTORS
+#define GEARED_MOTORS
+//#define STEPPER_MOTORS
 
 #if defined(GEARED_MOTORS)
 #define rightMotor1 7
@@ -100,7 +100,6 @@ int baseSpeed = 150;
 
 int drift = 0;
 
-
 //------------------------------------------------------------------------
 //These variables are defined for the maze traversal
 
@@ -124,28 +123,34 @@ int posCount = 1;
 int posX = 5, posY = 5;
 int dir[4][2] = { {0, 1}, { -1, 0}, {0, -1},  { 1, 0}};
 
-
-
 #if defined(STEPPER_MOTORS)
-int maze_forward_Steps = 300;
-int maze_turnLeft_Steps = STEPS_PER_ROUND / 4;
-int maze_turnRight_Steps =  - 1 * STEPS_PER_ROUND / 4;
-int maze_turnBack_Steps = STEPS_PER_ROUND / 2;
+
+const int  maze_forward_Steps = 300;
+const int maze_turnLeft_Steps = STEPS_PER_ROUND / 4;
+const int maze_turnRight_Steps =  - 1 * STEPS_PER_ROUND / 4;
+const int maze_turnBack_Steps = STEPS_PER_ROUND / 2;
+
+#elif defined(GEARED_MOTORS)
+
+const int maze_forwardStepTime = 1000;
+const int maze_forwardStepSpeed = 180;
+
+const int maze_turnLeft_RightMotorSpeed;
+const int maze_turnLeft_LeftMotorSpeed = -1 * maze_turnLeft_RightMotorSpeed;
+const int maze_turnLeft_Time = 1000;
+
+const int maze_turnRight_LeftMotorSpeed;
+const int maze_turnRight_RightMotorSpeed = -1 * maze_turnRight_LeftMotorSpeed;
+const int maze_turnRight_Time = 1000;
+
+const int maze_turnBack_LeftMotorSpeed;
+const int maze_turnBack_RightMotorSpeed = -1 * maze_turnBack_LeftMotorSpeed;
+const int maze_turnBack_Time = 1000;
+
 #endif
 
-/*
-  int maze_turnLeft_RightMotorSpeed;
-  int maze_turnLeft_LeftMotorSpeed = -1 * maze_turnLeft_RightMotorSpeed;
-  int maze_turnLeft_Time;
 
-  int maze_turnRight_LeftMotorSpeed;
-  int maze_turnRight_RightMotorSpeed = -1 * maze_turnRight_LeftMotorSpeed;
-  int maze_turnRight_Time;
 
-  int maze_turnBack_LeftMotorSpeed;
-  int maze_turnBack_RightMotorSpeed = -1 * maze_turnBack_LeftMotorSpeed;
-  int maze_turnBack_Time;
-*/
 //-------------------------------------------------------------------------
 
 

@@ -79,8 +79,8 @@ void motorWrite(int leftMotorSpeed, int rightMotorSpeed) {
     Serial.print("   "); Serial.print(leftMotorSpeed); Serial.print(" | "); Serial.println(rightMotorSpeed);
   }
 }
-/*
-  void motorStop() {
+
+void motorStop() {
 
   analogWrite(leftMotorPWM, 0);
   analogWrite(rightMotorPWM, 0);
@@ -94,8 +94,8 @@ void motorWrite(int leftMotorSpeed, int rightMotorSpeed) {
   digitalWrite(leftMotor1, HIGH);
   digitalWrite(leftMotor2, HIGH);
 
-  }
-*/
+}
+
 void motorLeft(int spd) {
   motorWrite(0, spd);
 }

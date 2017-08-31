@@ -88,29 +88,71 @@ void shiftDirVector(int c) {
 
 
 void maze_goForward() {
-  
   if (debug)Serial.println("---> Move Forward");
+
+#if defined(STEPPER_MOTOR)
   motorForward(300);
+
+#elif defined(GEARED_MOTOR)
+
+  motorWrite(maze_forwardStepSpeed, maze_forwardStepSpeed);
+  delay(maze_forwardStepTime);
+  motorStop()
+
+#endif
 }
 void maze_turnLeft() {
+
   if (debug)Serial.println("---> Move Left");
+
+#if defined(STEPPER_MOTOR)
   motorRotate(-100);
   motorRotate(10);
   motorForward(maze_forward_Steps);
 
+#elif defined(GEARED_MOTOR)
+
+  motorWrite(maze_turnLeft_LeftMotorSpeed, maze_turnLeft_RightMotorSpeed);
+  delay(maze_turnLeft_Time);
+  motorStop();
+
+#endif
+
 }
 void maze_turnRight() {
   if (debug)Serial.println("---> Move Right");
+
+#if defined(STEPPER_MOTOR)
   motorRotate(100);
   motorRotate(-10 );
   motorForward(maze_forward_Steps);
 
+#elif defined(GEARED_MOTOR)
+
+  motorWrite(maze_turnRight_LeftMotorSpeed, maze_turnRight_RightMotorSpeed);
+  delay(maze_turnRight_Time);
+  motorStop();
+
+#endif
+
 }
 void maze_turnBack() {
   if (debug)Serial.println("---> Move Back");
+
+
+#if defined(STEPPER_MOTOR)
   motorRotate(-190);
   motorRotate(10);
   motorForward(maze_forward_Steps);
+
+#elif defined(GEARED_MOTOR)
+
+  motorWrite(maze_turnBack_LeftMotorSpeed, maze_turnBack_RightMotorSpeed);
+  delay(maze_turnBack_Time);
+  motorStop();
+
+#endif
+
 }
 
 void executeCommand(int i) {
