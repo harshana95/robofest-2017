@@ -92,12 +92,11 @@ void maze_turnLeft() {}
 void maze_turnBack() {}
 
 void executeCommand(int i){ 
-  if (solvedCommandQueue[i] == 0){ // these values need to chage appropriately
   if (solvedCommandQueue[i] == 3){ // these values need to chage appropriately
     maze_turnLeft();
-  }else if (solvedCommandQueue[i] == 1){
+  }else if (solvedCommandQueue[i] == 0){
     maze_goForward();
-  }else if (solvedCommandQueue[i] == 2){
+  }else if (solvedCommandQueue[i] == 1){
     maze_turnRight();
   }else{
     maze_turnBack(); // never happens :P
