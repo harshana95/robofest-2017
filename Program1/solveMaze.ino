@@ -1,3 +1,7 @@
+
+
+
+
 void solveMaze() {
 
   int distance[36];

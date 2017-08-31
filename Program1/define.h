@@ -11,8 +11,8 @@ boolean debug = 1;
 #define RIGHT 6
 #define BACK 2
 
-#define GEARED_MOTORS
-//#define STEPPER_MOTORS
+//#define GEARED_MOTORS
+#define STEPPER_MOTORS
 
 #if defined(GEARED_MOTORS)
 #define rightMotor1 7
@@ -38,7 +38,7 @@ boolean debug = 1;
 int buttonStatus = 1;
 
 // Mode eNum
-enum {BEGIN, LINE_FOLLOW, STOP, TEST, MAZE_RUN, MAZE_RUN_ADVANCED, PICKING_BOX, BLUETOOTH, MAZE_PATH};
+enum {BEGIN, LINE_FOLLOW, STOP, TEST, MAZE_RUN, MAZE_OPTION, PICKING_BOX, BLUETOOTH};
 
 // EEPROM eNum
 enum {eP, eI, eD, eMax, eBase, eDebug};

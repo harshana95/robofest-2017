@@ -3,16 +3,16 @@
 #include <Arduino.h>
 #include <EEPROM.h>
 #include <SoftwareSerial.h>
-
 #include "define.h"
-#include "StepperDriver.h"
 
 SoftwareSerial mySerial(3, 2); // RX, TX
-volatile int mode = BEGIN ;
 
 #if defined(STEPPER_MOTORS)
+#include "StepperDriver.h"
 StepperDriver stepper(MOTOR_STEPS);    //(MOTOR_STEPS, DIR, STEP, ENBL);
 #endif
+
+volatile int mode = BEGIN ;
 
 void setup() {
   Serial.begin(9600);

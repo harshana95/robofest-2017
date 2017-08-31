@@ -1,6 +1,7 @@
 
 //dir_state = (steps >= 0) ? HIGH : LOW;
 
+
 #if defined(STEPPER_MOTORS)
 
 void stepperMotorBegin() {
