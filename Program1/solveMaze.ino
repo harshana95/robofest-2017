@@ -1,21 +1,28 @@
-
-
-
-
 void solveMaze() {
-
+  
   int distance[36];
   BFS(distance);
   int exittime[36];
   DFS(exittime);
-  printArr(distance, 36);
+
+  Serial.println("Current maze");
+  printCurrentMaze();
+
+  Serial.println("Walls in each cell");
+  printCurrentMazeWalls();
+
+  Serial.println("Exit time from each cell using DFS");
   printArr(exittime, 36);
   removeConflicts(distance, exittime);
+
+  Serial.println("Distance from start cell using BFS (conflicts removed)");
   printArr(distance, 36);
   
   findPath(distance);
-  printArr(solvedCommandQueue,36);
 
+  Serial.println("Command Queue");
+  printArr(solvedCommandQueue,36);
+  
 }
 
 
@@ -64,7 +71,7 @@ void findPath(int* distance) {
 
     distCount++;
     
-    solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + nextIndex)%4;
+    solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + 4+nextIndex)%4;
     solvedCommandQueueIndex++;
     currentFacingDir = nextIndex;
     switch (currentFacingDir){

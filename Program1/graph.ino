@@ -29,8 +29,8 @@ void BFS(int* distance) {
       break;
     }
     currentCell = pop(queue,36);
-    Serial.print("-----------------------------------------------------------\nChecking cell ");
-    Serial.println(currentCell);
+    //Serial.print("-----------------------------------------------------------\nChecking cell ");
+    //Serial.println(currentCell);
     if (visited[currentCell]) {
       queueP--;
       continue;
@@ -44,10 +44,10 @@ void BFS(int* distance) {
 
     depth += 1;
     
-    Serial.print("Going to Cell ");
-    Serial.println(currentCell);
-    Serial.print("walls ");
-    Serial.println(edges, BIN);
+    //Serial.print("Going to Cell ");
+    //Serial.println(currentCell);
+    //Serial.print("walls ");
+    //Serial.println(edges, BIN);
     for (int j = 0; j < 4; j++) {
       isWall = edges % 2;
       edges = edges >> 1;
@@ -110,8 +110,8 @@ void DFS(int* exittime) {
     if (queueP < 0)
       break;
     currentCell = queue[queueP];
-    Serial.print("-----------------------------------------------------------\nChecking cell ");
-    Serial.println(currentCell);
+    //Serial.print("-----------------------------------------------------------\nChecking cell ");
+    //Serial.println(currentCell);
     if (visited[currentCell]) {
       queueP--;
       continue;
@@ -125,8 +125,8 @@ void DFS(int* exittime) {
 
     extime += 1;
     exittime[currentCell] = extime;
-    Serial.print("Going to Cell ");
-    Serial.println(currentCell);
+    //Serial.print("Going to Cell ");
+    //Serial.println(currentCell);
     
     for (int j = 0; j < 4; j++) {
       isWall = edges % 2;
@@ -172,7 +172,12 @@ int pop(int*arr, int n){
 void printArr(int* arr, int n){
   for (int i=0;i<n;i++){
     Serial.print(arr[i]);
+    if (arr[i]>99)
     Serial.print(" ");
+    else if (arr[i]>9 or arr[i]<0)
+    Serial.print("  ");
+    else
+    Serial.print("   ");
     if ((i+1)%6==0) Serial.println("");
   }
   Serial.println("");

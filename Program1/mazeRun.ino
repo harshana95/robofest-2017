@@ -1,58 +1,35 @@
 void mazeRunAdvanced() {
-  
   readWalls(wall);
-  
   // TODO: does not store the wall data after forward. it will written when next time this function is called. may occur an error at last position
   //finding walls making north as the reference
 
- 
-  int binaryWallCode[4];
-  if (currentFacingDir == 0) {
-    binaryWallCode[0] = wall[FRONT_SENSOR];
-    binaryWallCode[1] = wall[RIGHT_SENSOR];
-    binaryWallCode[2] = 0;
-    binaryWallCode[3] = wall[LEFT_SENSOR];
-  } else if (currentFacingDir == 1) {
-    binaryWallCode[0] = wall[LEFT_SENSOR];
-    binaryWallCode[1] = wall[FRONT_SENSOR];
-    binaryWallCode[2] = wall[RIGHT_SENSOR];
-    binaryWallCode[3] = 0;
-  } else if (currentFacingDir == 2) {
-    binaryWallCode[0] = 0;
-    binaryWallCode[1] = wall[LEFT_SENSOR];
-    binaryWallCode[2] = wall[FRONT_SENSOR];
-    binaryWallCode[3] = wall[RIGHT_SENSOR];
-  } else {
-    binaryWallCode[0] = wall[RIGHT_SENSOR];
-    binaryWallCode[1] = 0;
-    binaryWallCode[2] = wall[LEFT_SENSOR];
-    binaryWallCode[3] = wall[FRONT_SENSOR];
-  }
-
-  //encrypting walls as int
-  int wallEncryptCode = binaryWallCode[0] * 8 + binaryWallCode[1] * 4 + binaryWallCode[2] * 2 + binaryWallCode[3];
-  mazeWalls[posX][posY] = wallEncryptCode;
-  updateMazeWallAddress(posX, posY);
 
   if (isMazeSolved == 0) {
+
+
+    mazeWalls[posX][posY] = giveBinaryWallCode();
+    updateMazeWallAddress(posX, posY);
+
     if (!wall[RIGHT_SENSOR]) {
       maze_turnRight();
       shiftDirVector(-1);
-      currentFacingDir = (currentFacingDir + 1) % 4;
+      currentFacingDir = (currentFacingDir + 1 + 4) % 4;
     }
     else if (!wall[FRONT_SENSOR]) {
       maze_goForward();
     }
     else if (!wall[LEFT_SENSOR]) {
       maze_turnLeft();
-      currentFacingDir = (currentFacingDir - 1) % 4;
+      currentFacingDir = (currentFacingDir - 1 + 4) % 4;
       shiftDirVector(1);
     }
     else {
       maze_turnBack();
-      currentFacingDir = (currentFacingDir + 2) % 4;
+      currentFacingDir = (currentFacingDir + 2 + 4) % 4;
       shiftDirVector(-2);
     }
+
+    //explore(); //not done yet
 
     // go forward
     posX += dir[1][0];
@@ -75,7 +52,38 @@ void mazeRunAdvanced() {
   Serial.print(" ");
   Serial.print(posCount);
   Serial.println(" ");
-  printCurrentMaze();   // Nuwan
+}
+
+void explore() {
+
+}
+
+int giveBinaryWallCode() {
+  int binaryWallCode[4];
+  if (currentFacingDir == 0) {
+    binaryWallCode[0] = wall[FRONT_SENSOR];
+    binaryWallCode[1] = wall[RIGHT_SENSOR];
+    binaryWallCode[2] = 0;
+    binaryWallCode[3] = wall[LEFT_SENSOR];
+  } else if (currentFacingDir == 1) {
+    binaryWallCode[0] = wall[LEFT_SENSOR];
+    binaryWallCode[1] = wall[FRONT_SENSOR];
+    binaryWallCode[2] = wall[RIGHT_SENSOR];
+    binaryWallCode[3] = 0;
+  } else if (currentFacingDir == 2) {
+    binaryWallCode[0] = 0;
+    binaryWallCode[1] = wall[LEFT_SENSOR];
+    binaryWallCode[2] = wall[FRONT_SENSOR];
+    binaryWallCode[3] = wall[RIGHT_SENSOR];
+  } else {
+    binaryWallCode[0] = wall[RIGHT_SENSOR];
+    binaryWallCode[1] = 0;
+    binaryWallCode[2] = wall[LEFT_SENSOR];
+    binaryWallCode[3] = wall[FRONT_SENSOR];
+  }
+  //encrypting walls as int
+  return binaryWallCode[0] * 8 + binaryWallCode[1] * 4 + binaryWallCode[2] * 2 + binaryWallCode[3];
+
 }
 
 void shiftDirVector(int c) {
@@ -162,12 +170,15 @@ void maze_turnBack() {
 
 }
 
+
 void executeCommand(int i) {
-  if (solvedCommandQueue[i] == 3) { // these values need to chage appropriately
+  // check if the box is there in front. before executing this function
+  Serial.println(solvedCommandQueue[i]);
+  if (solvedCommandQueue[i] == 1) { // these values need to chage appropriately
     maze_turnLeft();
   } else if (solvedCommandQueue[i] == 0) {
     maze_goForward();
-  } else if (solvedCommandQueue[i] == 1) {
+  } else if (solvedCommandQueue[i] == 3) {
     maze_turnRight();
   } else {
     maze_turnBack(); // never happens :P
@@ -175,16 +186,65 @@ void executeCommand(int i) {
 }
 
 void printCurrentMaze() {
+  Serial.print("#");
+  for (int i = 0; i < 6; i++) {
+    if ((mazeWalls[0][i] >> 2) % 2)
+      Serial.print("####");
+    else
+      Serial.print("    ");
+  }
+  Serial.print("\n");
+
   for (int i = 0; i < 6; i++) {
     for (int j = 0; j < 6; j++) {
-      if (maze[i][j] < 10)
+      if ((mazeWalls[i][j] >> 3) % 2)
+        Serial.print("#");
+      else
         Serial.print(" ");
+       
       Serial.print(maze[i][j]);
-      Serial.print(" ");
+      if (maze[i][j] > 99)
+        Serial.print("");
+      else if (maze[i][j] > 9 or maze[i][j] < 0)
+        Serial.print(" ");
+      else
+        Serial.print("  ");
+
+    }
+    if ((mazeWalls[i][5] >> 1) % 2)
+      Serial.println("#");
+    else
+      Serial.println(" ");
+
+
+    for (int j = 0; j < 6; j++) {
+      if ((mazeWalls[i][j]>>3) % 2 or mazeWalls[i][j-1]%2 or (mazeWalls[i+1][j]>>3)%2)
+        Serial.print("#");
+      else
+        Serial.print(" ");
+      if (mazeWalls[i][j] % 2)
+        Serial.print("###");
+      else
+        Serial.print("   ");
+    }
+    Serial.print("#\n");
+  }
+  Serial.println("----------------------------");
+}
+
+void printCurrentMazeWalls() {
+  for (int i = 0; i < 6; i++) {
+    for (int j = 0; j < 6; j++) {
+      Serial.print(mazeWalls[i][j]);
+      if (mazeWalls[i][j] > 99)
+        Serial.print(" ");
+      else if (mazeWalls[i][j] > 9 or mazeWalls[i][j] < 0)
+        Serial.print("  ");
+      else
+        Serial.print("   ");
+
     }
     Serial.print("\n");
   }
-
   Serial.println("----------------------------");
-
 }
