@@ -103,25 +103,31 @@ int drift = 0;
 //------------------------------------------------------------------------
 //These variables are defined for the maze traversal
 
+
 enum {RIGHT_SENSOR, FRONT_SENSOR, LEFT_SENSOR};
 int wall[] = {0, 0, 1};
 
+int isMazeSolved = 1;
+
 int maze[6][6];
-int mazeWalls[6][6];
+int mazeWalls[6][6];  
 //walls when facing north
 //each binary mapping of the number represents walls
 //0-no wall  1-wall
-//0thBit-west  1stBit-north  2ndBit-east 3rdBit-south
-int currentFacingDir = 1; //Initially facing north
+//0thBit-west  1stBit-north  2ndBit-east 3rdBit-south 
 
-int finalXPosition, finalYPosition;
-
+int currentFacingDir=1; //Initially facing north
 int solvedCommandQueue[36]; // 0 -forward 1-right 2-back(not used) 3-left
 int commandNo = 0;
-int isMazeSolved = 0;
+
 int posCount = 1;
-int posX = 5, posY = 5;
+int startXPosition = 5, startYPosition = 5; // starting position of the maze
+int posX = startXPosition, posY = startYPosition; // current position for traversing the maze at first
+int finalXPosition, finalYPosition; //position of the destination cell. when robo reach here the box should be in front!!!!
+
 int dir[4][2] = { {0, 1}, { -1, 0}, {0, -1},  { 1, 0}};
+
+//--------------------------------------------------------------------------------------------------------------------------------
 
 #if defined(STEPPER_MOTORS)
 

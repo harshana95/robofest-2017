@@ -1,27 +1,39 @@
-
-
-
-
 void solveMaze() {
 
+  derriveWalls();
+  
   int distance[36];
   BFS(distance);
   int exittime[36];
   DFS(exittime);
-  printArr(distance, 36);
+
+  Serial.println("Current maze");
+  printCurrentMaze();
+
+  Serial.println("Walls in each cell");
+  printCurrentMazeWalls();
+
+  Serial.println("Exit time from each cell using DFS");
   printArr(exittime, 36);
   removeConflicts(distance, exittime);
+
+  Serial.println("Distance from start cell using BFS (conflicts removed)");
   printArr(distance, 36);
   
   findPath(distance);
-  printArr(solvedCommandQueue,36);
 
+  Serial.println("Command Queue");
+  printArr(solvedCommandQueue,36);
+  
 }
 
+void derriveWalls(){
+  
+}
 
 void findPath(int* distance) {
   int currentFacingDir = 1; // facing north
-  int pos = 35; // start position (5,5)
+  int pos = startXPosition*6 + startYPosition;
 
   int eastDist, westDist, northDist, southDist;
   int distArr[4];
@@ -64,7 +76,7 @@ void findPath(int* distance) {
 
     distCount++;
     
-    solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + nextIndex)%4;
+    solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + 4+nextIndex)%4;
     solvedCommandQueueIndex++;
     currentFacingDir = nextIndex;
     switch (currentFacingDir){
@@ -83,30 +95,31 @@ void removeConflicts(int* distance, int* exittime) {
 
   int eastExittime, westExittime, northExittime, southExittime;
   int exittimeArr[4];
-  int posX, posY;
+  int x, y;
   for (int i = 0; i < 6; i++) {
     for (int j = 0; j < 6; j++) {
-      posX=5-i; posY=5-j;
-      if (posY + 1 >= 0 && posY + 1 < 6) {
-        eastDist = distance[posX * 6 + posY + 1];   eastExittime = exittime[posX * 6 + posY + 1];
+      x=5-i; y=5-j;
+      
+      if (y + 1 < 6) {
+        eastDist = distance[x * 6 + y + 1];   eastExittime = exittime[x * 6 + y + 1];
       }
       else {
         eastDist = 255;  eastExittime = 0;
       }
-      if (posX - 1 >= 0 && posX - 1 < 6) {
-        northDist = distance[(posX - 1) * 6 + posY]; northExittime = exittime[(posX - 1) * 6 + posY];
+      if (x - 1 >= 0) {
+        northDist = distance[(x - 1) * 6 + y]; northExittime = exittime[(x - 1) * 6 + y];
       }
       else {
         northDist = 255; northExittime = 0;
       }
-      if (posY - 1 >= 0 && posY - 1 < 6) {
-        westDist = distance[posX * 6 + posY - 1]; westExittime = exittime[posX * 6 + posY - 1];
+      if (y - 1 >= 0 && y - 1 < 6) {
+        westDist = distance[x * 6 + y - 1]; westExittime = exittime[x * 6 + y - 1];
       }
       else {
         westDist = 255; westExittime = 0;
       }
-      if (posX + 1 >= 0 && posX + 1 < 6) {
-        southDist = distance[(posX + 1) * 6 + posY]; southExittime = exittime[(posX + 1)*6 + posY];
+      if (x + 1 >= 0 && x + 1 < 6) {
+        southDist = distance[(x + 1) * 6 + y]; southExittime = exittime[(x + 1)*6 + y];
       }
       else {
         southDist = 255; southExittime =0;
@@ -132,10 +145,10 @@ void removeConflicts(int* distance, int* exittime) {
       for (int k = 0; k < 4; k++) {
         if (distArr[k] == 100) { // change where needed
           switch (k) {
-            case 0: distance[posX * 6 + posY - 1] = 100; break;
-            case 1: distance[(posX - 1) * 6 + posY] = 100; break;
-            case 2: distance[posX * 6 + posY + 1] = 100; break;
-            case 3: distance[(posX + 1) * 6 + posY] = 100; break;
+            case 0: distance[x * 6 + y - 1] = 100; break;
+            case 1: distance[(x - 1) * 6 + y] = 100; break;
+            case 2: distance[x * 6 + y + 1] = 100; break;
+            case 3: distance[(x + 1) * 6 + y] = 100; break;
           }
         }
       }
