@@ -1,8 +1,10 @@
 /****************************************************************************
   Functions
 
-  array,  readLine(*sensorValues)
-  String, readLineString
+  void    irSensorsBegin, sonarBegin, irSensorsOutput
+  array   readLine(*sensorValues)
+  String  readLineString
+  int     getSonarDistance
 ****************************************************************************/
 
 void irSensorsBegin() {

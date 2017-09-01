@@ -1,8 +1,5 @@
-String inputString = "";         // a string to hold incoming data
-String cmd2 = "";
-boolean stringComplete = false;  // whether the string is complete
 
-//TODO: Need propper communication protocol
+//TODO: Need well defined communication protocol
 
 void serialEvent() {
 
@@ -23,9 +20,9 @@ void serialEvent() {
     else if (inChar == 'p') {
       loadEEPROM();
       printCurrentMaze();
-      
+
     }
-    else if (inChar == 'c'){
+    else if (inChar == 'c') {
       cleanEEPROM();
       Serial.println(">> Maze cleared");
     }
@@ -37,7 +34,7 @@ void serialEvent() {
       Serial.print("Max\t:"); Serial.println(maxSpeed);
       Serial.print("Debug\t:"); Serial.println(debug);
     }
-    
+
     else if (inChar == 't') {
       readWalls(wall);
 
@@ -48,11 +45,18 @@ void serialEvent() {
     }
 
     else if (mode == BLUETOOTH) {
+#if defined(STEPPER_MOTORS)
       if  (inChar == '8')motorWrite(100, 1, 1);
       else if (inChar == '2')motorWrite(100, -1, -1);
       else if (inChar == '4')motorWrite(100, 1, -1);
       else if (inChar == '6')motorWrite(100, -1, 1);
 
+#elif defined(GEARED_MOTORS)
+      if  (inChar == '8')motorWrite(baseSpeed, baseSpeed);
+      else if (inChar == '2')motorWrite(-1 * baseSpeed, -1 * baseSpeed);
+      else if (inChar == '4')motorWrite(baseSpeed, -1 * baseSpeed);
+      else if (inChar == '6')motorWrite(-1 * baseSpeed, baseSpeed);
+#endif
     }
     digitalWrite(13, LOW);
   }

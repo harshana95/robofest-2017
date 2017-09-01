@@ -10,18 +10,26 @@ boolean debug = 1;
 #define LEFT 4
 #define RIGHT 6
 #define BACK 2
-/*
-  #define rightMotor1 7
-  #define rightMotor2 8
-  #define rightMotorPWM 9
 
-  #define leftMotor1 12
-  #define leftMotor2 11
-  #define leftMotorPWM 10
-*/
+//#define GEARED_MOTORS
+#define STEPPER_MOTORS
 
+#if defined(GEARED_MOTORS)
+#define rightMotor1 7
+#define rightMotor2 8
+#define rightMotorPWM 9
+
+#define leftMotor1 11
+#define leftMotor2 12
+#define leftMotorPWM 10
+
+#elif defined(STEPPER_MOTORS)
 #define STEPS_PER_UNIT 1
 #define STEPS_PER_ROUND 425
+#define MOTOR_STEPS 200
+#define MICROSTEPS 16
+#endif
+
 
 #define BUTTON_1 9
 //#define BUTTON_2 5
@@ -30,7 +38,7 @@ boolean debug = 1;
 int buttonStatus = 1;
 
 // Mode eNum
-enum {BEGIN, LINE_FOLLOW, STOP, TEST, MAZE_RUN, MAZE_RUN_ADVANCED, PICKING_BOX, BLUETOOTH, MAZE_PATH};
+enum {BEGIN, LINE_FOLLOW, STOP, TEST, MAZE_RUN, MAZE_OPTION, PICKING_BOX, BLUETOOTH};
 
 // EEPROM eNum
 enum {eP, eI, eD, eMax, eBase, eDebug};
@@ -92,12 +100,14 @@ int baseSpeed = 150;
 
 int drift = 0;
 
-
 //------------------------------------------------------------------------
 //These variables are defined for the maze traversal
 
+
 enum {RIGHT_SENSOR, FRONT_SENSOR, LEFT_SENSOR};
 int wall[] = {0, 0, 1};
+
+int isMazeSolved = 1;
 
 int maze[6][6];
 int mazeWalls[6][6];  
@@ -105,37 +115,48 @@ int mazeWalls[6][6];
 //each binary mapping of the number represents walls
 //0-no wall  1-wall
 //0thBit-west  1stBit-north  2ndBit-east 3rdBit-south 
+
 int currentFacingDir=1; //Initially facing north
-
-int finalXPosition, finalYPosition;
-
 int solvedCommandQueue[36]; // 0 -forward 1-right 2-back(not used) 3-left
 int commandNo = 0;
-int isMazeSolved = 0;
+
 int posCount = 1;
-int posX = 5, posY = 5;
+int startXPosition = 5, startYPosition = 5; // starting position of the maze
+int posX = startXPosition, posY = startYPosition; // current position for traversing the maze at first
+int finalXPosition, finalYPosition; //position of the destination cell. when robo reach here the box should be in front!!!!
+
 int dir[4][2] = { {0, 1}, { -1, 0}, {0, -1},  { 1, 0}};
 
+//--------------------------------------------------------------------------------------------------------------------------------
 
-int maze_forward_Steps = 300;
+#if defined(STEPPER_MOTORS)
 
-int maze_turnLeft_Steps = STEPS_PER_ROUND / 4;
-int maze_turnRight_Steps =  - 1 * STEPS_PER_ROUND / 4;
-int maze_turnBack_Steps = STEPS_PER_ROUND / 2;
+const int  maze_forward_Steps = 300;
+const int maze_turnLeft_Steps = STEPS_PER_ROUND / 4;
+const int maze_turnRight_Steps =  - 1 * STEPS_PER_ROUND / 4;
+const int maze_turnBack_Steps = STEPS_PER_ROUND / 2;
 
-/*
-  int maze_turnLeft_RightMotorSpeed;
-  int maze_turnLeft_LeftMotorSpeed = -1 * maze_turnLeft_RightMotorSpeed;
-  int maze_turnLeft_Time;
+#elif defined(GEARED_MOTORS)
 
-  int maze_turnRight_LeftMotorSpeed;
-  int maze_turnRight_RightMotorSpeed = -1 * maze_turnRight_LeftMotorSpeed;
-  int maze_turnRight_Time;
+const int maze_forwardStepTime = 1000;
+const int maze_forwardStepSpeed = 180;
 
-  int maze_turnBack_LeftMotorSpeed;
-  int maze_turnBack_RightMotorSpeed = -1 * maze_turnBack_LeftMotorSpeed;
-  int maze_turnBack_Time;
-*/
+const int maze_turnLeft_RightMotorSpeed;
+const int maze_turnLeft_LeftMotorSpeed = -1 * maze_turnLeft_RightMotorSpeed;
+const int maze_turnLeft_Time = 1000;
+
+const int maze_turnRight_LeftMotorSpeed;
+const int maze_turnRight_RightMotorSpeed = -1 * maze_turnRight_LeftMotorSpeed;
+const int maze_turnRight_Time = 1000;
+
+const int maze_turnBack_LeftMotorSpeed;
+const int maze_turnBack_RightMotorSpeed = -1 * maze_turnBack_LeftMotorSpeed;
+const int maze_turnBack_Time = 1000;
+
+#endif
+
+
+
 //-------------------------------------------------------------------------
 
 
