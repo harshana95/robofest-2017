@@ -3,14 +3,26 @@ void mazeRunAdvanced() {
   // TODO: does not store the wall data after forward. it will written when next time this function is called. may occur an error at last position
   //finding walls making north as the reference
 
-
   if (isMazeSolved == 0) {
-
-
     mazeWalls[posX][posY] = giveBinaryWallCode();
     updateMazeWallAddress(posX, posY);
 
-    if (!wall[RIGHT_SENSOR]) {
+    explore(); //not done yet
+
+  } else {
+    executeCommand(commandNo);
+    commandNo++;
+  }
+  Serial.print(posX);
+  Serial.print(" ");
+  Serial.print(posY);
+  Serial.print(" ");
+  Serial.print(posCount);
+  Serial.println(" ");
+}
+
+void explore() {
+  if (!wall[RIGHT_SENSOR]) {
       maze_turnRight();
       shiftDirVector(-1);
       currentFacingDir = (currentFacingDir + 1 + 4) % 4;
@@ -29,8 +41,6 @@ void mazeRunAdvanced() {
       shiftDirVector(-2);
     }
 
-    //explore(); //not done yet
-
     // go forward
     posX += dir[1][0];
     posY += dir[1][1];
@@ -41,21 +51,6 @@ void mazeRunAdvanced() {
     updateMazeAddress(posX, posY);
 
     posCount++;
-
-  } else {
-    executeCommand(commandNo);
-    commandNo++;
-  }
-  Serial.print(posX);
-  Serial.print(" ");
-  Serial.print(posY);
-  Serial.print(" ");
-  Serial.print(posCount);
-  Serial.println(" ");
-}
-
-void explore() {
-
 }
 
 int giveBinaryWallCode() {
@@ -97,7 +92,19 @@ void shiftDirVector(int c) {
     dir[i][1] = tempDir[i][1];
   }
 }
-
+void executeCommand(int i) {
+  // check if the box is there in front. before executing this function
+  Serial.println(solvedCommandQueue[i]);
+  if (solvedCommandQueue[i] == 1) { // these values need to chage appropriately
+    maze_turnLeft();
+  } else if (solvedCommandQueue[i] == 0) {
+    maze_goForward();
+  } else if (solvedCommandQueue[i] == 3) {
+    maze_turnRight();
+  } else {
+    maze_turnBack(); // never happens :P
+  }
+}
 
 // ---- Maze drive functions ---------------------------------------------------------------------------------------------------
 
@@ -171,19 +178,7 @@ void maze_turnBack() {
 }
 
 
-void executeCommand(int i) {
-  // check if the box is there in front. before executing this function
-  Serial.println(solvedCommandQueue[i]);
-  if (solvedCommandQueue[i] == 1) { // these values need to chage appropriately
-    maze_turnLeft();
-  } else if (solvedCommandQueue[i] == 0) {
-    maze_goForward();
-  } else if (solvedCommandQueue[i] == 3) {
-    maze_turnRight();
-  } else {
-    maze_turnBack(); // never happens :P
-  }
-}
+
 
 void printCurrentMaze() {
   Serial.print("#");
