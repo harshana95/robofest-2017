@@ -1,95 +1,245 @@
+void mazeRunAdvanced() {
+  readWalls(wall);
+  // TODO: does not store the wall data after forward. it will written when next time this function is called. may occur an error at last position
+  //finding walls making north as the reference
 
+  if (isMazeSolved == 0) {
+    mazeWalls[posX][posY] = giveBinaryWallCode();
+    updateMazeWallAddress(posX, posY);
 
-int path[] = {FRONT, LEFT, RIGHT, RIGHT, LEFT, FRONT, FRONT, LEFT, FRONT, BACK, FRONT, RIGHT, FRONT,
-              RIGHT, RIGHT, LEFT, FRONT, RIGHT, BACK, FRONT, FRONT, FRONT, LEFT, RIGHT, RIGHT, FRONT,
-              RIGHT, FRONT, FRONT, FRONT, FRONT, BACK, FRONT, FRONT, RIGHT, FRONT
-             };
+    explore(); //not done yet
 
-
-int lenIndex = sizeof(path);
-int curIndex = 0;
-
-void mazePath() {
-
-  if (curIndex < lenIndex) {
-    if (path[curIndex] == FRONT) maze_goForward();
-    else if (path[curIndex] == LEFT) maze_turnLeft();
-    else if (path[curIndex] == RIGHT) maze_turnRight();
-    else if (path[curIndex] == BACK) maze_turnBack();
-
-    curIndex++;
+  } else {
+    executeCommand(commandNo);
+    commandNo++;
   }
-  delay(100);
+  Serial.print(posX);
+  Serial.print(" ");
+  Serial.print(posY);
+  Serial.print(" ");
+  Serial.print(posCount);
+  Serial.println(" ");
+}
+
+void explore() {
+  if (!wall[RIGHT_SENSOR]) {
+      maze_turnRight();
+      shiftDirVector(-1);
+      currentFacingDir = (currentFacingDir + 1 + 4) % 4;
+    }
+    else if (!wall[FRONT_SENSOR]) {
+      maze_goForward();
+    }
+    else if (!wall[LEFT_SENSOR]) {
+      maze_turnLeft();
+      currentFacingDir = (currentFacingDir - 1 + 4) % 4;
+      shiftDirVector(1);
+    }
+    else {
+      maze_turnBack();
+      currentFacingDir = (currentFacingDir + 2 + 4) % 4;
+      shiftDirVector(-2);
+    }
+
+    // go forward
+    posX += dir[1][0];
+    posY += dir[1][1];
+
+    //store the count number in the maze position
+    maze[posX][posY] = posCount;
+    //save the count position in EEPROM
+    updateMazeAddress(posX, posY);
+
+    posCount++;
+}
+
+int giveBinaryWallCode() {
+  int binaryWallCode[4];
+  if (currentFacingDir == 0) {
+    binaryWallCode[0] = wall[FRONT_SENSOR];
+    binaryWallCode[1] = wall[RIGHT_SENSOR];
+    binaryWallCode[2] = 0;
+    binaryWallCode[3] = wall[LEFT_SENSOR];
+  } else if (currentFacingDir == 1) {
+    binaryWallCode[0] = wall[LEFT_SENSOR];
+    binaryWallCode[1] = wall[FRONT_SENSOR];
+    binaryWallCode[2] = wall[RIGHT_SENSOR];
+    binaryWallCode[3] = 0;
+  } else if (currentFacingDir == 2) {
+    binaryWallCode[0] = 0;
+    binaryWallCode[1] = wall[LEFT_SENSOR];
+    binaryWallCode[2] = wall[FRONT_SENSOR];
+    binaryWallCode[3] = wall[RIGHT_SENSOR];
+  } else {
+    binaryWallCode[0] = wall[RIGHT_SENSOR];
+    binaryWallCode[1] = 0;
+    binaryWallCode[2] = wall[LEFT_SENSOR];
+    binaryWallCode[3] = wall[FRONT_SENSOR];
+  }
+  //encrypting walls as int
+  return binaryWallCode[0] * 8 + binaryWallCode[1] * 4 + binaryWallCode[2] * 2 + binaryWallCode[3];
+
+}
+
+void shiftDirVector(int c) {
+  int tempDir[4][2];
+  for (int i = 0; i < 4; i++) {
+    tempDir[i][0] = dir[(i + 4 + c) % 4][0];
+    tempDir[i][1] = dir[(i + 4 + c) % 4][1];
+  }
+  for (int i = 0; i < 4; i++) {
+    dir[i][0] = tempDir[i][0];
+    dir[i][1] = tempDir[i][1];
+  }
+}
+void executeCommand(int i) {
+  // check if the box is there in front. before executing this function
+  Serial.println(solvedCommandQueue[i]);
+  if (solvedCommandQueue[i] == 1) { // these values need to chage appropriately
+    maze_turnLeft();
+  } else if (solvedCommandQueue[i] == 0) {
+    maze_goForward();
+  } else if (solvedCommandQueue[i] == 3) {
+    maze_turnRight();
+  } else {
+    maze_turnBack(); // never happens :P
+  }
+}
+
+// ---- Maze drive functions ---------------------------------------------------------------------------------------------------
+
+
+void maze_goForward() {
+  if (debug)Serial.println("---> Move Forward");
+
+#if defined(STEPPER_MOTOR)
+  motorForward(300);
+
+#elif defined(GEARED_MOTOR)
+
+  motorWrite(maze_forwardStepSpeed, maze_forwardStepSpeed);
+  delay(maze_forwardStepTime);
+  motorStop()
+
+#endif
+}
+void maze_turnLeft() {
+
+  if (debug)Serial.println("---> Move Left");
+
+#if defined(STEPPER_MOTOR)
+  motorRotate(-100);
+  motorRotate(10);
+  motorForward(maze_forward_Steps);
+
+#elif defined(GEARED_MOTOR)
+
+  motorWrite(maze_turnLeft_LeftMotorSpeed, maze_turnLeft_RightMotorSpeed);
+  delay(maze_turnLeft_Time);
+  motorStop();
+
+#endif
+
+}
+void maze_turnRight() {
+  if (debug)Serial.println("---> Move Right");
+
+#if defined(STEPPER_MOTOR)
+  motorRotate(100);
+  motorRotate(-10 );
+  motorForward(maze_forward_Steps);
+
+#elif defined(GEARED_MOTOR)
+
+  motorWrite(maze_turnRight_LeftMotorSpeed, maze_turnRight_RightMotorSpeed);
+  delay(maze_turnRight_Time);
+  motorStop();
+
+#endif
+
+}
+void maze_turnBack() {
+  if (debug)Serial.println("---> Move Back");
+
+
+#if defined(STEPPER_MOTOR)
+  motorRotate(-190);
+  motorRotate(10);
+  motorForward(maze_forward_Steps);
+
+#elif defined(GEARED_MOTOR)
+
+  motorWrite(maze_turnBack_LeftMotorSpeed, maze_turnBack_RightMotorSpeed);
+  delay(maze_turnBack_Time);
+  motorStop();
+
+#endif
 
 }
 
 
 
 
-/*
-  void mazeRun() {
-  readWalls(wall);
-  delay(1000);
-  readWalls(wall);
-  //mySerial.print(wall[0] + 2 * wall[1] + 4 * wall[2]);
-
-  if (debug) {
-    Serial.print(wall[2]);
-    Serial.print(wall[1]);
-    Serial.print(wall[0]);
-    Serial.print("\t");
-    //Serial.println();
+void printCurrentMaze() {
+  Serial.print("#");
+  for (int i = 0; i < 6; i++) {
+    if ((mazeWalls[0][i] >> 2) % 2)
+      Serial.print("####");
+    else
+      Serial.print("    ");
   }
+  Serial.print("\n");
 
-  // 1== Have a wall
-  // 0== Open Space
+  for (int i = 0; i < 6; i++) {
+    for (int j = 0; j < 6; j++) {
+      if ((mazeWalls[i][j] >> 3) % 2)
+        Serial.print("#");
+      else
+        Serial.print(" ");
+       
+      Serial.print(maze[i][j]);
+      if (maze[i][j] > 99)
+        Serial.print("");
+      else if (maze[i][j] > 9 or maze[i][j] < 0)
+        Serial.print(" ");
+      else
+        Serial.print("  ");
+
+    }
+    if ((mazeWalls[i][5] >> 1) % 2)
+      Serial.println("#");
+    else
+      Serial.println(" ");
 
 
-  // Right Hand Rule                                 // Decisions
-  if (!wall[RIGHT_SENSOR]) maze_turnRight();         // 00* | 110 010 100 000
-  else if (!wall[FRONT_SENSOR]) maze_goForward();    // 0*0 | 001 101
-  else if (!wall[LEFT_SENSOR] ) maze_turnLeft();     // *00 | 011
-  else maze_turnBack();                              //     | 111
-
-
-    // Left Hand Rule
-    if (leftDist > maze_THERSOLD_FOR_WALL) maze_turnLeft();
-    else if (frontDist > maze_THERSOLD_FOR_WALL) maze_goForward();
-    else if (rightDist > maze_THERSOLD_FOR_WALL) maze_turnRight();
-    else maze_turnBack();
-
-
+    for (int j = 0; j < 6; j++) {
+      if ((mazeWalls[i][j]>>3) % 2 or mazeWalls[i][j-1]%2 or (mazeWalls[i+1][j]>>3)%2)
+        Serial.print("#");
+      else
+        Serial.print(" ");
+      if (mazeWalls[i][j] % 2)
+        Serial.print("###");
+      else
+        Serial.print("   ");
+    }
+    Serial.print("#\n");
   }
+  Serial.println("----------------------------");
+}
 
+void printCurrentMazeWalls() {
+  for (int i = 0; i < 6; i++) {
+    for (int j = 0; j < 6; j++) {
+      Serial.print(mazeWalls[i][j]);
+      if (mazeWalls[i][j] > 99)
+        Serial.print(" ");
+      else if (mazeWalls[i][j] > 9 or mazeWalls[i][j] < 0)
+        Serial.print("  ");
+      else
+        Serial.print("   ");
 
-  void turnLeft_1(){
-  //This is just for calibration
-  motorForward(500);
-  motorRotate(10);
-  delay(50);
-  motorRotate(10);
-  delay(50);
-  motorRotate(10);
-  delay(50);
-  motorRotate(10);
-  delay(50);
-  motorRotate(10);
-  delay(50);
-  motorRotate(10);
-  delay(50);
-  motorRotate(10);
-  delay(50);
-  motorRotate(10);
-  delay(50);
-  motorRotate(10);
-	delay(50);
-  motorRotate(15);
-  delay(50);
-	motorForward(500);
+    }
+    Serial.print("\n");
   }
-
-*/
-
-
-
-
+  Serial.println("----------------------------");
+}
