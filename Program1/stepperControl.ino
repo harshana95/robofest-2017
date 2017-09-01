@@ -1,6 +1,9 @@
 
 //dir_state = (steps >= 0) ? HIGH : LOW;
 
+
+#if defined(STEPPER_MOTORS)
+
 void stepperMotorBegin() {
 
   // Setting pinModes
@@ -80,10 +83,6 @@ void motorWrite(int steps, int left, int right) {
 }
 
 
-void motorStop() {
-  // Nothing to do
-}
-
 void square(int d) {
   int a = 90;
 
@@ -140,4 +139,8 @@ void polygon(int d, int p) {
   .nextAction()
 
 */
+
+#endif
+
+
 

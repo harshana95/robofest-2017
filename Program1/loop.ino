@@ -21,16 +21,7 @@ void loop() {
 
     case BEGIN:
       buttonStatus = digitalRead(BUTTON_1);
-
-      /*readWalls(wall);
-
-        Serial.print(wall[2]);
-        Serial.print(" ");
-        Serial.print(wall[1]);
-        Serial.print(" ");
-        Serial.print(wall[0]);
-        Serial.println();*/
-
+      
       if (buttonStatus == 0 ) {
         beep();
         readWalls(wall);
@@ -56,30 +47,13 @@ void loop() {
 
       break;
 
-    case MAZE_RUN_ADVANCED:
-
-      //readWalls(wall);
-      //readColor();
-
-      if (color != COLOR_OPEN) {
-        if (isMazeSolved == 0 ) {
-
-          // solve the maze using matrix
-          isMazeSolved = 1;
-        }
-        mode = PICKING_BOX;
-        break;
-      }
-      //mazeRunAdvanced();
-      break;
-
-    case MAZE_PATH:
+    case MAZE_OPTION:
       buttonStatus = digitalRead(BUTTON_1);
 
       if (buttonStatus == 0 ) {
         mode = BEGIN;
       } else {
-        mazePath(); //mazeRun();
+        mazeOption1(); //mazeRun();
       }
 
       break;
