@@ -22,7 +22,7 @@ void colorBegin() {
 void readColor() {
 
   //color0.setInterrupt(false);  // turn on LED
-  delay(60);
+  delay(10);
   color0.getRawData(&red0, &green0, &blue0, &clr0);
   //color0.setInterrupt(true);   // turn off LED
 
