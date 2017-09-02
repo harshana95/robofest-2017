@@ -31,6 +31,11 @@ void setup() {
   stepperMotorBegin();
 #endif
 
+pinMode(12, INPUT);
+
+pinMode(11, INPUT);
+
+pinMode(10, INPUT);
 
   pinMode(BUTTON_1, INPUT_PULLUP);
   //pinMode(BUTTON_2, INPUT_PULLUP);

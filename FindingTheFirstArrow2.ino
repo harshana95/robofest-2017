@@ -43,7 +43,7 @@ void start(int boxColor) {
   Serial.print(stepSize);
   Serial.print("cm ");
 
-  int reading=[directions][steps];
+  int reading[directions][steps];
 
   turnCW(-1*gap*(directions-1)/2);
 
