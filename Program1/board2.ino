@@ -21,7 +21,8 @@ boolean readColor() {
   color = mySerial.read() - '0';     // 0-No 1-Red 2-Green 3-Blue
   
   while (mySerial.available()) {
-    Serial.println(mySerial.read() - '0');
+    mySerial.read();
+    //Serial.println(mySerial.read() - '0');
   }
 
   if (color >= 0 && color <= 3) {
@@ -29,8 +30,8 @@ boolean readColor() {
     Serial.println(color);
   } else {
     color = -1;
-    Serial.println(color);
-    Serial.println("Error: Color reading");
+    //Serial.println(color);
+    //Serial.println("Error: Color reading");
   }
   return 1;
 }
