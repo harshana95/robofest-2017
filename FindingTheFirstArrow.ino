@@ -44,6 +44,6 @@ void start(int boxColor){
 		}
 	}
 
-	turcCW(-10*(8-i));
+	turcCW(-10*(8-maxIndex));
 	goFoward(10);
 } 
