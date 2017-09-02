@@ -10,12 +10,6 @@ void mazeRunAdvanced() {
   printArr(wall, 3);
 
 
-  if (0) {
-    Serial.print(wall[2]);
-    Serial.print(wall[1]);
-    Serial.println(wall[0]);
-  }
-
   // TODO: does not store the wall data after forward. it will written when next time this function is called. may occur an error at last position
   //finding walls making north as the reference
 

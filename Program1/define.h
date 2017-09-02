@@ -107,7 +107,7 @@ int drift = 0;
 //These variables are defined for the maze traversal
 
 
-enum {RIGHT_SENSOR, FRONT_SENSOR, LEFT_SENSOR};
+enum {LEFT_SENSOR, FRONT_SENSOR, RIGHT_SENSOR};
 int wall[] = {0, 0, 1};
 
 int isMazeSolved = 0;
