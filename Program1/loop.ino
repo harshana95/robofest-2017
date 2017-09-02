@@ -21,13 +21,13 @@ void loop() {
 
     case BEGIN:
       buttonStatus = digitalRead(BUTTON_1);
-      
+
       if (buttonStatus == 0 ) {
         beep();
         //readWalls(wall);
         //readColor();
-        mode = MAZE_RUN;
-        Serial.println(">> Mode : MAZE_RUN");
+        mode = FIND_ARROW;
+        Serial.println(">> Mode : FIND");
         delay(500);
       } else {
         readWalls(wall);
@@ -36,7 +36,10 @@ void loop() {
 
       break;
 
+    case FIND_ARROW:
+      start(COLOR_GREEN);
 
+      break;
     case MAZE_RUN:
       //readColor();
       buttonStatus = digitalRead(BUTTON_1);

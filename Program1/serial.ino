@@ -27,6 +27,11 @@ void serialEvent() {
       cleanEEPROM();
       Serial.println(">> Maze cleared");
     }
+
+    else if (inChar == 'q') {
+      readSensorLine(sensor_values);
+      Serial.println(irLineString);
+    }
     else if (inChar == 's') {
       Serial.print("Kp\t:"); Serial.println(kP * 10);
       Serial.print("Ki\t:"); Serial.println(kI * 10);
@@ -38,11 +43,11 @@ void serialEvent() {
 
     else if (inChar == 't') {
       readWalls(wall);
-      //readColor();
-      
+      //readColor();      
       Serial.print(wall[LEFT_SENSOR]);
       Serial.print(wall[FRONT_SENSOR]);
       Serial.print(wall[RIGHT_SENSOR]);
+
       Serial.println();
     }
 

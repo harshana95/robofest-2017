@@ -24,7 +24,6 @@ void serialEvent() {
     }
     else if ((inChar - '0') >= 0 && (inChar - '0') <= 7) {
       byte in = inChar - '0';
-
     }
     else if (inChar == 'g') {
       pickBox();
@@ -32,9 +31,7 @@ void serialEvent() {
     else if (inChar == 'h') {
       dropBox();
     }
-    else if (inChar == 'i') {
-      Serial.println((char)(colorR0 > 0));
-    }
+
     else if (inChar == 'j') {
       Serial.println((char)('0' + colorR0));
     }
@@ -46,8 +43,8 @@ void serialEvent() {
     else {
       //This is to to say there is something wrong
 
-      Serial.write((int)inChar);
-      Serial.println();
+      //Serial.write((int)inChar);
+      //Serial.println();
       indicatorBlink(PIN_BLUE, 3);
 
     }
