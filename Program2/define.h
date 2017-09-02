@@ -1,7 +1,7 @@
 
 #define DEBUG 0
 
-enum {LEFT_SENSOR,FRONT_SENSOR, RIGHT_SENSOR};
+enum {RIGHT_SENSOR, FRONT_SENSOR, LEFT_SENSOR};
 
 #define FRONT_SENSOR_PIN A1
 #define RIGHT_SENSOR_PIN A0
@@ -23,14 +23,6 @@ enum {LEFT_SENSOR,FRONT_SENSOR, RIGHT_SENSOR};
 
 int wall[] = {1, 1, 1};
 
-
-
-
-
-
-
-
-
 /*
   // ---- For Sonar Sensors --------------------------------------------------------------
   int duration, distance = 0;
@@ -50,11 +42,9 @@ uint16_t clr0, red0, green0, blue0;
 enum {COLOR_OPEN, COLOR_RED, COLOR_GREEN, COLOR_BLUE};
 int colorR0 = 0;
 
-const int WHITE_THERSOLD = 1000; // **This depends with the distance from sensor to the object
+const int WHITE_THERSOLD = 800; // **This depends with the distance from sensor to the object
 
-
-
-
+#define RED_GB_GAP 100
 #define DELAY_BUZZER 100
 #define DELAY_INDICATOR 100
 

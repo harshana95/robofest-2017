@@ -26,20 +26,31 @@ void readColor() {
   color0.getRawData(&red0, &green0, &blue0, &clr0);
   //color0.setInterrupt(true);   // turn off LED
 
-  if ((red0 > WHITE_THERSOLD) && (blue0 > WHITE_THERSOLD) && (green0 > WHITE_THERSOLD)) {
+
+  /*if ((red0 > WHITE_THERSOLD) && (blue0 > WHITE_THERSOLD) && (green0 > WHITE_THERSOLD)) {
     colorR0 = COLOR_OPEN;
     indicatorShow(10);    // All off
-  }
-  else if (red0 > green0 && red0 > blue0) {
-    colorR0 = COLOR_RED; //RED
-    indicatorShow(COLOR_RED);
-  }
-  else if (green0 > blue0) {
+    }
+    else */
+  if (green0 > blue0 && green0 > red0 ) {
     colorR0 = COLOR_GREEN;              //GREEN
     indicatorShow(COLOR_GREEN);
   }
-  else colorR0 = COLOR_BLUE;                                   //Blue
-  indicatorShow(COLOR_BLUE);
+
+  else if (blue0 > red0 ) {
+    colorR0 = COLOR_BLUE; //RED
+    indicatorShow(COLOR_BLUE);
+  }
+
+  else if (((green0 - blue0) < RED_GB_GAP) || ((blue0 - green0) < RED_GB_GAP) ) {
+    colorR0 = COLOR_RED;                                   //RED
+    indicatorShow(COLOR_RED);
+  }
+  else {
+    colorR0 = COLOR_OPEN;
+    indicatorShow(0);    // All off
+  }
+  indicatorShow(colorR0);
 
 }
 

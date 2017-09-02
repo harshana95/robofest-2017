@@ -28,22 +28,27 @@ void loop() {
   colorUpdate();
   readWalls(wall);
   //readCompass();
-  delay(150);
+  //Serial.println(colorR0);
 
-  indicatorShow(colorR0);
+  delay(100);
 
 }
 void colorUpdate() {
   readColor();
   //Serial.println(colorR0);
 
-  if (0) {
+  if (1) {
     Serial.print(blue0);
     Serial.print(" ");
     Serial.print(red0);
     Serial.print(" ");
     Serial.print(green0);
     Serial.print(" ");
+    Serial.print(clr0);
+    Serial.print(" ");
+    Serial.print(color0.calculateColorTemperature(red0, green0, blue0) );
+    Serial.print(" ");
+
     Serial.print(colorR0);
     Serial.println(" ");
   }
