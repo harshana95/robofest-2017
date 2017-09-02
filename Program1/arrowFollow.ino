@@ -53,19 +53,19 @@ void start(int boxColor) {
   for (int d = 0; d < directions; d++) {
     for (int s = 0; s < steps; s++) {
       if (getColorReading() == boxColor) {
-        reading[d][s]++;
-        if (s != steps - 1) {
+        reading[d][s]++;  
+      }
+      if (s != steps - 1) {
           goFoward(stepSize);
-        }
       }
     }
 
     for (int s = 0; s < steps; s++) {
       if (getColorReading() == boxColor) {
-        reading[d][s]++;
-        if (s != steps - 1) {
+        reading[d][s]++;  
+      }
+      if (s != steps - 1) {
           goFoward(-stepSize);
-        }
       }
     }
 
