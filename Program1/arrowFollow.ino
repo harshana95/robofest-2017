@@ -5,6 +5,8 @@
 //int RED = 1, GREEN = 2, BLUE = 3;
 
 #include <math.h>    // (no semicolon)
+static int reading[6];
+
 
 void turnCW(int degrees) {
   //I am assuming that this function can turn the robot clockwise to 10 degrees
@@ -13,9 +15,9 @@ void turnCW(int degrees) {
 
 void goFoward(int mm) {
   if (mm > 0) {
-    motorWrite(mm, 1 , 1);
+    motorWrite(mm*10,mm*10);
   } else {
-    motorWrite(mm, -1 , -1);
+    motorWrite(mm*10 ,mm*10);
   }
 }
 
@@ -241,7 +243,7 @@ void start(int boxColor) {
 }
 
 
-static int reading[6];
+
 
 
 
@@ -263,9 +265,7 @@ void trailAndErrorArrowFollow_LoopOneArrow() {
   //BLOCK 1 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   readSensorLine(reading);
   while (sumOfArray(reading, 6) == 0) {
-    motorWrite(200, 200);
-    delay(100);
-    motorWrite(0, 0);
+    motorWrite(100, 100);
     delay(100);
     readSensorLine(reading);
   }
@@ -281,16 +281,12 @@ void trailAndErrorArrowFollow_LoopOneArrow() {
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   //BLOCK 2>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  motorWrite(-200, -200);
-  delay(100);
-  motorWrite(0, 0);
+  motorWrite(-100, -100);
   delay(100);
   readSensorLine(reading);
   while (sumOfArray(reading, 6) != 0) {
 
-    motorWrite(-200, -200);
-    delay(100);
-    motorWrite(0, 0);
+    motorWrite(-100, -100);
     delay(100);
     readSensorLine(reading);
   }
@@ -301,9 +297,7 @@ void trailAndErrorArrowFollow_LoopOneArrow() {
   //BLOCK 1 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   readSensorLine(reading);
   while (sumOfArray(reading, 6) == 0) {
-    motorWrite(200, 200);
-    delay(100);
-    motorWrite(0, 0);
+    motorWrite(100, 100);
     delay(100);
     readSensorLine(reading);
   }
@@ -350,23 +344,17 @@ void trailAndErrorArrowFollow_Forward() {
     if (weightedSum < 0) {
       Serial.println("Forward loop- Turn right");
       motorWrite(100, -100);
-      delay(50);
-      motorWrite(0, 0);
       delay(100);
     }
     else {
       Serial.println("Forward loop- Turn left");
       motorWrite(-100, 100);
       delay(100);
-      motorWrite(0, 0);
-      delay(100);
     }
   }
 
 
   motorWrite(100, 100);
-  delay(100);
-  motorWrite(0, 0);
   delay(100);
 }
 
@@ -394,24 +382,18 @@ void trailAndErrorArrowFollow_Backward() {
   if (weightedSum != 0) {
     if (weightedSum > 0) {
       Serial.println("Backward loop- Turn right");
-      motorWrite(100, -100);
-      delay(50);
-      motorWrite(0, 0);
+      motorWrite(50, -50);
       delay(100);
     }
     else {
       Serial.println("Backward loop- Turn left");
-      motorWrite(-100, 100);
-      delay(100);
-      motorWrite(0, 0);
+      motorWrite(-50, 50);
       delay(100);
     }
   }
 
 
-  motorWrite(-100, -100);
-  delay(100);
-  motorWrite(0, 0);
+  motorWrite(-50, -50);
   delay(100);
 }
 
