@@ -26,9 +26,10 @@ void indicatorChange(int colorId, bool st) {
 
 void indicatorShow(int colorId) {
 
-  digitalWrite(PIN_RED, (colorId == 1));
-  digitalWrite(PIN_GREEN, (colorId == 2));
-  digitalWrite(PIN_BLUE, (colorId == 3));
+
+  digitalWrite(PIN_RED, (colorId == 1) ? HIGH : LOW);
+  digitalWrite(PIN_GREEN, (colorId == 2) ? HIGH : LOW);
+  digitalWrite(PIN_BLUE, (colorId == 3) ? HIGH : LOW);
 }
 
 void indicatorOn(int colorId) {
