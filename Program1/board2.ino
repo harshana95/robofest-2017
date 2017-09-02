@@ -19,6 +19,7 @@ boolean readColor() {
   mySerial.flush();
   delay(100);
   color = mySerial.read() - '0';     // 0-No 1-Red 2-Green 3-Blue
+  
   while (mySerial.available()) {
     Serial.println(mySerial.read() - '0');
   }
@@ -33,21 +34,32 @@ boolean readColor() {
   }
   return 1;
 }
+void readWalls(int *wall) {
+  wall[RIGHT_SENSOR] = 0;
+  wall[FRONT_SENSOR] = 0;
+  wall[LEFT_SENSOR] = 0;
 
+  //for (int i = 0; i < 5; i++) {
+  wall[RIGHT_SENSOR] += digitalRead(12);
+  wall[FRONT_SENSOR] += digitalRead(11);
+  wall[LEFT_SENSOR] += digitalRead(10);
+}
+/*
 int readWalls(int *wall) {
-  Serial.println("Reading what's in the mySerial to clear");
+  //Serial.println("Reading what's in the mySerial to clear");
   while (mySerial.available())mySerial.read();
 
-  Serial.println("Sending signal 'a' to mySerial");
+  //Serial.println("Sending signal 'a' to mySerial");
   mySerial.println('a');
   mySerial.flush();
-  Serial.println("Signal sent");
+  //Serial.println("Signal sent");
   
   delay(100);
-  Serial.println("Reading from mySerial");
+  //Serial.println("Reading from mySerial");
   byte val = mySerial.read() - '0';
   Serial.print("Value read = ");
-  Serial.println(val, BIN);
+  Serial.println(val);
+  
   while (mySerial.available())mySerial.read();
   if (val >= 0 && val <= 7) {
     wall[RIGHT_SENSOR] = val % 2;
@@ -61,6 +73,6 @@ int readWalls(int *wall) {
     return 0;
   }
 
-}
+}*/
 
 

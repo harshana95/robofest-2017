@@ -1,12 +1,9 @@
 void mazeRunAdvanced() {
 
 
-  printArr(wall, 3);
-  delay(3000);
+ 
   readWalls(wall);
-  printArr(wall, 3);
-  delay(1000);
-  readWalls(wall);
+  delay(100);
   printArr(wall, 3);
 
 
