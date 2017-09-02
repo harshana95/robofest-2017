@@ -26,7 +26,7 @@ void loop() {
         beep();
         //readWalls(wall);
         //readColor();
-        mode = MAZE_RUN;//FIND_ARROW;
+        mode = FIND_ARROW;
         Serial.println(">> Mode : FIND");
         delay(500);
       } else {
