@@ -30,7 +30,7 @@ void loop() {
   //readCompass();
   delay(150);
 
-  indicatorShow(1);
+  indicatorShow(colorR0);
 
 }
 void colorUpdate() {
