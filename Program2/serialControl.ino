@@ -12,18 +12,14 @@ void serialEvent() {
     char inChar = (char)r;
 
     if (inChar == 'a') {
-      int x = wall[RIGHT_SENSOR] + 2 * wall[FRONT_SENSOR] + 4 * wall[LEFT_SENSOR];
+      //while (!readWalls(wall)) {
+      int x = wall[0] + 2 * wall[1] + 4 * wall[2];
       Serial.print(x);
 
       indicatorChange(COLOR_BLUE, x % 2);
       indicatorChange(COLOR_GREEN, (x / 2) % 2);
       indicatorChange(COLOR_RED, (x / 4));
 
-      // Encode details as binary >> {2}{1}{0}
-
-    }
-    else if ((inChar - '0') >= 0 && (inChar - '0') <= 7) {
-      byte in = inChar - '0';
     }
     else if (inChar == 'g') {
       pickBox();
@@ -33,7 +29,8 @@ void serialEvent() {
     }
 
     else if (inChar == 'j') {
-      Serial.println((char)('0' + colorR0));
+      char val = '0' + colorR0;
+      Serial.print(val);
     }
     else if (inChar == 'k') {
       buzzer(1);
