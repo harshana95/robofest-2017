@@ -40,9 +40,9 @@ void serialEvent() {
       readWalls(wall);
       //readColor();
       
-      Serial.print(wall[2]);
-      Serial.print(wall[1]);
-      Serial.print(wall[0]);
+      Serial.print(wall[LEFT_SENSOR]);
+      Serial.print(wall[FRONT_SENSOR]);
+      Serial.print(wall[RIGHT_SENSOR]);
       Serial.println();
     }
 

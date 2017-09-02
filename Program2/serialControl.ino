@@ -12,15 +12,13 @@ void serialEvent() {
     char inChar = (char)r;
 
     if (inChar == 'a') {
-      //while (!readWalls(wall)) {
-      int x = wall[0] + 2 * wall[1] + 4 * wall[2];
+      int x = wall[RIGHT_SENSOR] + 2 * wall[FRONT_SENSOR] + 4 * wall[LEFT_SENSOR];
       Serial.print(x);
 
       indicatorChange(COLOR_BLUE, x % 2);
       indicatorChange(COLOR_GREEN, (x / 2) % 2);
       indicatorChange(COLOR_RED, (x / 4));
 
-      //}
       // Encode details as binary >> {2}{1}{0}
 
     }
