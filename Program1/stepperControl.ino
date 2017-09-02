@@ -77,8 +77,17 @@ void motorWrite(int steps, int left, int right) {
   stepper.move(steps * MICROSTEPS);
   delay(150);                         //Leave some delay until robot stop is's movement
   stepper.disable();
-  
+
   //stepper.getTimeForMove(steps);
+
+}
+
+void motorWrite(int left, int right) {
+
+  int leftDir = (left > 0) ? 1 : 0;
+  int rightDir = (right > 0) ? 1 : 0;
+
+  motorWrite(left, leftDir, rightDir);
 
 }
 
