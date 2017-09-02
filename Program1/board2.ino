@@ -20,7 +20,7 @@ boolean readColor() {
   delay(100);
   color = mySerial.read() - '0';     // 0-No 1-Red 2-Green 3-Blue
   while (mySerial.available()) {
-    Serial.println(mySerial.read()- '0');
+    Serial.println(mySerial.read() - '0');
   }
 
   if (color >= 0 && color <= 3) {
@@ -55,7 +55,7 @@ int readWalls(int *wall) {
     wall[LEFT_SENSOR] = val / 4;
     //mySerial.print(wall[RIGHT_SENSOR] + 2 * wall[FRONT_SENSOR] + 4 * wall[LEFT_SENSOR]);
     //Serial.print('*'); Serial.println(wall[0] + 2 * wall[1] + 4 * wall[2]);
-    
+
     return 1;
   } else {
     return 0;

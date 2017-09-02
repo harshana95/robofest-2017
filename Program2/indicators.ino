@@ -24,11 +24,19 @@ void indicatorChange(int colorId, bool st) {
   else if (colorId == COLOR_BLUE) digitalWrite(PIN_BLUE, st);
 }
 
+void indicatorShow(int colorId) {
+
+  digitalWrite(PIN_RED, (colorId == 1));
+  digitalWrite(PIN_GREEN, (colorId == 2));
+  digitalWrite(PIN_BLUE, (colorId == 3));
+}
+
 void indicatorOn(int colorId) {
   if (colorId == COLOR_RED) digitalWrite(PIN_RED, HIGH);
   else if (colorId == COLOR_GREEN) digitalWrite(PIN_GREEN, HIGH);
   else if (colorId == COLOR_BLUE) digitalWrite(PIN_BLUE, HIGH);
 }
+
 
 void indicatorOff(int colorId) {
   if (colorId == COLOR_RED) digitalWrite(PIN_RED, LOW);
