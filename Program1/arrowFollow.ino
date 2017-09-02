@@ -23,17 +23,18 @@ int getColorReading() {
   //This function can get the colour reading as 1-RED,2-GREEn.3=BLUE
   // TODO
   readColor();
+
   return color;
-  
+
 }
 
 void start(int boxColor) {
   //This uses the colour reading as 1-RED,2-GREEN.3=BLUE
 
-  int directions = 7;
+  int directions = 5;
   int gap = 15; //degrees
-  int steps = 10;
-  int stepSize = 10; //mm
+  int steps = 5;
+  int stepSize = 40; //mm
 
   Serial.println("Starting the arrow finding algo");
   Serial.print(directions);
@@ -52,20 +53,21 @@ void start(int boxColor) {
 
   for (int d = 0; d < directions; d++) {
     for (int s = 0; s < steps; s++) {
+      reading[d][s] = 0;
       if (getColorReading() == boxColor) {
-        reading[d][s]++;  
+        reading[d][s]++;
       }
       if (s != steps - 1) {
-          goFoward(stepSize);
+        goFoward(stepSize);
       }
     }
 
     for (int s = 0; s < steps; s++) {
       if (getColorReading() == boxColor) {
-        reading[d][s]++;  
+        reading[d][s]++;
       }
       if (s != steps - 1) {
-          goFoward(-stepSize);
+        goFoward(-stepSize);
       }
     }
 
@@ -75,7 +77,7 @@ void start(int boxColor) {
   Serial.println("The matrix of readings:");
   Serial.println("Row= step, Col=Direction");
   for (int s = 0; s < steps; s++) {
-    for (int d = 0; d < directions; s++) {
+    for (int d = 0; d < directions; d++) {
       Serial.print(reading[d][s]);
       Serial.print(" ");
     }
@@ -89,6 +91,7 @@ void start(int boxColor) {
   int arcSum[steps];
 
   for (int s = 0; s < steps; s++) {
+    arcSum[s] = 0;
     for (int d = 0; d < directions; d++) {
       arcSum[s] += reading[s][d];
     }
@@ -111,6 +114,9 @@ void start(int boxColor) {
     startTheta += (reading[startR][d] * d);
   }
   startTheta /= arcSum[startR];
+
+  startTheta -= (directions/2);
+  startTheta *= gap;
 
   Serial.println("The starting point of the arrow is: ");
   Serial.print("R= ");

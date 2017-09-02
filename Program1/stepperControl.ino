@@ -21,7 +21,7 @@ void stepperMotorBegin() {
   digitalWrite(PIN_STEP, LOW);
 
   stepper.begin(200, MICROSTEPS);
-  stepper.setSpeedProfile(LINEAR_SPEED, 500, 2000);    //TODO: LINEAR_SPEED | CONSTANT_SPEED
+  stepper.setSpeedProfile(LINEAR_SPEED, 500, 500);    //TODO: LINEAR_SPEED | CONSTANT_SPEED   500,2000
 
   Serial.println(">> Steppers : Begin...");
   stepper.disable();
