@@ -44,7 +44,11 @@ void loadEEPROM() {
     for (int i = 0; i < 6; i++) {
       for (int j = 0; j < 6; j++) {
         maze[i][j] = EEPROM.read(addr);
+        mazeWalls[i][j] = EEPROM.read(40+addr);
+        
         if (maze[i][j] == 255) maze[i][j] = 0;
+        if (mazeWalls[i][j] == 255) maze[i][j] = -1;
+        
         addr += 1;
       }
     }
@@ -59,7 +63,9 @@ void cleanEEPROM() {
   if (1) {
     for (int i = 0; i < 6; i++) {
       for (int j = 0; j < 6; j++) {
-        EEPROM.update(addr, 0);
+        EEPROM.update(addr, 255);
+        EEPROM.update(addr+40, 255);
+        
         addr += 1;
       }
     }

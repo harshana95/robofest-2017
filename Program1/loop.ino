@@ -24,12 +24,14 @@ void loop() {
       
       if (buttonStatus == 0 ) {
         beep();
-        readWalls(wall);
+        //readWalls(wall);
+        //readColor();
         mode = MAZE_RUN;
         Serial.println(">> Mode : MAZE_RUN");
         delay(500);
       } else {
         readWalls(wall);
+        delay(1000);
       }
 
       break;
@@ -39,8 +41,9 @@ void loop() {
       //readColor();
       buttonStatus = digitalRead(BUTTON_1);
 
-      if (buttonStatus == 0 ) {
+      if (buttonStatus == 0 ) {   // TODO: is  color dected ?
         mode = BEGIN;
+        // TODO: solveMaze
       } else {
         mazeRunAdvanced();//mazeRunAdvanced(); //mazeRun();
       }

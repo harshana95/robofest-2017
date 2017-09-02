@@ -25,7 +25,7 @@ void setup() {
 
 void loop() {
 
-  //colorUpdate();
+  colorUpdate();
   readWalls(wall);
   //readCompass();
   delay(150);
@@ -33,6 +33,7 @@ void loop() {
 }
 void colorUpdate() {
   readColor();
+  //Serial.println(colorR0);
 
   if (0) {
     Serial.print(blue0);
