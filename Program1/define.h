@@ -38,7 +38,7 @@ boolean debug = 1;
 int buttonStatus = 1;
 
 // Mode eNum
-enum {BEGIN, LINE_FOLLOW, STOP, TEST, MAZE_RUN, MAZE_OPTION, PICKING_BOX, BLUETOOTH};
+enum {BEGIN, LINE_FOLLOW, STOP, TEST, MAZE_RUN, MAZE_OPTION, PICKING_BOX, FIND_ARROW, BLUETOOTH};
 
 // EEPROM eNum
 enum {eP, eI, eD, eMax, eBase, eDebug};
@@ -62,6 +62,9 @@ boolean lineType = BLACK;
 String irLineString = "000000";
 int lastReading = CENTER_EDGE_READING;
 int weight = 0, sum = 0, value = 0;
+
+
+//readSensorLine(sensor_values)
 
 //----------------------------------------------------------------------------------------------
 // Line Following variables
