@@ -23,17 +23,18 @@ int getColorReading() {
   //This function can get the colour reading as 1-RED,2-GREEn.3=BLUE
   // TODO
   readColor();
+
   return color;
-  
+
 }
 
-void start(int boxColor) {
+void start_old(int boxColor) {
   //This uses the colour reading as 1-RED,2-GREEN.3=BLUE
 
-  int directions = 7;
+  int directions = 5;
   int gap = 15; //degrees
-  int steps = 10;
-  int stepSize = 10; //mm
+  int steps = 5;
+  int stepSize = 40; //mm
 
   Serial.println("Starting the arrow finding algo");
   Serial.print(directions);
@@ -52,30 +53,39 @@ void start(int boxColor) {
 
   for (int d = 0; d < directions; d++) {
     for (int s = 0; s < steps; s++) {
+      reading[d][s] = 0;
       if (getColorReading() == boxColor) {
-        reading[d][s]++;  
+        reading[d][s]++;
       }
       if (s != steps - 1) {
-          goFoward(stepSize);
+        goFoward(stepSize);
       }
     }
 
     for (int s = 0; s < steps; s++) {
       if (getColorReading() == boxColor) {
-        reading[d][s]++;  
+        reading[d][s]++;
       }
       if (s != steps - 1) {
-          goFoward(-stepSize);
+        goFoward(-stepSize);
       }
     }
-
+    Serial.print("Direction ");
+    Serial.print(d);
+    Serial.print(" of ");
+    Serial.print(directions);
+    Serial.print(" complete");
+    Serial.println("");
     turnCW(gap);
   }
 
   Serial.println("The matrix of readings:");
   Serial.println("Row= step, Col=Direction");
-  for (int s = 0; s < steps; s++) {
-    for (int d = 0; d < directions; s++) {
+  for (int s = steps - 1; s > -1; s--) {
+    Serial.print("Step ");
+    Serial.print(s);
+    Serial.print("-- ");
+    for (int d = 0; d < directions; d++) {
       Serial.print(reading[d][s]);
       Serial.print(" ");
     }
@@ -85,13 +95,22 @@ void start(int boxColor) {
 
   turnCW(-1 * gap * (directions - 1) / 2);
   //NOW WE ARE AT THE CENTER AGAIN!
+  goFoward(100);
+  goFoward(-100);
+
 
   int arcSum[steps];
 
-  for (int s = 0; s < steps; s++) {
+  for (int s = steps - 1; s > -1; s--) {
+    arcSum[s] = 0;
     for (int d = 0; d < directions; d++) {
-      arcSum[s] += reading[s][d];
+      arcSum[s] += reading[d][s];
     }
+    Serial.print("Arc sum (");
+    Serial.print(s);
+    Serial.print(")= ");
+    Serial.print(arcSum[s]);
+    Serial.println("");
   }
 
 
@@ -107,21 +126,32 @@ void start(int boxColor) {
     }
   }
 
+  Serial.print("Serial theta as an index--->");
+  Serial.print(startTheta);
+  Serial.println("");
+
   for (int d = 0; d < directions; d++) {
-    startTheta += (reading[startR][d] * d);
+    startTheta += (reading[d][startR] * d);
   }
-  startTheta /= arcSum[startR];
+
+  Serial.print("Debug print-- startThetaSum= ");
+  Serial.print(startTheta);
+  Serial.println("");
+  startTheta /= (float)arcSum[startR];
+
+  startTheta -= (directions / 2);
+  startTheta *= gap;
 
   Serial.println("The starting point of the arrow is: ");
-  Serial.print("R= ");
+  Serial.print("startR= ");
   Serial.print(startR);
-  Serial.print(" Theta = ");
+  Serial.print("startTheta = ");
   Serial.print(startTheta);
   Serial.println("");
 
   //Going to the starting point of the arrow
   turnCW(startTheta);
-  goFoward(startR);
+  goFoward(startR * stepSize);
 
 
   //Trying to find the angle
@@ -147,6 +177,12 @@ void start(int boxColor) {
 
   angleToTurn /= totalReadingSum;
 
+  Serial.print("The angle to move forward: ");
+  Serial.print(angleToTurn);
+  Serial.print(" deg");
+  Serial.println("");
+
+
   //Turning the angle and moving forward
   turnCW(angleToTurn);
   goFoward(100);
@@ -154,4 +190,233 @@ void start(int boxColor) {
 
 
 }
+
+
+void start(int boxColor) {
+  //This uses the colour reading as 1-RED,2-GREEN.3=BLUE
+
+  int directions = 5;
+  int gap = 15; //degrees
+  int steps = 5;
+  int stepSize = 40; //mm
+
+  Serial.println("Starting the arrow finding algo");
+  Serial.print(directions);
+  Serial.print(" directions will be checked with ");
+  Serial.print(gap);
+  Serial.print(" deg betweeen two directions.");
+  Serial.println("");
+  Serial.print(steps);
+  Serial.print(" steps of length ");
+  Serial.print(stepSize);
+  Serial.print("cm ");
+
+  turnCW(-1 * gap * (directions - 1) / 2);
+  int startR = 0;
+  float startTheta = 0.0;
+  boolean br = false;
+  for (int d = 0; d < directions; d++) {
+    for (int s = 0; s < steps; s++) {
+      if (getColorReading() == boxColor) {
+        startTheta = d;
+        startR = s;
+        br = true;
+        break;
+      }
+      if (s != steps - 1) {
+        goFoward(stepSize);
+      }
+    }
+    if (br)break;
+
+    goFoward(-stepSize * (steps - 1));
+    turnCW(gap);
+
+
+  }
+  goFoward(10);
+  trailAndErrorArrowFollow_Loop();
+
+
+}
+
+
+static int reading[6];
+
+
+
+
+void trailAndErrorArrowFollow_Loop() {
+  while (true) {
+    trailAndErrorArrowFollow_LoopOneArrow();
+  }
+}
+
+void trailAndErrorArrowFollow_LoopOneArrow() {
+  Serial.begin(9600);
+  Serial.println("Starting");
+  /*
+    31/08/2017
+    We have to test this function by keeping the robot POINTED AT AN ARROW
+    You should not keep the robot on an arrow
+  */
+  //BLOCK 1 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  readSensorLine(reading);
+  while (sumOfArray(reading, 6) == 0) {
+    motorWrite(200, 200);
+    delay(100);
+    motorWrite(0, 0);
+    delay(100);
+    readSensorLine(reading);
+  }
+
+
+
+  readSensorLine(reading);
+  while (sumOfArray(reading, 6) != 0) {
+    trailAndErrorArrowFollow_Forward();
+    readSensorLine(reading);
+  }
+
+  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+  //BLOCK 2>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  motorWrite(-200, -200);
+  delay(100);
+  motorWrite(0, 0);
+  delay(100);
+  readSensorLine(reading);
+  while (sumOfArray(reading, 6) != 0) {
+
+    motorWrite(-200, -200);
+    delay(100);
+    motorWrite(0, 0);
+    delay(100);
+    readSensorLine(reading);
+  }
+
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.
+
+  //BLOCK 1 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  readSensorLine(reading);
+  while (sumOfArray(reading, 6) == 0) {
+    motorWrite(200, 200);
+    delay(100);
+    motorWrite(0, 0);
+    delay(100);
+    readSensorLine(reading);
+  }
+
+
+
+  readSensorLine(reading);
+  while (sumOfArray(reading, 6) != 0) {
+    trailAndErrorArrowFollow_Forward();
+    readSensorLine(reading);
+  }
+
+  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+}
+
+int sumOfArray(int ar[], int n) {
+  int sum = 0;
+  for (int i = 0; i < n; i++)sum += ar[i];
+  return sum;
+}
+
+
+void trailAndErrorArrowFollow_Forward() {
+  /*
+    (LEFT) R[0] R[1] R[2] R[3] R[4] R[5]  (Right)
+    Weights:  3   2   1   -1   -2    -3
+              R[7]
+              R[8]
+  */
+
+  Serial.print("Forward loop| weight= ");
+  int weight[6] = { -3, -2, -1, 1, 2, 3};
+
+  readSensorLine(reading);
+  int weightedSum = 0;
+  for (int j = 0; j < 6; j++) {
+    weightedSum += reading[j] * weight[j];
+  }
+
+  Serial.println(weightedSum);
+
+  //LOGIC -- 1 -- Basic
+  if (weightedSum != 0) {
+    if (weightedSum < 0) {
+      Serial.println("Forward loop- Turn right");
+      motorWrite(100, -100);
+      delay(50);
+      motorWrite(0, 0);
+      delay(100);
+    }
+    else {
+      Serial.println("Forward loop- Turn left");
+      motorWrite(-100, 100);
+      delay(100);
+      motorWrite(0, 0);
+      delay(100);
+    }
+  }
+
+
+  motorWrite(100, 100);
+  delay(100);
+  motorWrite(0, 0);
+  delay(100);
+}
+
+
+void trailAndErrorArrowFollow_Backward() {
+  /*
+    (LEFT) R[0] R[1] R[2] R[3] R[4] R[5]  (Right)
+    Weights:  3   2   1   -1   -2    -3
+              R[7]
+              R[8]
+  */
+
+  Serial.print("Backward loop| weight= ");
+  int weight[6] = { -3, -2, -1, 1, 2, 3};
+
+  readSensorLine(reading);
+  int weightedSum = 0;
+  for (int j = 0; j < 6; j++) {
+    weightedSum += reading[j] * weight[j];
+  }
+
+  Serial.println(weightedSum);
+
+  //LOGIC -- 1 -- Basic
+  if (weightedSum != 0) {
+    if (weightedSum > 0) {
+      Serial.println("Backward loop- Turn right");
+      motorWrite(100, -100);
+      delay(50);
+      motorWrite(0, 0);
+      delay(100);
+    }
+    else {
+      Serial.println("Backward loop- Turn left");
+      motorWrite(-100, 100);
+      delay(100);
+      motorWrite(0, 0);
+      delay(100);
+    }
+  }
+
+
+  motorWrite(-100, -100);
+  delay(100);
+  motorWrite(0, 0);
+  delay(100);
+}
+
+
+
+
+
 
