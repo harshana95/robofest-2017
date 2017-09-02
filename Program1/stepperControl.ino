@@ -86,9 +86,7 @@ void motorWrite(int left, int right) {
 
   int leftDir = (left > 0) ? 1 : 0;
   int rightDir = (right > 0) ? 1 : 0;
-
-  motorWrite(left, leftDir, rightDir);
-
+  motorWrite(left/10, leftDir, rightDir);
 }
 
 
