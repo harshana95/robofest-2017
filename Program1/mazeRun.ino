@@ -1,5 +1,21 @@
 void mazeRunAdvanced() {
+
+
+  printArr(wall, 3);
+  delay(3000);
   readWalls(wall);
+  printArr(wall, 3);
+  delay(1000);
+  readWalls(wall);
+  printArr(wall, 3);
+
+
+  if (0) {
+    Serial.print(wall[2]);
+    Serial.print(wall[1]);
+    Serial.println(wall[0]);
+  }
+
   // TODO: does not store the wall data after forward. it will written when next time this function is called. may occur an error at last position
   //finding walls making north as the reference
 
@@ -13,44 +29,49 @@ void mazeRunAdvanced() {
     executeCommand(commandNo);
     commandNo++;
   }
+
+
   Serial.print(posX);
   Serial.print(" ");
   Serial.print(posY);
   Serial.print(" ");
   Serial.print(posCount);
   Serial.println(" ");
+  Serial.println("------------------------------------------------------------");
+
 }
 
 void explore() {
+
   if (!wall[RIGHT_SENSOR]) {
-      maze_turnRight();
-      shiftDirVector(-1);
-      currentFacingDir = (currentFacingDir + 1 + 4) % 4;
-    }
-    else if (!wall[FRONT_SENSOR]) {
-      maze_goForward();
-    }
-    else if (!wall[LEFT_SENSOR]) {
-      maze_turnLeft();
-      currentFacingDir = (currentFacingDir - 1 + 4) % 4;
-      shiftDirVector(1);
-    }
-    else {
-      maze_turnBack();
-      currentFacingDir = (currentFacingDir + 2 + 4) % 4;
-      shiftDirVector(-2);
-    }
+    maze_turnRight();
+    shiftDirVector(-1);
+    currentFacingDir = (currentFacingDir + 1 + 4) % 4;
+  }
+  else if (!wall[FRONT_SENSOR]) {
+    maze_goForward();
+  }
+  else if (!wall[LEFT_SENSOR]) {
+    maze_turnLeft();
+    currentFacingDir = (currentFacingDir - 1 + 4) % 4;
+    shiftDirVector(1);
+  }
+  else {
+    maze_turnBack();
+    currentFacingDir = (currentFacingDir + 2 + 4) % 4;
+    shiftDirVector(-2);
+  }
 
-    // go forward
-    posX += dir[1][0];
-    posY += dir[1][1];
+  // go forward
+  posX += dir[1][0];
+  posY += dir[1][1];
 
-    //store the count number in the maze position
-    maze[posX][posY] = posCount;
-    //save the count position in EEPROM
-    updateMazeAddress(posX, posY);
+  //store the count number in the maze position
+  maze[posX][posY] = posCount;
+  //save the count position in EEPROM
+  updateMazeAddress(posX, posY);
 
-    posCount++;
+  posCount++;
 }
 
 int giveBinaryWallCode() {
@@ -110,12 +131,12 @@ void executeCommand(int i) {
 
 
 void maze_goForward() {
-  if (debug)Serial.println("---> Move Forward");
 
-#if defined(STEPPER_MOTOR)
+#if defined(STEPPER_MOTORS)
+  if (debug)Serial.println("---> Move Forward");
   motorForward(300);
 
-#elif defined(GEARED_MOTOR)
+#elif defined(GEARED_MOTORS)
 
   motorWrite(maze_forwardStepSpeed, maze_forwardStepSpeed);
   delay(maze_forwardStepTime);
@@ -125,14 +146,15 @@ void maze_goForward() {
 }
 void maze_turnLeft() {
 
-  if (debug)Serial.println("---> Move Left");
 
-#if defined(STEPPER_MOTOR)
+#if defined(STEPPER_MOTORS)
+
+  if (debug)Serial.println("---> Move Left");
   motorRotate(-100);
   motorRotate(10);
   motorForward(maze_forward_Steps);
 
-#elif defined(GEARED_MOTOR)
+#elif defined(GEARED_MOTORS)
 
   motorWrite(maze_turnLeft_LeftMotorSpeed, maze_turnLeft_RightMotorSpeed);
   delay(maze_turnLeft_Time);
@@ -142,14 +164,13 @@ void maze_turnLeft() {
 
 }
 void maze_turnRight() {
+#if defined(STEPPER_MOTORS)
   if (debug)Serial.println("---> Move Right");
-
-#if defined(STEPPER_MOTOR)
   motorRotate(100);
   motorRotate(-10 );
   motorForward(maze_forward_Steps);
 
-#elif defined(GEARED_MOTOR)
+#elif defined(GEARED_MOTORS)
 
   motorWrite(maze_turnRight_LeftMotorSpeed, maze_turnRight_RightMotorSpeed);
   delay(maze_turnRight_Time);
@@ -159,26 +180,21 @@ void maze_turnRight() {
 
 }
 void maze_turnBack() {
+
+#if defined(STEPPER_MOTORS)
   if (debug)Serial.println("---> Move Back");
-
-
-#if defined(STEPPER_MOTOR)
   motorRotate(-190);
   motorRotate(10);
   motorForward(maze_forward_Steps);
 
-#elif defined(GEARED_MOTOR)
+#elif defined(GEARED_MOTORS)
 
   motorWrite(maze_turnBack_LeftMotorSpeed, maze_turnBack_RightMotorSpeed);
   delay(maze_turnBack_Time);
   motorStop();
 
 #endif
-
 }
-
-
-
 
 void printCurrentMaze() {
   Serial.print("#");
@@ -196,7 +212,7 @@ void printCurrentMaze() {
         Serial.print("#");
       else
         Serial.print(" ");
-       
+
       Serial.print(maze[i][j]);
       if (maze[i][j] > 99)
         Serial.print("");
@@ -213,7 +229,7 @@ void printCurrentMaze() {
 
 
     for (int j = 0; j < 6; j++) {
-      if ((mazeWalls[i][j]>>3) % 2 or mazeWalls[i][j-1]%2 or (mazeWalls[i+1][j]>>3)%2)
+      if ((mazeWalls[i][j] >> 3) % 2 or mazeWalls[i][j - 1] % 2 or (mazeWalls[i + 1][j] >> 3) % 2)
         Serial.print("#");
       else
         Serial.print(" ");

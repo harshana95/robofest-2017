@@ -13,7 +13,7 @@ void colorBegin() {
   if (color0.begin()) {
     //Serial.println(">> ColorSensor : Begin");
   } else {
-    //Serial.println(">> ColorSensor : Not Found");
+    Serial.println(">> ColorSensor : Not Found");
     //while (1); // halt!
   }
 }

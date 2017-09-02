@@ -20,6 +20,7 @@ void serialEvent() {
     else if (inChar == 'p') {
       loadEEPROM();
       printCurrentMaze();
+      printCurrentMazeWalls();
 
     }
     else if (inChar == 'c') {
@@ -37,7 +38,8 @@ void serialEvent() {
 
     else if (inChar == 't') {
       readWalls(wall);
-
+      //readColor();
+      
       Serial.print(wall[2]);
       Serial.print(wall[1]);
       Serial.print(wall[0]);

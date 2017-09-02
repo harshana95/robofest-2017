@@ -14,20 +14,24 @@ void beep() {
 }
 boolean readColor() {
 
-  mySerial.println("i");
-
+  while (mySerial.available())mySerial.read();
+  mySerial.println("j");
+  mySerial.flush();
+  delay(100);
+  color = mySerial.read() - '0';     // 0-No 1-Red 2-Green 3-Blue
   while (mySerial.available()) {
-    color = mySerial.read() - '0';     // 0-No 1-Red 2-Green 3-Blue
-    if (color >= 0 && color <= 3) {
-      //correct
+    Serial.println(mySerial.read()- '0');
+  }
 
-    } else {
-      color = -1;
-      Serial.println("Error: Color reading");
-    }
+  if (color >= 0 && color <= 3) {
+    //correct
+    Serial.println(color);
+  } else {
+    color = -1;
+    Serial.println(color);
+    Serial.println("Error: Color reading");
   }
   return 1;
-
 }
 
 int readWalls(int *wall) {
@@ -45,6 +49,7 @@ int readWalls(int *wall) {
     wall[2] = val / 4;
     //mySerial.print(wall[0] + 2 * wall[1] + 4 * wall[2]);
     //Serial.print('*'); Serial.println(wall[0] + 2 * wall[1] + 4 * wall[2]);
+    
     return 1;
   } else {
     return 0;
