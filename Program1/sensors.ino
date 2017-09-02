@@ -20,9 +20,9 @@ void sonarBegin() {
 
   /*Serial.println(">> Sonar : Begin");
 
-  pinMode(PIN_TRIGGER, OUTPUT);
-  pinMode(PIN_ECHO, INPUT);
-  digitalWrite(PIN_TRIGGER, LOW);*/
+    pinMode(PIN_TRIGGER, OUTPUT);
+    pinMode(PIN_ECHO, INPUT);
+    digitalWrite(PIN_TRIGGER, LOW);*/
 }
 
 void irSensorsOutput() {
@@ -73,6 +73,7 @@ int readSensorLine(unsigned int *sensor_values)
     lastReading = weight / sum;
   }
 
+  Serial.println(irLineString);
   return lastReading;
 }
 
@@ -91,15 +92,15 @@ int irSensorRead(int num) {
 int getSonarDistance() {
 
   /*digitalWrite(PIN_TRIGGER, HIGH);
-  delayMicroseconds(20);
-  digitalWrite(PIN_TRIGGER, LOW);
+    delayMicroseconds(20);
+    digitalWrite(PIN_TRIGGER, LOW);
 
-  duration = pulseIn(PIN_ECHO, HIGH, 30000);
-  distance = duration / 58;
+    duration = pulseIn(PIN_ECHO, HIGH, 30000);
+    distance = duration / 58;
 
-  if (distance > maxDistance) {
+    if (distance > maxDistance) {
     //distance = maxDistance;
-  }
-  return distance;*/
+    }
+    return distance;*/
 }
 

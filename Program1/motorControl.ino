@@ -9,6 +9,19 @@
 
 ****************************************************************************/
 
+/*
+
+
+  void motorWrite(int left, int right) {
+
+  int leftDir = (left > 0) ? 1 : 0;
+  int rightDir = (right > 0) ? 1 : 0;
+  int
+  motorWrite()
+
+  }
+*/
+
 
 #if defined(GEARED_MOTORS)
 
