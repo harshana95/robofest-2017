@@ -32,6 +32,17 @@ void start(int boxColor) {
   int steps=10;
   int stepSize=10;//mm
 
+  Serial.println("Starting the arrow finding algo");
+  Serial.print(directions);
+  Serial.print(" directions will be checked with ");
+  Serial.print(gap);
+  Serial.print(" deg betweeen two directions.");
+  Serial.println("");
+  Serial.print(steps);
+  Serial.print(" steps of length ");
+  Serial.print(stepSize);
+  Serial.print("cm ");
+
   int reading=[directions][steps];
 
   turnCW(-1*gap*(directions-1)/2);
@@ -57,6 +68,18 @@ void start(int boxColor) {
 
     turnCW(gap);
   }
+
+  Serial.println("The matrix of readings:");
+  Serial.println("Row= step, Col=Direction");
+  for(int s=0;s<steps;s++){
+    for(int d=0;d<directions;s++){
+      Serial.print(reading[d][s]);
+      Serial.print(" ");
+    }
+    Serial.println("");
+  }
+
+
   turnCW(-1*gap*(directions-1)/2);
   //NOW WE ARE AT THE CENTER AGAIN!
 
@@ -85,6 +108,13 @@ void start(int boxColor) {
     startTheta+=(reading[startR][d]*d)
   }
   startTheta/=arcSum[startTheta];
+
+  Serial.println("The starting point of the arrow is: ");
+  Serial.print("R= ");
+  Serial.print(startR);
+  Serial.print(" Theta = ");
+  Serial.print(startTheta);
+  Serial.println("");
 
 //Going to the starting point of the arrow
   turnCW(startTheta);
