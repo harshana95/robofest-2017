@@ -24,9 +24,14 @@ void loop() {
 
       if (buttonStatus == 0 ) {
         beep();
-        //readWalls(wall);
-        //readColor();
-        mode = FIND_ARROW;
+
+        loadEEPROM();
+        if (isMazeSolved) {
+          solveMaze();
+        }
+
+
+        mode = MAZE_RUN;
         Serial.println(">> Mode : FIND");
         delay(500);
       } else {
@@ -46,7 +51,6 @@ void loop() {
 
       if (buttonStatus == 0 ) {   // TODO: is  color dected ?
         mode = BEGIN;
-        // TODO: solveMaze
       } else {
         mazeRunAdvanced();//mazeRunAdvanced(); //mazeRun();
       }
