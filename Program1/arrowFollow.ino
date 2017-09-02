@@ -97,7 +97,7 @@ void start_old(int boxColor) {
 
   turnCW(-1 * gap * (directions - 1) / 2);
   //NOW WE ARE AT THE CENTER AGAIN!
-  goFoward(100);
+  goFoward(10);
   goFoward(-100);
 
 
@@ -305,6 +305,7 @@ void trailAndErrorArrowFollow_LoopOneArrow() {
 
 
   readSensorLine(reading);
+
   while (sumOfArray(reading, 6) != 0) {
     trailAndErrorArrowFollow_Forward();
     readSensorLine(reading);
