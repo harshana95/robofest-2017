@@ -22,6 +22,9 @@ void goFoward(int mm) {
 int getColorReading() {
   //This function can get the colour reading as 1-RED,2-GREEn.3=BLUE
   // TODO
+  readColor();
+  return color;
+  
 }
 
 void start(int boxColor) {

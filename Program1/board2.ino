@@ -19,6 +19,7 @@ boolean readColor() {
   mySerial.flush();
   delay(100);
   color = mySerial.read() - '0';     // 0-No 1-Red 2-Green 3-Blue
+  
   while (mySerial.available()) {
     Serial.println(mySerial.read() - '0');
   }

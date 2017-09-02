@@ -42,11 +42,12 @@ void serialEvent() {
     }
 
     else if (inChar == 't') {
-      readWalls(wall);
-      //readColor();      
-      Serial.print(wall[LEFT_SENSOR]);
+      //readWalls(wall);
+      
+      readColor();      
+      /*Serial.print(wall[LEFT_SENSOR]);
       Serial.print(wall[FRONT_SENSOR]);
-      Serial.print(wall[RIGHT_SENSOR]);
+      Serial.print(wall[RIGHT_SENSOR]);*/
 
       Serial.println();
     }
