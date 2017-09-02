@@ -30,168 +30,7 @@ int getColorReading() {
 
 }
 
-void start_old(int boxColor) {
-  //This uses the colour reading as 1-RED,2-GREEN.3=BLUE
 
-  int directions = 5;
-  int gap = 15; //degrees
-  int steps = 5;
-  int stepSize = 40; //mm
-
-  Serial.println("Starting the arrow finding algo");
-  Serial.print(directions);
-  Serial.print(" directions will be checked with ");
-  Serial.print(gap);
-  Serial.print(" deg betweeen two directions.");
-  Serial.println("");
-  Serial.print(steps);
-  Serial.print(" steps of length ");
-  Serial.print(stepSize);
-  Serial.print("cm ");
-
-  int reading[directions][steps];
-
-  turnCW(-1 * gap * (directions - 1) / 2);
-
-  for (int d = 0; d < directions; d++) {
-    for (int s = 0; s < steps; s++) {
-      reading[d][s] = 0;
-      if (getColorReading() == boxColor) {
-        reading[d][s]++;
-      }
-      if (s != steps - 1) {
-        goFoward(stepSize);
-      }
-    }
-
-    for (int s = 0; s < steps; s++) {
-      if (getColorReading() == boxColor) {
-        reading[d][s]++;
-      }
-      if (s != steps - 1) {
-        goFoward(-stepSize);
-      }
-    }
-    Serial.print("Direction ");
-    Serial.print(d);
-    Serial.print(" of ");
-    Serial.print(directions);
-    Serial.print(" complete");
-    Serial.println("");
-    turnCW(gap);
-  }
-
-  Serial.println("The matrix of readings:");
-  Serial.println("Row= step, Col=Direction");
-  for (int s = steps - 1; s > -1; s--) {
-    Serial.print("Step ");
-    Serial.print(s);
-    Serial.print("-- ");
-    for (int d = 0; d < directions; d++) {
-      Serial.print(reading[d][s]);
-      Serial.print(" ");
-    }
-    Serial.println("");
-  }
-
-
-  turnCW(-1 * gap * (directions - 1) / 2);
-  //NOW WE ARE AT THE CENTER AGAIN!
-  goFoward(10);
-  goFoward(-100);
-
-
-  int arcSum[steps];
-
-  for (int s = steps - 1; s > -1; s--) {
-    arcSum[s] = 0;
-    for (int d = 0; d < directions; d++) {
-      arcSum[s] += reading[d][s];
-    }
-    Serial.print("Arc sum (");
-    Serial.print(s);
-    Serial.print(")= ");
-    Serial.print(arcSum[s]);
-    Serial.println("");
-  }
-
-
-  //Trying to find the starting point of the arrow
-  //We use polar coordinates asuming our current position to be the origin
-  int startR = 0;
-  float startTheta = 0.0;
-
-  for (int s = 0; s < steps; s++) {
-    if (arcSum[s] != 0) {
-      startR = s;
-      break;
-    }
-  }
-
-  Serial.print("Serial theta as an index--->");
-  Serial.print(startTheta);
-  Serial.println("");
-
-  for (int d = 0; d < directions; d++) {
-    startTheta += (reading[d][startR] * d);
-  }
-
-  Serial.print("Debug print-- startThetaSum= ");
-  Serial.print(startTheta);
-  Serial.println("");
-  startTheta /= (float)arcSum[startR];
-
-  startTheta -= (directions / 2);
-  startTheta *= gap;
-
-  Serial.println("The starting point of the arrow is: ");
-  Serial.print("startR= ");
-  Serial.print(startR);
-  Serial.print("startTheta = ");
-  Serial.print(startTheta);
-  Serial.println("");
-
-  //Going to the starting point of the arrow
-  turnCW(startTheta);
-  goFoward(startR * stepSize);
-
-
-  //Trying to find the angle
-  int totalReadingSum = 0;
-  for (int s = 0; s < steps; s++) {
-    totalReadingSum += arcSum[s];
-  }
-
-
-  float angleToTurn = 0;
-  for (int d = 0; d < directions; d++) {
-    for (int s = 0; s < steps; s++) {
-      if (reading[d][s] != 0) {
-        float theta = gap * (d - (directions / 2));
-        float deltaY = startR * sin(startTheta) - s * sin(theta);
-        float deltaX = s * cos(theta) - startR * cos(startTheta);
-        float angle = atan(deltaY / deltaX) * (180.0 / 3.14);
-
-        angleToTurn += angle * reading[d][s];
-      }
-    }
-  }
-
-  angleToTurn /= totalReadingSum;
-
-  Serial.print("The angle to move forward: ");
-  Serial.print(angleToTurn);
-  Serial.print(" deg");
-  Serial.println("");
-
-
-  //Turning the angle and moving forward
-  turnCW(angleToTurn);
-  goFoward(100);
-
-
-
-}
 
 
 void start(int boxColor) {
@@ -237,14 +76,71 @@ void start(int boxColor) {
 
   }
   goFoward(10);
-  trailAndErrorArrowFollow_Loop();
+  firstArrowFollow();
+  //trailAndErrorArrowFollow_Loop();
 
 
 }
 
 
 
+void firstArrowFollow(){
 
+	readSensorLine(reading);
+  	while (sumOfArray(reading, 6) == 0){
+  		int weight[6] = { -3, -2, -1, 1, 2, 3};
+ 
+		readSensorLine(reading);
+
+
+//This part is to isolate the arrow:
+		int leftZeroFrom=2;
+		int rightZeroFrom=3;
+
+		for(leftZeroFrom=2;leftZeroFrom>-1;leftZeroFrom--){
+			if(reading[leftZeroFrom]==0)break;
+		}
+		for(int i=leftZeroFrom;i>-1;i--){
+			weight[i]==0;
+		}
+
+
+		for(rightZeroFrom=3;rightZeroFrom<6;rightZeroFrom++){
+			if(reading[leftZeroFrom]==0)break;
+		}
+		for(int i=leftZeroFrom;i<6;i++){
+			weight[i]==0;
+		}
+//Isolation over		
+
+		int weightedSum = 0;
+		for (int j = 0; j < 6; j++) {
+			weightedSum += reading[j] * weight[j];
+		}
+
+		Serial.println(weightedSum);
+
+		if (weightedSum != 0) {
+			if (weightedSum < 0) {
+				Serial.println("Forward loop- Turn right");
+				motorWrite(100, -100);
+				delay(100);
+			}
+			else {
+				Serial.println("Forward loop- Turn left");
+				motorWrite(-100, 100);
+				delay(100);
+			}
+		}
+
+
+		motorWrite(100, 100);
+		delay(100);
+		readSensorLine(reading);
+	}
+
+	railAndErrorArrowFollow_Loop();
+}
 
 
 

@@ -237,14 +237,71 @@ void start(int boxColor) {
 
   }
   goFoward(10);
-  trailAndErrorArrowFollow_Loop();
+  firstArrowFollow();
+  //trailAndErrorArrowFollow_Loop();
 
 
 }
 
 
 
+void firstArrowFollow(){
 
+	readSensorLine(reading);
+  	while (sumOfArray(reading, 6) == 0){
+  		int weight[6] = { -3, -2, -1, 1, 2, 3};
+ 
+		readSensorLine(reading);
+
+
+//This part is to isolate the arrow:
+		int leftZeroFrom=2;
+		int rightZeroFrom=3;
+
+		for(leftZeroFrom=2;leftZeroFrom>-1;leftZeroFrom--){
+			if(reading[leftZeroFrom]==0)break;
+		}
+		for(int i=leftZeroFrom;i>-1;i--){
+			weight[i]==0;
+		}
+
+
+		for(rightZeroFrom=3;rightZeroFrom<6;rightZeroFrom++){
+			if(reading[leftZeroFrom]==0)break;
+		}
+		for(int i=leftZeroFrom;i<6;i++){
+			weight[i]==0;
+		}
+//Isolation over		
+
+		int weightedSum = 0;
+		for (int j = 0; j < 6; j++) {
+			weightedSum += reading[j] * weight[j];
+		}
+
+		Serial.println(weightedSum);
+
+		if (weightedSum != 0) {
+			if (weightedSum < 0) {
+				Serial.println("Forward loop- Turn right");
+				motorWrite(100, -100);
+				delay(100);
+			}
+			else {
+				Serial.println("Forward loop- Turn left");
+				motorWrite(-100, 100);
+				delay(100);
+			}
+		}
+
+
+		motorWrite(100, 100);
+		delay(100);
+		readSensorLine(reading);
+	}
+
+
+}
 
 
 

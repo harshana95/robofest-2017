@@ -21,7 +21,8 @@ void loop() {
 
     case BEGIN:
       buttonStatus = digitalRead(BUTTON_1);
-
+      readSensorLine(reading);
+      
       if (buttonStatus == 0 ) {
         beep();
         //readWalls(wall);
