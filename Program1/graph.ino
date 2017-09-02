@@ -34,7 +34,6 @@ void BFS(int* distance) {
   
   while (1) {
     if (queueP < 0){
-      finalXPosition = currentCell/6; finalYPosition = currentCell%6;
       break;
     }
     currentCell = pop(queue,36);

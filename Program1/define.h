@@ -110,7 +110,7 @@ int drift = 0;
 enum {LEFT_SENSOR, FRONT_SENSOR, RIGHT_SENSOR};
 int wall[] = {0, 0, 1};
 
-int isMazeSolved = 0;
+int isMazeSolved = 1;
 
 int maze[6][6];
 int mazeWalls[6][6];  
@@ -124,7 +124,7 @@ int solvedCommandQueue[36]; // 0 -forward 1-right 2-back(not used) 3-left
 int commandNo = 0;
 
 int posCount = 1;
-int startXPosition = 5, startYPosition = 5; // starting position of the maze
+int startXPosition = 2, startYPosition = 5; // starting position of the maze
 int posX = startXPosition, posY = startYPosition; // current position for traversing the maze at first
 int finalXPosition, finalYPosition; //position of the destination cell. when robo reach here the box should be in front!!!!
 
