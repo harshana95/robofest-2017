@@ -21,15 +21,21 @@ void loop() {
 
     case BEGIN:
       buttonStatus = digitalRead(BUTTON_1);
-      readSensorLine(reading);
-      
+
       if (buttonStatus == 0 ) {
         beep();
         //readWalls(wall);
         //readColor();
-        mode = FIND_ARROW;
-        Serial.println(">> Mode : FIND");
-        delay(500);
+
+        if (isMazeSolved) {
+          loadEEPROM();
+          
+          solveMaze();
+        }
+
+        mode = MAZE_RUN;//FIND_ARROW;
+        Serial.println(">> Mode : RUN");
+        //delay(500);
       } else {
         readWalls(wall);
         delay(1000);

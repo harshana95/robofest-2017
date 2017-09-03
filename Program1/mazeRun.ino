@@ -1,11 +1,8 @@
 void mazeRunAdvanced() {
 
-
- 
   readWalls(wall);
   delay(100);
   printArr(wall, 3);
-
 
   // TODO: does not store the wall data after forward. it will written when next time this function is called. may occur an error at last position
   //finding walls making north as the reference
@@ -20,7 +17,6 @@ void mazeRunAdvanced() {
     executeCommand(commandNo);
     commandNo++;
   }
-
 
   Serial.print(posX);
   Serial.print(" ");
@@ -57,6 +53,7 @@ void explore() {
   posX += dir[1][0];
   posY += dir[1][1];
 
+  finalXPosition = currentCell/6; finalYPosition = currentCell%6;
   //store the count number in the maze position
   maze[posX][posY] = posCount;
   //save the count position in EEPROM
@@ -107,11 +104,11 @@ void shiftDirVector(int c) {
 void executeCommand(int i) {
   // check if the box is there in front. before executing this function
   Serial.println(solvedCommandQueue[i]);
-  if (solvedCommandQueue[i] == 1) { // these values need to chage appropriately
+  if (solvedCommandQueue[i] == 3) { // these values need to chage appropriately
     maze_turnLeft();
   } else if (solvedCommandQueue[i] == 0) {
     maze_goForward();
-  } else if (solvedCommandQueue[i] == 3) {
+  } else if (solvedCommandQueue[i] == 1) {
     maze_turnRight();
   } else {
     maze_turnBack(); // never happens :P
@@ -174,7 +171,7 @@ void maze_turnBack() {
 
 #if defined(STEPPER_MOTORS)
   if (debug)Serial.println("---> Move Back");
-  motorRotate(-190);
+  motorRotate(-183);
   motorRotate(10);
   motorForward(maze_forward_Steps);
 

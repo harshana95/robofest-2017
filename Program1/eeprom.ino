@@ -38,7 +38,7 @@ void updateMazeWallAddress(int i,int j){
 void loadEEPROM() {
   
   int addr = 9;
-  isMazeSolved = EEPROM.read(addr);
+  //isMazeSolved = EEPROM.read(addr);
   addr += 1;
   if (1) {
     for (int i = 0; i < 6; i++) {
