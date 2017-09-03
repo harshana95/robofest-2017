@@ -77,7 +77,7 @@ void start(int boxColor) {
     if (br)break;
 
     Serial.print("Going back ");
-    goFoward(-stepSize * (steps - 1));
+    motorWrite(stepSize * (steps - 1),-1,-1);//goFoward(-1 * stepSize * (steps - 1));
     Serial.println("Turning");
     turnCW(gap);
 
@@ -97,9 +97,10 @@ void start(int boxColor) {
 void firstArrowFollow() {
   Serial.println("Following the first arrow");
   readSensorLine(reading);
-  while (sumOfArray(reading, 6) != 0) {
+  boolean continuee=true;
+  while (sumOfArray(reading, 6)!=0 ) {
     int weight[6] = { -3, -2, -1, 1, 2, 3};
-
+    Serial.println("Debug ###");
     readSensorLine(reading);
 
 
@@ -126,27 +127,28 @@ void firstArrowFollow() {
       weight[i] == 0;
     }
     //Isolation over
-
+  
     int weightedSum = 0;
     for (int j = 0; j < 6; j++) {
       weightedSum += reading[j] * weight[j];
     }
-    Serial.println("Weighted sum = ");
+    Serial.print("Weighted sum = ");
     Serial.println(weightedSum);
 
     if (weightedSum != 0) {
       if (weightedSum < 0) {
-        //        Serial.println("Forward loop- Turn right");
+        Serial.println("Forward loop- Turn right");
         motorWrite(100, -100);
         delay(100);
       }
       else {
-        //        Serial.println("Forward loop- Turn left");
+        Serial.println("Forward loop- Turn left");
         motorWrite(-100, 100);
         delay(100);
       }
     }
     else {
+      Serial.println("*******************");
       //This is the tricky part,
       //Can this scenario ever come?
 
@@ -155,10 +157,14 @@ void firstArrowFollow() {
 
     motorWrite(100, 100);
     delay(100);
+    Serial.println("^^^");
     readSensorLine(reading);
+    Serial.println("^^----^");
+
+    if(sumOfArray(reading, 6)==0) Serial.println(":-)");
   }
 
-  Serial.println("Finished the first arrow");
+  Serial.print("F");
 }
 
 

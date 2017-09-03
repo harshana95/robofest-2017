@@ -83,14 +83,14 @@ void motorWrite(int steps, int left, int right) {
 }
 
 void motorWrite(int left, int right) {
-  Serial.print("*");
-  Serial.print(left);
-  Serial.print(" ");
+  //Serial.print("*");
+  //Serial.print(left);
+  //Serial.print(" ");
 
   if (left != 0 & right != 0 ) {
     int leftDir = (left > 0) ? 1 : -1;
     int rightDir = (right > 0) ? 1 : -1;
-    Serial.println(leftDir);
+    //Serial.println(leftDir);
     motorWrite(abs(left) / 10, leftDir, rightDir);
   }
 }
