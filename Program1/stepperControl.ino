@@ -21,7 +21,7 @@ void stepperMotorBegin() {
   digitalWrite(PIN_STEP, LOW);
 
   stepper.begin(200, MICROSTEPS);
-  stepper.setSpeedProfile(LINEAR_SPEED, 500, 500);    //TODO: LINEAR_SPEED | CONSTANT_SPEED   500,2000
+  stepper.setSpeedProfile(LINEAR_SPEED, 500, 2000);    //TODO: LINEAR_SPEED | CONSTANT_SPEED   500,2000
 
   Serial.println(">> Steppers : Begin...");
   stepper.disable();
@@ -83,10 +83,14 @@ void motorWrite(int steps, int left, int right) {
 }
 
 void motorWrite(int left, int right) {
+  Serial.print("*");
+  Serial.print(left);
+  Serial.print(" ");
 
-  if(left!=0 & right!=0 ){
-    int leftDir = (left > 0) ? 1 : 0;
-    int rightDir = (right > 0) ? 1 : 0;
+  if (left != 0 & right != 0 ) {
+    int leftDir = (left > 0) ? 1 : -1;
+    int rightDir = (right > 0) ? 1 : -1;
+    Serial.println(leftDir);
     motorWrite(abs(left) / 10, leftDir, rightDir);
   }
 }
