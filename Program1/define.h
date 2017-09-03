@@ -114,13 +114,13 @@ int wall[] = {0, 0, 1};
 int isMazeSolved = 1;
 
 int maze[6][6];
-int mazeWalls[6][6];  
+int mazeWalls[6][6];
 //walls when facing north
 //each binary mapping of the number represents walls
 //0-no wall  1-wall
-//0thBit-west  1stBit-north  2ndBit-east 3rdBit-south 
+//0thBit-west  1stBit-north  2ndBit-east 3rdBit-south
 
-int currentFacingDir=1; //Initially facing north
+int currentFacingDir = 1; //Initially facing north
 int solvedCommandQueue[36]; // 0 -forward 1-right 2-back(not used) 3-left
 int commandNo = 0;
 
@@ -161,6 +161,18 @@ const int maze_turnBack_Time = 1000;
 
 
 
-//-------------------------------------------------------------------------
+//-----------------------interpolation data-------------------------------
+
+const int noOfSpeedOptions = 10;
+const int noOfRotateOptions = 20;
+const int noOfDistanceOptions = 10;
+
+int speedOptions[noOfSpeedOptions] = {1, 2, 3, 4, 5, 10, 12, 13, 14, 16};
+// 0 is needed to interpolate between 0th value and 1st value
+float stepsGiven_Rotate[noOfRotateOptions] = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190};
+float stepsGiven_Distance[noOfDistanceOptions] = {0, 100, 200, 300, 400, 500, 600, 700, 800, 900};
+
+float angleRotated[noOfSpeedOptions][noOfRotateOptions];
+float distanceWentFoarward[noOfSpeedOptions][noOfDistanceOptions];
 
 
