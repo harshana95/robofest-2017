@@ -50,11 +50,16 @@ void setup() {
     }
   }
 
+  stand();
   // Inform us that program is ready
   beep(2);
+
 }
 
 void test() {
-
+  pick();
+  delay(2500);
+  drop();
+  delay(2500);
 }
 

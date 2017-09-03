@@ -9,6 +9,8 @@
 Adafruit_TCS34725 color0 = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_154MS, TCS34725_GAIN_1X);  // Integration=50, Grain [1,4]
 //Adafruit_HMC5883_Unified compass = Adafruit_HMC5883_Unified(12345);
 
+Servo pick, grab;
+
 void setup() {
 
   Serial.begin(9600);
@@ -21,16 +23,16 @@ void setup() {
   colorBegin();
   indicatorBegin();
 
+  attachServos();
 }
 
 void loop() {
+
 
   colorUpdate();
   readWalls(wall);
   //readCompass();
   //Serial.println(colorR0);
-
-  delay(100);
 
 }
 void colorUpdate() {

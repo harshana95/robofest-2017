@@ -121,17 +121,24 @@ void serialEvent() {
   }
 }
 
+void stand(){
+  mySerial.print("f");
+   Serial.println(F(">> Stand:Complete"));
+}
+
 void pick() {
   mySerial.print("g");
+  Serial.println(F(">> Pick:Complete"));
 }
 
 void drop() {
   mySerial.print("h");
+  Serial.println(F(">> Drop:Complete"));
 }
 
 void beep() {
   mySerial.print("k");
-
+ 
 }
 
 void beep(int k) {

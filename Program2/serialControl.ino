@@ -21,6 +21,10 @@ void serialEvent() {
       indicatorChange(COLOR_RED, (x / 4));
 
     }
+
+    else if (inChar == 'f') {
+      stand();
+    }
     else if (inChar == 'g') {
       pickBox();
     }

@@ -9,7 +9,7 @@ void loop() {
 
       if (buttonStatus == 0 ) {
         beep();
-        mode = FIND_ARROW;
+        mode = TEST;//FIND_ARROW;
         Serial.println(F(">> BEGIN -> ###"));
         delay(500);
 
