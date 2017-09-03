@@ -1,7 +1,4 @@
 
-//dir_state = (steps >= 0) ? HIGH : LOW;
-
-
 #if defined(STEPPER_MOTORS)
 
 void stepperMotorBegin() {
@@ -23,7 +20,7 @@ void stepperMotorBegin() {
   stepper.begin(200, MICROSTEPS);
   stepper.setSpeedProfile(LINEAR_SPEED, 500, 2000);    //TODO: LINEAR_SPEED | CONSTANT_SPEED   500,2000
 
-  Serial.println(">> Steppers : Begin...");
+  Serial.println(F(">> Steppers : Begin..."));
   stepper.disable();
 }
 
@@ -83,30 +80,12 @@ void motorWrite(int steps, int left, int right) {
 }
 
 void motorWrite(int left, int right) {
-  //Serial.print("*");
-  //Serial.print(left);
-  //Serial.print(" ");
 
   if (left != 0 & right != 0 ) {
     int leftDir = (left > 0) ? 1 : -1;
     int rightDir = (right > 0) ? 1 : -1;
-    //Serial.println(leftDir);
     motorWrite(abs(left) / 10, leftDir, rightDir);
   }
-}
-
-
-void square(int d) {
-  int a = 90;
-
-  for (int i = 0; i < 4; i++) {
-    motorForward(d);
-    delay(500);
-    motorRotate(a);
-    delay(500);
-  }
-
-  delay(3000);
 }
 
 void polygon(int d, int p) {
@@ -118,7 +97,6 @@ void polygon(int d, int p) {
     motorRotate(a);
     //delay(500);
   }
-
   delay(3000);
 
 }

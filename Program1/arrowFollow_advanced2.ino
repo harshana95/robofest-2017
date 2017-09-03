@@ -26,11 +26,11 @@ int getColorReading() {
   // TODO
   readColor();
   Serial.print("Color = ");
-  if (colorR0 == 1)Serial.println("R");
-  else if (colorR0 == 2)Serial.println("G");
-  else if (colorR0 == 3)Serial.println("B");
+  if (floorColor == 1)Serial.println("R");
+  else if (floorColor == 2)Serial.println("G");
+  else if (floorColor == 3)Serial.println("B");
   else Serial.println("None");
-  return colorR0;
+  return floorColor;
 
 }
 

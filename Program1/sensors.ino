@@ -12,69 +12,17 @@ void irSensorsBegin() {
   for (int i = 0; i < NUM_SENSORS; i++) {
     pinMode(irPins[i], INPUT);
   }
-  Serial.println(">> IRSensors : Begin...");
+  Serial.println(F(">> IRSensors : Begin..."));
 
 }
 
 void colorBegin() {
 
   if (color0.begin()) {
-    //Serial.println(">> ColorSensor : Begin");
+    // No error, can run program without problem
   } else {
-    Serial.println(">> ColorSensor : Not Found");
-    //while (1); // halt!
-  }
-}
-
-
-void readColor() {
-
-  //color0.setInterrupt(false);  // turn on LED
-  delay(10);
-  color0.getRawData(&red0, &green0, &blue0, &clr0);
-  //color0.setInterrupt(true);   // turn off LED
-
-
-  /*if ((red0 > WHITE_THERSOLD) && (blue0 > WHITE_THERSOLD) && (green0 > WHITE_THERSOLD)) {
-    colorR0 = COLOR_OPEN;
-    indicatorShow(10);    // All off
-    }
-    else */
-  if (green0 > blue0 && green0 > red0 ) {
-    colorR0 = COLOR_GREEN;              //GREEN
-  }
-
-  else if (blue0 > red0 ) {
-    colorR0 = COLOR_BLUE; //RED
-  }
-  else if (((green0 - blue0) < RED_GB_GAP) || ((blue0 - green0) < RED_GB_GAP) ) {
-    colorR0 = COLOR_RED;                                   //RED
-  }
-  else {
-    colorR0 = COLOR_OPEN;
-  }
-
-  Serial.println(colorR0);
-}
-
-void colorUpdate() {
-  readColor();
-  //Serial.println(colorR0);
-
-  if (0) {
-    Serial.print(blue0);
-    Serial.print(" ");
-    Serial.print(red0);
-    Serial.print(" ");
-    Serial.print(green0);
-    Serial.print(" ");
-    //Serial.print(clr0);
-    Serial.print(" ");
-    //Serial.print(color0.calculateColorTemperature(red0, green0, blue0) );
-    Serial.print(" ");
-
-    Serial.print(colorR0);
-    Serial.println(" ");
+    Serial.println(F(">> ColorSensor : Not Found"));
+    beep(3);
   }
 }
 
@@ -87,21 +35,20 @@ void sonarBegin() {
     digitalWrite(PIN_TRIGGER, LOW);*/
 }
 
-void irSensorsOutput() {
-
-  for (int i = 0; i < NUM_SENSORS; i++) {
-    pinMode(irPins[i], OUTPUT);
-  }
-  for (int i = 0; i < NUM_SENSORS; i++) {
-    digitalWrite(irPins[i], LOW);
-  }
-  Serial.println(">> IRSensors : DisplayMode");
-
+void wallSensorBegin(){
+    pinMode(PIN_LEFT_WALL_SENSOR, INPUT);
+  pinMode(PIN_FRONT_WALL_SENSOR, INPUT);
+  pinMode(PIN_RIGHT_WALL_SENSOR, INPUT);
 }
 
-//readSensorLine(unsigned int *sensor_values)
-int readSensorLine(unsigned int *sensor_values)
-{
+void readWalls(int *wall) {
+
+  wall[RIGHT_SENSOR] = digitalRead(PIN_RIGHT_WALL_SENSOR);
+  wall[FRONT_SENSOR] = digitalRead(PIN_FRONT_WALL_SENSOR);
+  wall[LEFT_SENSOR] = digitalRead(PIN_LEFT_WALL_SENSOR);
+}
+
+int readSensorLine(unsigned int *sensor_values) {
   weight = 0;
   sum = 0;
   allIn = false;
@@ -134,9 +81,52 @@ int readSensorLine(unsigned int *sensor_values)
   } else {
     lastReading = weight / sum;
   }
-  Serial.print("ir= ");
-  Serial.println(irLineString);
+
+
+  if (0)Serial.print(">> IR : "); Serial.println(irLineString);
+
   return lastReading;
+}
+
+
+
+void readColor() {
+
+  delay(10);
+  color0.getRawData(&raw_red, &raw_green, &raw_blue, &raw_clr);
+
+  if (raw_green > raw_blue && raw_green > raw_red ) {
+    floorColor = COLOR_GREEN;               // GREEN
+  }
+
+  else if (raw_blue > raw_red ) {
+    floorColor = COLOR_BLUE;                // BLUE
+  }
+  else if (((raw_green - raw_blue) < RED_GB_GAP) || ((raw_blue - raw_green) < RED_GB_GAP) ) {
+    floorColor = COLOR_RED;                 // RED
+  }
+  else {
+    floorColor = COLOR_OPEN;                // NO COLOR
+  }
+
+  //Serial.println(floorColor);
+
+  if (0) {
+    Serial.print(raw_blue);
+    Serial.print(" ");
+    Serial.print(raw_red);
+    Serial.print(" ");
+    Serial.print(raw_green);
+    Serial.print(" ");
+    Serial.print(raw_clr);
+    Serial.print(" ");
+    Serial.print(color0.calculateColorTemperature(raw_red, raw_green, raw_blue) );
+    Serial.print(" ");
+
+    Serial.print(floorColor);
+    Serial.println(" ");
+  }
+
 }
 
 int irSensorRead(int num) {

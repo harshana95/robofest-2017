@@ -23,10 +23,10 @@ void setup() {
   Serial.begin(9600);
   mySerial.begin(9600);
 
-
   irSensorsBegin();
   eepromBegin();
   colorBegin();
+  wallSensorBegin();
 
   //lineFollowBegin();
   //sonarBegin();
@@ -37,19 +37,24 @@ void setup() {
   stepperMotorBegin();
 #endif
 
-  pinMode(12, INPUT);
-  pinMode(11, INPUT);
-  pinMode(10, INPUT);
-
   pinMode(BUTTON_1, INPUT_PULLUP);
   //pinMode(BUTTON_2, INPUT_PULLUP);
-  pinMode(13, OUTPUT);
 
+  pinMode(PIN_LED, OUTPUT);
+
+  // Load EEPROM data and analyze shortest path
+  if (0) {
+    loadEEPROM();
+    if (isMazeSolved) {
+      solveMaze();
+    }
+  }
+
+  // Inform us that program is ready
+  beep(2);
 }
 
 void test() {
 
-
 }
-
 
