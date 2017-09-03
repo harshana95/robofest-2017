@@ -48,7 +48,7 @@ void loop() {
       break;
 
     case FIND_ARROW:
-      start(COLOR_GREEN);
+      start(COLOR_BLUE);
 
       break;
     case MAZE_RUN:

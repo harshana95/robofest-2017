@@ -111,15 +111,15 @@ int wall[] = {0, 0, 1};
 
 int isMazeSolved = 0;
 
-int maze[6][6];
-int mazeWalls[6][6];
+int maze[1][1];//66
+int mazeWalls[1][1];//66;
 //walls when facing north
 //each binary mapping of the number represents walls
 //0-no wall  1-wall
 //0thBit-west  1stBit-north  2ndBit-east 3rdBit-south
 
 int currentFacingDir = 1; //Initially facing north
-int solvedCommandQueue[36]; // 0 -forward 1-right 2-back(not used) 3-left
+int solvedCommandQueue[1]; //36 0 -forward 1-right 2-back(not used) 3-left
 int commandNo = 0;
 
 int posCount = 1;

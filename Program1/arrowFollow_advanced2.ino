@@ -100,7 +100,7 @@ void firstArrowFollow() {
   boolean continuee=true;
   while (sumOfArray(reading, 6)!=0 ) {
     int weight[6] = { -3, -2, -1, 1, 2, 3};
-    Serial.println("Debug ###");
+    //Serial.println("Debug ###");
     readSensorLine(reading);
 
 
@@ -137,12 +137,12 @@ void firstArrowFollow() {
 
     if (weightedSum != 0) {
       if (weightedSum < 0) {
-        Serial.println("Forward loop- Turn right");
+        //Serial.println("Forward loop- Turn right");
         motorWrite(100, -100);
         delay(100);
       }
       else {
-        Serial.println("Forward loop- Turn left");
+        //Serial.println("Forward loop- Turn left");
         motorWrite(-100, 100);
         delay(100);
       }
@@ -157,9 +157,9 @@ void firstArrowFollow() {
 
     motorWrite(100, 100);
     delay(100);
-    Serial.println("^^^");
+    //Serial.println("^^^");
     readSensorLine(reading);
-    Serial.println("^^----^");
+    //Serial.println("^^----^");
 
     if(sumOfArray(reading, 6)==0) Serial.println(":-)");
   }
@@ -172,11 +172,11 @@ void firstArrowFollow() {
 void trailAndErrorArrowFollow_Loop(int boxColour) {
   int arrow = 2;
   while (true) {
-    Serial.print("Trying to find the tail of arrow -- ");
-    Serial.println(arrow);
+//    Serial.print("Trying to find the tail of arrow -- ");
+//    Serial.println(arrow);
     trailAndErrorArrowFollow_LoopOneArrow(boxColour);
-    Serial.print("Finished  arrow -- ");
-    Serial.println(arrow);
+//    Serial.print("Finished  arrow -- ");
+//    Serial.println(arrow);
     arrow++;
   }
 }

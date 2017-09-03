@@ -1,4 +1,4 @@
-//#include <avr/pgmspace.h>
+#include <avr/pgmspace.h>
 
 #include <Arduino.h>
 #include <EEPROM.h>
