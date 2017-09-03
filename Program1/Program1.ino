@@ -57,9 +57,10 @@ void setup() {
 }
 
 void test() {
-  pick();
+  /*pick();
   delay(2500);
-  drop();
-  delay(2500);
+  drop();*/
+  delay(500);
+  readWalls(wall);
 }
 

@@ -35,8 +35,8 @@ void sonarBegin() {
     digitalWrite(PIN_TRIGGER, LOW);*/
 }
 
-void wallSensorBegin(){
-    pinMode(PIN_LEFT_WALL_SENSOR, INPUT);
+void wallSensorBegin() {
+  pinMode(PIN_LEFT_WALL_SENSOR, INPUT);
   pinMode(PIN_FRONT_WALL_SENSOR, INPUT);
   pinMode(PIN_RIGHT_WALL_SENSOR, INPUT);
 }
@@ -46,6 +46,16 @@ void readWalls(int *wall) {
   wall[RIGHT_SENSOR] = digitalRead(PIN_RIGHT_WALL_SENSOR);
   wall[FRONT_SENSOR] = digitalRead(PIN_FRONT_WALL_SENSOR);
   wall[LEFT_SENSOR] = digitalRead(PIN_LEFT_WALL_SENSOR);
+
+  mySerial.print("d");
+  mySerial.print(wall[LEFT_SENSOR] + 2 * wall[FRONT_SENSOR] + 4 * wall[RIGHT_SENSOR]);
+  /*
+    if (mySerial.available() > 0) {
+      while (mySerial.available()) {
+        Serial.print((char)mySerial.read());
+      }
+    }
+  */
 }
 
 int readSensorLine(unsigned int *sensor_values) {

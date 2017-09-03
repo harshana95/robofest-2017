@@ -79,12 +79,31 @@ void motorWrite(int steps, int left, int right) {
 
 }
 
+void softMotorWrite(int steps, int left, int right) {
+
+  //This mode doesn't disable motor. Make sure to disable after use
+
+  digitalWrite(PIN_EN_LEFT, (left == 0));   // TODO: Uncomment this if using Pivot Motions, not tested yet
+  digitalWrite(PIN_EN_RIGHT, (right == 0));
+
+  digitalWrite(PIN_DIR_LEFT, (left == 1));
+  digitalWrite(PIN_DIR_RIGHT, (right == 1));
+
+  stepper.move(steps * MICROSTEPS);
+  //delay(150);                        //Leave some delay until robot stop is's movement
+  //stepper.disable();
+  //stepper.getTimeForMove(steps);
+
+}
+
+
 void motorWrite(int left, int right) {
 
   if (left != 0 & right != 0 ) {
     int leftDir = (left > 0) ? 1 : -1;
     int rightDir = (right > 0) ? 1 : -1;
-    motorWrite(abs(left) / 10, leftDir, rightDir);
+    //motorWrite(abs(left) / 10, leftDir, rightDir);
+    softMotorWrite(abs(left) / 10, leftDir, rightDir);
   }
 }
 
