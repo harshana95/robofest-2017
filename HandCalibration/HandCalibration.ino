@@ -1,10 +1,34 @@
+#include <Servo.h>
+#define pickBox_pick 150
+#define pickBox_grab 20
+
+Servo grab;
+Servo pick;
+
+int count=0;
+
+void setup() {
+  
+}
+
+void loop() {
+  if(count<10){
+    pickBox();
+    delay(2000);
+    dropBox();
+    delay(1000);
+
+    count++;
+  }
+}
+
 
 void pickBox() {
   attachServos();
-  pick.write(150);
+  pick.write(pickBox_pick);
   delay(1000);
   //s = 1;
-  grab.write(20);//20
+  grab.write(pickBox_grab);//20
   delay(500);
   detachServos();
   //Serial.println(">> Pick : Complete");
@@ -17,8 +41,6 @@ void dropBox() {
   pick.write(10);
   delay(500);
   detachServos();
-  // = 0;
-  //Serial.println(">> Drop : Complete");
 }
 
 void stand() {
@@ -31,13 +53,17 @@ void stand() {
 }
 
 void attachServos() {
-  pick.attach(4);
-  grab.attach(3);
+  pick.attach(8);
+  grab.attach(9);
 }
 
 void detachServos() {
   pick.detach();
   grab.detach();
 }
+
+
+
+
 
 
