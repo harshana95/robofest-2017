@@ -22,6 +22,7 @@ void saveEEPROM() {
   for (int i = 0; i < 6; i++) {
     for (int j = 0; j < 6; j++) {
       EEPROM.update(addr, maze[i][j]);
+      EEPROM.update(addr+40, mazeWalls[i][j]);
       addr += 1;
     }
   }
