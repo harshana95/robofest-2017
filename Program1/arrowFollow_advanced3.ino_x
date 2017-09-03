@@ -26,17 +26,18 @@ int getColorReading() {
   // TODO
   readColor();
   Serial.print("Color = ");
-  if (colorR0 == 1)Serial.println("R");
-  else if (colorR0 == 2)Serial.println("G");
-  else if (colorR0 == 3)Serial.println("B");
+  if(color==1)Serial.println("R");
+  else if(color==2)Serial.println("G");
+  else if(color==3)Serial.println("B");
   else Serial.println("None");
-  return colorR0;
+  return color;
 
 }
 
 
 
 void start(int boxColor) {
+  //03/09/2017 gihanchanaka@gmail.com
   //This uses the colour reading as 1-RED,2-GREEN.3=BLUE
 
   const int directions = 5;
@@ -44,17 +45,17 @@ void start(int boxColor) {
   const int steps = 5;
   const int stepSize = 40; //mm
 
-  /*  Serial.println("Starting the arrow finding algo");
-    Serial.print(directions);
-    Serial.print(" directions will be checked with ");
-    Serial.print(gap);
-    Serial.print(" deg betweeen two directions.");
-    Serial.println("");
-    Serial.print(steps);
-    Serial.print(" steps of length ");
-    Serial.print(stepSize);
-    Serial.print("cm ");
-  */
+/*  Serial.println("Starting the arrow finding algo");
+  Serial.print(directions);
+  Serial.print(" directions will be checked with ");
+  Serial.print(gap);
+  Serial.print(" deg betweeen two directions.");
+  Serial.println("");
+  Serial.print(steps);
+  Serial.print(" steps of length ");
+  Serial.print(stepSize);
+  Serial.print("cm ");
+*/
 
   Serial.println("I am at the start point of three arrows");
 
@@ -118,7 +119,7 @@ void firstArrowFollow() {
     for (rightZeroFrom = 3; rightZeroFrom < 6; rightZeroFrom++) {
       if (reading[leftZeroFrom] == 0)break;
     }
-    for (int i = leftZeroFrom; i > -1; i--) {
+    for (int i = leftZeroFrom; i >-1; i--) {
       weight[i] == 0;
     }
 
@@ -136,12 +137,12 @@ void firstArrowFollow() {
 
     if (weightedSum != 0) {
       if (weightedSum < 0) {
-        //        Serial.println("Forward loop- Turn right");
+//        Serial.println("Forward loop- Turn right");
         motorWrite(100, -100);
         delay(100);
       }
       else {
-        //        Serial.println("Forward loop- Turn left");
+//        Serial.println("Forward loop- Turn left");
         motorWrite(-100, 100);
         delay(100);
       }
@@ -152,7 +153,7 @@ void firstArrowFollow() {
 
     }
 
-
+  
     motorWrite(100, 100);
     delay(100);
     readSensorLine(reading);
@@ -164,7 +165,7 @@ void firstArrowFollow() {
 
 
 void trailAndErrorArrowFollow_Loop(int boxColour) {
-  int arrow = 2;
+  int arrow=2;
   while (true) {
     Serial.print("Trying to find the tail of arrow -- ");
     Serial.println(arrow);
@@ -174,6 +175,67 @@ void trailAndErrorArrowFollow_Loop(int boxColour) {
     arrow++;
   }
 }
+
+
+void goF(){
+  //03/09/2017
+  motorWrite(100, 100);
+  delay(100);
+}
+
+void goL(){
+  //03/09/2017
+  motorWrite(-100,100);
+  delay(100);
+}
+
+void goR(){
+  //03/09/2017 
+  motorWrite(100,-100);
+  delay(100);
+}
+
+void goB(){
+  //03/09/2017 
+  motorWrite(-100,100);
+  delay(100);
+}
+
+
+void goLF(){
+  //03/09/2017 
+  goL();
+  goF();
+}
+
+void goRF(){
+  //03/09/2017 
+  goR();
+  goF();
+}
+
+void goBR(){
+  goB();
+  goR();
+}
+
+void goBL(){
+  goB();
+  goL();
+}
+
+
+int updatedWeightedSum(){
+  //03/09/2017
+  int weight[6] = { -3, -2, -1, 1, 2, 3};
+  readSensorLine(reading);
+  int weightedSum = 0;
+  for (int j = 0; j < 6; j++) weightedSum += reading[j] * weight[j];
+  return weightedSum;
+}
+
+
+
 
 void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
   Serial.begin(9600);
@@ -193,30 +255,19 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
     5. Try to aligh to the arrow while going forward
   */
 
-  readSensorLine(reading);
-  while (sumOfArray(reading, 6) == 0) {
-    motorWrite(100, 100);
-    delay(100);
-    readSensorLine(reading);
-  }
+  /*
+    03/09/2017 gihanchanaka@gmail.com
+    Changing the function to reject other colours
+  */
 
-  if (getColorReading() == boxColor) {
-    Serial.println("Found the tail of arrow");
-    readSensorLine(reading);
-    while (sumOfArray(reading, 6) != 0) {
-      trailAndErrorArrowFollow_Forward();
-      readSensorLine(reading);
-    }
+  
 
-    motorWrite(-100, -100);
-    delay(100);
-    readSensorLine(reading);
-    while (sumOfArray(reading, 6) != 0) {
-      motorWrite(-100, -100);
-      delay(100);
-      readSensorLine(reading);
-    }
+  boolean foundColor=false;
 
+//<<<<<<<<<The part of the function to find an arrow tail>>>>>>>>>  
+  while(!foundColor){
+
+    readSensorLine(reading);
     while (sumOfArray(reading, 6) == 0) {
       motorWrite(100, 100);
       delay(100);
@@ -224,21 +275,110 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
     }
 
 
-    readSensorLine(reading);
-    while (sumOfArray(reading, 6) != 0) {
-      trailAndErrorArrowFollow_Forward();
-      readSensorLine(reading);
+
+
+    if(getColorReading()==boxColor){
+      foundColor=true;
     }
+    else{
+
+      int weightedSum;
+      weightedSum=updatedWeightedSum()
+      if (weightedSum!=0) {
+        if (weightedSum < 0) {
+          goLF();
+          if(getColorReading()==boxColor)foundColor=true;
+          else{
+  //******
+            weightedSum=updatedWeightedSum()
+            if (weightedSum!=0) {
+              if (weightedSum < 0) {
+                goLF();
+                if(getColorReading()==boxColor)foundColor=true;
+                if(!foundColor)goBR();
+
+              }
+              else {
+                goRF();
+                if(getColorReading()==boxColor)foundColor=true;
+                if(!foundColor)goBL();
+              }
+
+            }
+  //*****         
+          }
+          if(!foundColor)goBR();
+
+        }
+        else {
+          goRF();
+          if(getColorReading()==boxColor)foundColor=true;
+          else{
+  //******
+            weightedSum=updatedWeightedSum()
+            if (weightedSum!=0) {
+              if (weightedSum < 0) {
+                goLF();
+                if(getColorReading()==boxColor)foundColor=true;
+                if(!foundColor)goBR();
+
+              }
+              else {
+                goRF();
+                if(getColorReading()==boxColor)foundColor=true;
+                if(!foundColor)goBL();
+              }
+
+            }
+  //*****     
+          }
+          if(!foundColor)goBL();
+        }
+      }
+    }
+
+    if(!foundColor){
+      goF();
+      goF();
+    }
+
+
   }
-  else { //If this is not the box color
-    //Go a few centemetes forward
-    motorWrite(200, 200);
+
+  
+//<<<<<<<<<The part of the function to go along the arrow>>>>>>>>>  
+
+  Serial.println("Found the tail of arrow");
+  readSensorLine(reading);
+  while (sumOfArray(reading, 6) != 0) {
+    trailAndErrorArrowFollow_Forward();
+    readSensorLine(reading);
+  }
+
+  motorWrite(-100, -100);
+  delay(100);
+  readSensorLine(reading);
+  while (sumOfArray(reading, 6) != 0) {
+    motorWrite(-100, -100);
+    delay(100);
+    readSensorLine(reading);
+  }
+
+  while (sumOfArray(reading, 6) == 0) {
+    motorWrite(100, 100);
+    delay(100);
+    readSensorLine(reading);
   }
 
 
-
-
-}
+  readSensorLine(reading);
+  while (sumOfArray(reading, 6) != 0) {
+    trailAndErrorArrowFollow_Forward();
+    readSensorLine(reading);
+  }
+  
+  motorWrite(200, 200);
+}//end of function
 
 int sumOfArray(int ar[], int n) {
   int sum = 0;
