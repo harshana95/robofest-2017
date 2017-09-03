@@ -5,7 +5,7 @@
 //int RED = 1, GREEN = 2, BLUE = 3;
 
 #include <math.h>    // (no semicolon)
-static int reading[6];
+//static int reading[6];
 
 
 void turnCW(int degrees) {
@@ -158,7 +158,17 @@ void trailAndErrorArrowFollow_LoopOneArrow() {
     We have to test this function by keeping the robot POINTED AT AN ARROW
     You should not keep the robot on an arrow
   */
-  //BLOCK 1 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+  /*
+	02/09/2018 --gihanchanaka@gmail.com
+	This function has only 4 steps
+	1. Go foward until u find something
+	2. Try to aligh to the arrow while going forward
+	3. Come back until you loose the arrow
+	4. Go forward until u find the arrow
+	5. Try to aligh to the arrow while going forward
+  */
+
   readSensorLine(reading);
   while (sumOfArray(reading, 6) == 0) {
     motorWrite(100, 100);
@@ -174,24 +184,15 @@ void trailAndErrorArrowFollow_LoopOneArrow() {
     readSensorLine(reading);
   }
 
-  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-  //BLOCK 2>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   motorWrite(-100, -100);
   delay(100);
   readSensorLine(reading);
   while (sumOfArray(reading, 6) != 0) {
-
     motorWrite(-100, -100);
     delay(100);
     readSensorLine(reading);
   }
 
-
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.
-
-  //BLOCK 1 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  readSensorLine(reading);
   while (sumOfArray(reading, 6) == 0) {
     motorWrite(100, 100);
     delay(100);
@@ -199,15 +200,12 @@ void trailAndErrorArrowFollow_LoopOneArrow() {
   }
 
 
-
   readSensorLine(reading);
-
   while (sumOfArray(reading, 6) != 0) {
     trailAndErrorArrowFollow_Forward();
     readSensorLine(reading);
   }
 
-  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 }
 
 int sumOfArray(int ar[], int n) {

@@ -63,6 +63,7 @@ String irLineString = "000000";
 int lastReading = CENTER_EDGE_READING;
 int weight = 0, sum = 0, value = 0;
 
+unsigned int reading[6]; //Added by gihan for tempory use
 
 //readSensorLine(sensor_values)
 
