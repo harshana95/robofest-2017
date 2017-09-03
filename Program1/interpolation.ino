@@ -1,3 +1,19 @@
+void testAndGetData(char rOrd, double spd, double steps){
+  Serial.print(rOrd == 'r'? "Rotation ":"Distance ");
+  Serial.print(spd);
+  Serial.print(" ");
+  Serial.println(steps);
+  stepper.begin(spd, MICROSTEPS);
+  if (rOrd == 'r'){
+    motorWrite(steps, 1, -1);
+  }else if (rOrd == 'd'){
+    motorWrite(steps, 1, 1);
+  }
+  stepper.begin(200, MICROSTEPS);
+}
+
+
+
 int giveTheIndexOf(int *arr, int value, int n) {
   for (int i = 0; i < n; i++) {
     if (arr[i] >= value) {
@@ -9,31 +25,28 @@ int giveTheIndexOf(int *arr, int value, int n) {
 
 
 
-int stepsToRotate(float angle, int spd) {
+int stepsToRotate(int spd,double angle) {
   int steps = 0;
   int spdIndex = 0;
   spdIndex = giveTheIndexOf(speedOptions, spd, noOfSpeedOptions);
-
   int dir;
   if (angle < 0) {
     dir = -1; angle = -1 * angle;
   } else {
     dir = 1;
   }
-
   int angleIndex;
   for (int i = 0; i < noOfRotateOptions; i++) {
-    if (angleRotated[spdIndex][i] >= angle) {
+    if (pgm_read_word_near(&(angleRotated[spdIndex][i])) >= angle) {
       angleIndex = i;
       break;
     }
   }
-
   // LINEAR INTERPOLATION
   // y = Y_n-1 + (x - X_n-1)*tanz     tanz = (Y_n - Y_n-1)/(X_n - X_n-1)
-  float tanz = (stepsGiven_Rotate[angleIndex] - stepsGiven_Rotate[angleIndex - 1]) / (angleRotated[spdIndex][angleIndex] - angleRotated[spdIndex][angleIndex - 1]);
+  double tanz = (pgm_read_word_near(&(stepsGiven_Rotate[angleIndex])) - pgm_read_word_near(&(stepsGiven_Rotate[angleIndex - 1]))) / (double)(pgm_read_word_near(&(angleRotated[spdIndex][angleIndex])) - pgm_read_word_near(&(angleRotated[spdIndex][angleIndex - 1])));
 
-  steps = stepsGiven_Rotate[angleIndex - 1] + (angle - angleRotated[spdIndex][angleIndex - 1]) * tanz;
+  steps = pgm_read_word_near(&(stepsGiven_Rotate[angleIndex - 1])) + (angle - pgm_read_word_near(&(angleRotated[spdIndex][angleIndex - 1]))) * tanz;
   return dir*steps;
 }
 
@@ -41,7 +54,7 @@ int stepsToRotate(float angle, int spd) {
 
 
 
-int stepsToForward(float distance, int spd) {
+int stepsToForward(int spd, float distance) {
     int steps = 0;
   int spdIndex = 0;
   spdIndex = giveTheIndexOf(speedOptions, spd, noOfSpeedOptions);
@@ -56,7 +69,7 @@ int stepsToForward(float distance, int spd) {
 
   // LINEAR INTERPOLATION
   // y = Y_n-1 + (x - X_n-1)*tanz     tanz = (Y_n - Y_n-1)/(X_n - X_n-1)
-  float tanz = (stepsGiven_Distance[distanceIndex] - stepsGiven_Distance[distanceIndex - 1]) / (distanceWentFoarward[spdIndex][distanceIndex] - distanceWentFoarward[spdIndex][distanceIndex - 1]);
+  float tanz = (stepsGiven_Distance[distanceIndex] - stepsGiven_Distance[distanceIndex - 1]) / (double)(distanceWentFoarward[spdIndex][distanceIndex] - distanceWentFoarward[spdIndex][distanceIndex - 1]);
 
   steps = stepsGiven_Distance[distanceIndex - 1] + (distance - distanceWentFoarward[spdIndex][distanceIndex - 1]) * tanz;
   return steps;
