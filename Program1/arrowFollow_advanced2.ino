@@ -154,7 +154,7 @@ void trailAndErrorArrowFollow_Loop() {
   }
 }
 
-void trailAndErrorArrowFollow_LoopOneArrow() {
+void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
   Serial.begin(9600);
   Serial.println("Starting");
   /*
@@ -179,35 +179,43 @@ void trailAndErrorArrowFollow_LoopOneArrow() {
     readSensorLine(reading);
   }
 
-
-
-  readSensorLine(reading);
-  while (sumOfArray(reading, 6) != 0) {
-    trailAndErrorArrowFollow_Forward();
+  if(getColorReading()==boxColor){
     readSensorLine(reading);
-  }
+    while (sumOfArray(reading, 6) != 0) {
+      trailAndErrorArrowFollow_Forward();
+      readSensorLine(reading);
+    }
 
-  motorWrite(-100, -100);
-  delay(100);
-  readSensorLine(reading);
-  while (sumOfArray(reading, 6) != 0) {
     motorWrite(-100, -100);
     delay(100);
     readSensorLine(reading);
-  }
+    while (sumOfArray(reading, 6) != 0) {
+      motorWrite(-100, -100);
+      delay(100);
+      readSensorLine(reading);
+    }
 
-  while (sumOfArray(reading, 6) == 0) {
-    motorWrite(100, 100);
-    delay(100);
+    while (sumOfArray(reading, 6) == 0) {
+      motorWrite(100, 100);
+      delay(100);
+      readSensorLine(reading);
+    }
+
+
     readSensorLine(reading);
+    while (sumOfArray(reading, 6) != 0) {
+      trailAndErrorArrowFollow_Forward();
+      readSensorLine(reading);
+    }
+  }
+  else{//If this is not the box color
+    //Go a few centemetes forward
+    motorWrite(200,200);
   }
 
 
-  readSensorLine(reading);
-  while (sumOfArray(reading, 6) != 0) {
-    trailAndErrorArrowFollow_Forward();
-    readSensorLine(reading);
-  }
+
+
 }
 
 int sumOfArray(int ar[], int n) {
