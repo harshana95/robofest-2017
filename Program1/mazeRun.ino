@@ -1,7 +1,5 @@
 void mazeRunAdvanced() {
 
-
- 
   readWalls(wall);
   delay(100);
   printArr(wall, 3);
@@ -52,17 +50,27 @@ void explore() {
     currentFacingDir = (currentFacingDir + 2 + 4) % 4;
     shiftDirVector(-2);
   }
+  // store the last position as the last valid position in the maze
+  finalXPosition = posX; finalYPosition = posY;
 
   // go forward
   posX += dir[1][0];
   posY += dir[1][1];
 
-  //store the count number in the maze position
-  maze[posX][posY] = posCount;
-  //save the count position in EEPROM
-  updateMazeAddress(posX, posY);
+  //check if the robo is out from the maze and change the mode to box picking thingy
+  if (posX < 0 or posX > 5 or posY < 0 or posY > 5) {
+    mode = FIND_ARROW; // TODO: change this to correct mode
+    isMazeSolved = 1;
+    saveEEPROM();
+  } else {
 
-  posCount++;
+    //store the count number in the maze position
+    maze[posX][posY] = posCount;
+    //save the count position in EEPROM
+    updateMazeAddress(posX, posY);
+
+    posCount++;
+  }
 }
 
 int giveBinaryWallCode() {
@@ -174,7 +182,7 @@ void maze_turnBack() {
 
 #if defined(STEPPER_MOTORS)
   if (debug)Serial.println("---> Move Back");
-  motorRotate(-190);
+  motorRotate(-183);
   motorRotate(10);
   motorForward(maze_forward_Steps);
 

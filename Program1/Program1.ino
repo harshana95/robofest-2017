@@ -32,9 +32,7 @@ void setup() {
 #endif
 
 pinMode(12, INPUT);
-
 pinMode(11, INPUT);
-
 pinMode(10, INPUT);
 
   pinMode(BUTTON_1, INPUT_PULLUP);
