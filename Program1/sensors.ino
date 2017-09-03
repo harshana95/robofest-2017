@@ -16,6 +16,68 @@ void irSensorsBegin() {
 
 }
 
+void colorBegin() {
+
+  if (color0.begin()) {
+    //Serial.println(">> ColorSensor : Begin");
+  } else {
+    Serial.println(">> ColorSensor : Not Found");
+    //while (1); // halt!
+  }
+}
+
+
+void readColor() {
+
+  //color0.setInterrupt(false);  // turn on LED
+  delay(10);
+  color0.getRawData(&red0, &green0, &blue0, &clr0);
+  //color0.setInterrupt(true);   // turn off LED
+
+
+  /*if ((red0 > WHITE_THERSOLD) && (blue0 > WHITE_THERSOLD) && (green0 > WHITE_THERSOLD)) {
+    colorR0 = COLOR_OPEN;
+    indicatorShow(10);    // All off
+    }
+    else */
+  if (green0 > blue0 && green0 > red0 ) {
+    colorR0 = COLOR_GREEN;              //GREEN
+  }
+
+  else if (blue0 > red0 ) {
+    colorR0 = COLOR_BLUE; //RED
+  }
+  else if (((green0 - blue0) < RED_GB_GAP) || ((blue0 - green0) < RED_GB_GAP) ) {
+    colorR0 = COLOR_RED;                                   //RED
+  }
+  else {
+    colorR0 = COLOR_OPEN;
+  }
+
+  Serial.println(colorR0);
+}
+
+void colorUpdate() {
+  readColor();
+  //Serial.println(colorR0);
+
+  if (0) {
+    Serial.print(blue0);
+    Serial.print(" ");
+    Serial.print(red0);
+    Serial.print(" ");
+    Serial.print(green0);
+    Serial.print(" ");
+    //Serial.print(clr0);
+    Serial.print(" ");
+    //Serial.print(color0.calculateColorTemperature(red0, green0, blue0) );
+    Serial.print(" ");
+
+    Serial.print(colorR0);
+    Serial.println(" ");
+  }
+}
+
 void sonarBegin() {
 
   /*Serial.println(">> Sonar : Begin");
@@ -78,7 +140,7 @@ int readSensorLine(unsigned int *sensor_values)
 }
 
 int irSensorRead(int num) {
-  int reading = analogRead(irPins[num] - 14);
+  int reading = analogRead(irPins[num]);
 
   reading = (reading > 512);
   if (lineType == WHITE) reading = 1 - reading;

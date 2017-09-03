@@ -15,9 +15,9 @@ void turnCW(int degrees) {
 
 void goFoward(int mm) {
   if (mm > 0) {
-    motorWrite(mm*10,mm*10);
+    motorWrite(mm * 10, mm * 10);
   } else {
-    motorWrite(mm*10 ,mm*10);
+    motorWrite(mm * -10 , mm * -10);
   }
 }
 
@@ -25,8 +25,12 @@ int getColorReading() {
   //This function can get the colour reading as 1-RED,2-GREEn.3=BLUE
   // TODO
   readColor();
-
-  return color;
+  Serial.print("Color = ");
+  if (colorR0 == 1)Serial.println("R");
+  else if (colorR0 == 2)Serial.println("G");
+  else if (colorR0 == 3)Serial.println("B");
+  else Serial.println("None");
+  return colorR0;
 
 }
 
@@ -35,21 +39,24 @@ int getColorReading() {
 void start(int boxColor) {
   //This uses the colour reading as 1-RED,2-GREEN.3=BLUE
 
-  int directions = 5;
-  int gap = 15; //degrees
-  int steps = 5;
-  int stepSize = 40; //mm
+  const int directions = 5;
+  const int gap = 15; //degrees
+  const int steps = 5;
+  const int stepSize = 40; //mm
 
-  Serial.println("Starting the arrow finding algo");
-  Serial.print(directions);
-  Serial.print(" directions will be checked with ");
-  Serial.print(gap);
-  Serial.print(" deg betweeen two directions.");
-  Serial.println("");
-  Serial.print(steps);
-  Serial.print(" steps of length ");
-  Serial.print(stepSize);
-  Serial.print("cm ");
+  /*  Serial.println("Starting the arrow finding algo");
+    Serial.print(directions);
+    Serial.print(" directions will be checked with ");
+    Serial.print(gap);
+    Serial.print(" deg betweeen two directions.");
+    Serial.println("");
+    Serial.print(steps);
+    Serial.print(" steps of length ");
+    Serial.print(stepSize);
+    Serial.print("cm ");
+  */
+
+  Serial.println("I am at the start point of three arrows");
 
   turnCW(-1 * gap * (directions - 1) / 2);
   int startR = 0;
@@ -69,11 +76,15 @@ void start(int boxColor) {
     }
     if (br)break;
 
+    Serial.print("Going back ");
     goFoward(-stepSize * (steps - 1));
+    Serial.println("Turning");
     turnCW(gap);
 
 
   }
+
+  Serial.println("Found the first arrow starting point...");
   goFoward(10);
   firstArrowFollow();
   trailAndErrorArrowFollow_Loop(boxColor);
@@ -83,74 +94,84 @@ void start(int boxColor) {
 
 
 
-void firstArrowFollow(){
+void firstArrowFollow() {
+  Serial.println("Following the first arrow");
+  readSensorLine(reading);
+  while (sumOfArray(reading, 6) != 0) {
+    int weight[6] = { -3, -2, -1, 1, 2, 3};
 
-	readSensorLine(reading);
-  	while (sumOfArray(reading, 6) == 0){
-  		int weight[6] = { -3, -2, -1, 1, 2, 3};
- 
-		readSensorLine(reading);
-
-
-//This part is to isolate the arrow:
-		int leftZeroFrom=2;
-		int rightZeroFrom=3;
-
-		for(leftZeroFrom=2;leftZeroFrom>-1;leftZeroFrom--){
-			if(reading[leftZeroFrom]==0)break;
-		}
-		for(int i=leftZeroFrom;i>-1;i--){
-			weight[i]==0;
-		}
+    readSensorLine(reading);
 
 
-		for(rightZeroFrom=3;rightZeroFrom<6;rightZeroFrom++){
-			if(reading[leftZeroFrom]==0)break;
-		}
-		for(int i=leftZeroFrom;i<6;i++){
-			weight[i]==0;
-		}
-//Isolation over		
+    //This part is to isolate the arrow:
+    int leftZeroFrom = 2;
+    int rightZeroFrom = 3;
 
-		int weightedSum = 0;
-		for (int j = 0; j < 6; j++) {
-			weightedSum += reading[j] * weight[j];
-		}
-
-		Serial.println(weightedSum);
-
-		if (weightedSum != 0) {
-			if (weightedSum < 0) {
-				Serial.println("Forward loop- Turn right");
-				motorWrite(100, -100);
-				delay(100);
-			}
-			else {
-				Serial.println("Forward loop- Turn left");
-				motorWrite(-100, 100);
-				delay(100);
-			}
-		}
-    else{
-      //This is the tricky part,
-      //Can this scenario ever come?
-      
+    for (leftZeroFrom = 2; leftZeroFrom > -1; leftZeroFrom--) {
+      if (reading[leftZeroFrom] == 0)break;
+    }
+    for (int i = leftZeroFrom; i > -1; i--) {
+      weight[i] == 0;
     }
 
 
-		motorWrite(100, 100);
-		delay(100);
-		readSensorLine(reading);
-	}
+    for (rightZeroFrom = 3; rightZeroFrom < 6; rightZeroFrom++) {
+      if (reading[leftZeroFrom] == 0)break;
+    }
+    for (int i = leftZeroFrom; i > -1; i--) {
+      weight[i] == 0;
+    }
+
+    for (int i = rightZeroFrom; i < 6; i++) {
+      weight[i] == 0;
+    }
+    //Isolation over
+
+    int weightedSum = 0;
+    for (int j = 0; j < 6; j++) {
+      weightedSum += reading[j] * weight[j];
+    }
+    Serial.println("Weighted sum = ");
+    Serial.println(weightedSum);
+
+    if (weightedSum != 0) {
+      if (weightedSum < 0) {
+        //        Serial.println("Forward loop- Turn right");
+        motorWrite(100, -100);
+        delay(100);
+      }
+      else {
+        //        Serial.println("Forward loop- Turn left");
+        motorWrite(-100, 100);
+        delay(100);
+      }
+    }
+    else {
+      //This is the tricky part,
+      //Can this scenario ever come?
+
+    }
 
 
+    motorWrite(100, 100);
+    delay(100);
+    readSensorLine(reading);
+  }
+
+  Serial.println("Finished the first arrow");
 }
 
 
 
 void trailAndErrorArrowFollow_Loop(int boxColour) {
+  int arrow = 2;
   while (true) {
+    Serial.print("Starting  arrow -- ");
+    Serial.println(arrow);
     trailAndErrorArrowFollow_LoopOneArrow(boxColour);
+    Serial.print("Finished  arrow -- ");
+    Serial.println(arrow);
+    arrow++;
   }
 }
 
@@ -163,13 +184,13 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
     You should not keep the robot on an arrow
   */
   /*
-  02/09/2018 --gihanchanaka@gmail.com
-  This function has only 4 steps
-  1. Go foward until u find something
-  2. Try to aligh to the arrow while going forward
-  3. Come back until you loose the arrow
-  4. Go forward until u find the arrow
-  5. Try to aligh to the arrow while going forward
+    02/09/2018 --gihanchanaka@gmail.com
+    This function has only 4 steps
+    1. Go foward until u find something
+    2. Try to aligh to the arrow while going forward
+    3. Come back until you loose the arrow
+    4. Go forward until u find the arrow
+    5. Try to aligh to the arrow while going forward
   */
 
   readSensorLine(reading);
@@ -179,7 +200,7 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
     readSensorLine(reading);
   }
 
-  if(getColorReading()==boxColor){
+  if (getColorReading() == boxColor) {
     readSensorLine(reading);
     while (sumOfArray(reading, 6) != 0) {
       trailAndErrorArrowFollow_Forward();
@@ -208,9 +229,9 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
       readSensorLine(reading);
     }
   }
-  else{//If this is not the box color
+  else { //If this is not the box color
     //Go a few centemetes forward
-    motorWrite(200,200);
+    motorWrite(200, 200);
   }
 
 

@@ -52,7 +52,8 @@ enum {eP, eI, eD, eMax, eBase, eDebug};
 #define CENTER_EDGE_READING (NUM_SENSORS - 1) * 5
 
 unsigned int sensor_values[NUM_SENSORS];
-const unsigned int irPins[] = {14, 15, 16, 19, 20, 21};
+
+const unsigned int irPins[] = {A0, A1, A2, A3, A6, A7};//14, 15, 16, 19, 20, 21
 const unsigned int midPin = 18;
 
 boolean allOut = 0;
@@ -77,20 +78,17 @@ int error = 0;
 int lastError = 0;
 
 
-//----------------------------------------------------------------------------------------------
-// Color Sensor Variables
+// Color Sensor Variables -----------------------------------------------------------------
 
+uint16_t clr0, red0, green0, blue0;
 enum {COLOR_OPEN, COLOR_RED, COLOR_GREEN, COLOR_BLUE};
-int color = 0;
+int colorR0 = 0;
 
-//----------------------------------------------------------------------------------------------
-// Color Sensor Variables
+const int WHITE_THERSOLD = 800; // **This depends with the distance from sensor to the object
 
-#define PIN_TRIGGER 11
-#define PIN_ECHO 12
-
-int  duration = 0, distance = 0;
-int maxDistance = 100;
+#define RED_GB_GAP 100
+#define DELAY_BUZZER 100
+#define DELAY_INDICATOR 100
 
 //----------------------------------------------------------------------------------------------
 // Motor Control variables
@@ -111,7 +109,7 @@ int drift = 0;
 enum {LEFT_SENSOR, FRONT_SENSOR, RIGHT_SENSOR};
 int wall[] = {0, 0, 1};
 
-int isMazeSolved = 1;
+int isMazeSolved = 0;
 
 int maze[6][6];
 int mazeWalls[6][6];
