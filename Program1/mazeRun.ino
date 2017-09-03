@@ -1,4 +1,4 @@
-void mazeRunAdvanced() {
+/*void mazeRunAdvanced() {
 
   readWalls(wall);
   delay(100);
@@ -257,4 +257,4 @@ void printCurrentMazeWalls() {
     Serial.print("\n");
   }
   Serial.println("----------------------------");
-}
+}*/

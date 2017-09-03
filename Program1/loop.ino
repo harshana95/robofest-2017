@@ -27,8 +27,6 @@ void loop() {
     case BEGIN:
       buttonStatus = digitalRead(BUTTON_1);
       //readSensorLine(reading);
-      colorUpdate();
-      delay(500);
 
       if (buttonStatus == 0 ) {
         beep();

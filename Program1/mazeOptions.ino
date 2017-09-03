@@ -11,7 +11,7 @@ int curIndex = 0;
 
 void mazeOption1() {
 
-  if (curIndex < lenIndex) {
+ /* if (curIndex < lenIndex) {
     if (path[curIndex] == FRONT) maze_goForward();
     else if (path[curIndex] == LEFT) maze_turnLeft();
     else if (path[curIndex] == RIGHT) maze_turnRight();
@@ -20,7 +20,7 @@ void mazeOption1() {
     curIndex++;
   }
   delay(100);
-
+*/
 }
 
 
