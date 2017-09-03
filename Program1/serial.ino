@@ -46,12 +46,16 @@ void serialEvent() {
     else if (inChar == 't') {
       //readWalls(wall);
 
-      readColor();
-      /*Serial.print(wall[LEFT_SENSOR]);
-        Serial.print(wall[FRONT_SENSOR]);
-        Serial.print(wall[RIGHT_SENSOR]);*/
+        mySerial.print("j");
 
-      Serial.println();
+
+      if (mySerial.available() > 0) {
+        while (mySerial.available()) {
+          Serial.print((char)mySerial.read());
+        }
+      }
+
+
     } else if (inChar == 'z') {
       char rOrd;
       int spdArr[5];
@@ -121,9 +125,9 @@ void serialEvent() {
   }
 }
 
-void stand(){
+void stand() {
   mySerial.print("f");
-   Serial.println(F(">> Stand:Complete"));
+  Serial.println(F(">> Stand:Complete"));
 }
 
 void pick() {
@@ -138,7 +142,7 @@ void drop() {
 
 void beep() {
   mySerial.print("k");
- 
+
 }
 
 void beep(int k) {
