@@ -163,16 +163,25 @@ const int maze_turnBack_Time = 1000;
 
 //-----------------------interpolation data-------------------------------
 
-const int noOfSpeedOptions = 10;
-const int noOfRotateOptions = 20;
-const int noOfDistanceOptions = 10;
+const int noOfSpeedOptions PROGMEM = 3;
+const int noOfRotateOptions PROGMEM = 20;
+const int noOfDistanceOptions PROGMEM = 10;
 
-int speedOptions[noOfSpeedOptions] = {1, 2, 3, 4, 5, 10, 12, 13, 14, 16};
+const int speedOptions[noOfSpeedOptions] PROGMEM = {100, 200, 300};
 // 0 is needed to interpolate between 0th value and 1st value
-float stepsGiven_Rotate[noOfRotateOptions] = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190};
-float stepsGiven_Distance[noOfDistanceOptions] = {0, 100, 200, 300, 400, 500, 600, 700, 800, 900};
+const int stepsGiven_Rotate[noOfRotateOptions] PROGMEM = {0, 10, 20, 30, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 170, 190, 210, 220, 230};
+const int stepsGiven_Distance[noOfDistanceOptions] PROGMEM = {0, 100, 200, 300, 400, 500, 600, 700, 800, 900};
 
-float angleRotated[noOfSpeedOptions][noOfRotateOptions];
-float distanceWentFoarward[noOfSpeedOptions][noOfDistanceOptions];
+const int angleRotated[noOfSpeedOptions][noOfRotateOptions] PROGMEM = {
+  {0, 10, 20, 30, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 180, 1},
+  {0, 20, 40, 50, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+  {0, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+};
+
+const int distanceWentFoarward[noOfSpeedOptions][noOfDistanceOptions] PROGMEM = {
+  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+};
 
 
