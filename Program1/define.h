@@ -111,7 +111,7 @@ int drift = 0;
 enum {LEFT_SENSOR, FRONT_SENSOR, RIGHT_SENSOR};
 int wall[] = {0, 0, 1};
 
-int isMazeSolved = 1;
+int isMazeSolved = 0;
 
 int maze[6][6];
 int mazeWalls[6][6];

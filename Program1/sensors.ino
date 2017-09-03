@@ -73,7 +73,7 @@ int readSensorLine(unsigned int *sensor_values)
     lastReading = weight / sum;
   }
 
-  Serial.println(irLineString);
+  //Serial.println(irLineString);
   return lastReading;
 }
 

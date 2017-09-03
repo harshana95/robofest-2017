@@ -5,53 +5,44 @@ void loop() {
     case TEST:
 
       buttonStatus = digitalRead(BUTTON_1);
-      //Serial.println(buttonStatus);
+      Serial.println("Test");
+
+      motorWrite(100, 1, 1);
+      delay(1000);
 
       if (buttonStatus == 0 ) {
         mode = BEGIN;
         beep();
-        delay(1000);
+        //delay(1000);
         Serial.println(">> Mode : Begin");
 
       } else {
-        test();
+        /*motorWrite(100, 1, 1);
+          delay(1000);
+          test();*/
       }
 
       break;
 
     case BEGIN:
       buttonStatus = digitalRead(BUTTON_1);
+      //readSensorLine(reading);
 
       if (buttonStatus == 0 ) {
         beep();
-<<<<<<< HEAD
-        //readWalls(wall);
-        //readColor();
 
-        if (isMazeSolved) {
-          loadEEPROM();
-          
+        /*loadEEPROM();
+          if (isMazeSolved) {
           solveMaze();
-        }
+          }*/
 
-        mode = MAZE_RUN;//FIND_ARROW;
-        Serial.println(">> Mode : RUN");
-        //delay(500);
-=======
-
-        loadEEPROM();
-        if (isMazeSolved) {
-          solveMaze();
-        }
-
-
-        mode = MAZE_RUN;
+        mode = FIND_ARROW;  //MAZE_RUN;//
         Serial.println(">> Mode : FIND");
         delay(500);
->>>>>>> 28fafaf4425a61a7e09b8bd497ffe9504ff51ad0
+
       } else {
         readWalls(wall);
-        delay(1000);
+        //delay(1000);
       }
 
       break;
