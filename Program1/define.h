@@ -1,20 +1,85 @@
 
 boolean debug = 1;
 
-#define NUM_SENSORS 6
-
 #define BLACK 0
 #define WHITE 1
+#define lineType BLACK
 
 #define FRONT 8
 #define LEFT 4
 #define RIGHT 6
 #define BACK 2
 
+// Mode eNum
+enum {BEGIN, TEST, MAZE_RUN, MAZE_OPTION, PICKING_BOX, FIND_ARROW, BLUETOOTH};
+
+// EEPROM eNum
+//enum {eP, eI, eD, eMax, eBase, eDebug};
+
 //#define GEARED_MOTORS
 #define STEPPER_MOTORS
 
-#if defined(GEARED_MOTORS)
+//-------------------------------------------------------------------------------------------------------------- Pin Mapping
+#define PIN_LED 13
+
+#define PIN_LEFT_WALL_SENSOR 10
+#define PIN_FRONT_WALL_SENSOR 11
+#define PIN_RIGHT_WALL_SENSOR 12
+
+#define BUTTON_1 9
+//#define BUTTON_2 5
+
+int buttonStatus = 1;
+
+//-------------------------------------------------------------------------------------------------------------- IR Sensors Array
+
+#define NUM_SENSORS 6
+#define RIGHT_EDGE_READING 0
+#define LEFT_EDGE_READING (NUM_SENSORS - 1) * 10
+#define CENTER_EDGE_READING (NUM_SENSORS - 1) * 5
+
+unsigned int sensor_values[NUM_SENSORS];
+
+const unsigned int irPins[] = {A0, A1, A2, A3, A6, A7};
+const unsigned int midPin = 18;
+
+boolean allOut = 0;
+boolean allIn = 0;
+String irLineString = "000000";
+int lastReading = CENTER_EDGE_READING;
+int weight = 0, sum = 0, value = 0;
+
+unsigned int reading[6]; //Added by gihan for tempory use
+
+//-------------------------------------------------------------------------------------------------------------- Line Following
+/*
+  float kP = 0, kD = 0, kI = 0;
+
+  int pos = CENTER_EDGE_READING;
+  int error = 0;
+  int lastError = 0;
+
+*/
+
+//-------------------------------------------------------------------------------------------------------------- Color Sensor
+uint16_t raw_clr, raw_red, raw_green, raw_blue;
+enum {COLOR_OPEN, COLOR_RED, COLOR_GREEN, COLOR_BLUE};
+int floorColor = 0;
+
+#define WHITE_THERSOLD  800 // **This depends with the distance from sensor to the object
+#define RED_GB_GAP 100
+
+//-------------------------------------------------------------------------------------------------------------- Motor Drive
+
+#if defined(STEPPER_MOTORS)
+
+#define MOTOR_STEPS 200
+#define MICROSTEPS 16
+#define STEPS_PER_UNIT 1
+#define STEPS_PER_ROUND 425
+
+#elif defined(GEARED_MOTORS)
+
 #define rightMotor1 7
 #define rightMotor2 8
 #define rightMotorPWM 9
@@ -22,76 +87,6 @@ boolean debug = 1;
 #define leftMotor1 11
 #define leftMotor2 12
 #define leftMotorPWM 10
-
-#elif defined(STEPPER_MOTORS)
-#define STEPS_PER_UNIT 1
-#define STEPS_PER_ROUND 425
-#define MOTOR_STEPS 200
-#define MICROSTEPS 16
-#endif
-
-
-#define BUTTON_1 9
-//#define BUTTON_2 5
-//#define BUTTON_3 6 // Not working. Need to check
-
-int buttonStatus = 1;
-
-// Mode eNum
-enum {BEGIN, LINE_FOLLOW, STOP, TEST, MAZE_RUN, MAZE_OPTION, PICKING_BOX, FIND_ARROW, BLUETOOTH};
-
-// EEPROM eNum
-enum {eP, eI, eD, eMax, eBase, eDebug};
-
-
-//----------------------------------------------------------------------------------------------
-// IR Sensors Array - LineFollowing variables
-
-#define RIGHT_EDGE_READING 0
-#define LEFT_EDGE_READING (NUM_SENSORS - 1) * 10
-#define CENTER_EDGE_READING (NUM_SENSORS - 1) * 5
-
-unsigned int sensor_values[NUM_SENSORS];
-
-const unsigned int irPins[] = {A0, A1, A2, A3, A6, A7};//14, 15, 16, 19, 20, 21
-const unsigned int midPin = 18;
-
-boolean allOut = 0;
-boolean allIn = 0;
-boolean lineType = BLACK;
-
-String irLineString = "000000";
-int lastReading = CENTER_EDGE_READING;
-int weight = 0, sum = 0, value = 0;
-
-unsigned int reading[6]; //Added by gihan for tempory use
-
-//readSensorLine(sensor_values)
-
-//----------------------------------------------------------------------------------------------
-// Line Following variables
-
-float kP = 0, kD = 0, kI = 0;
-
-int pos = CENTER_EDGE_READING;
-int error = 0;
-int lastError = 0;
-
-
-// Color Sensor Variables -----------------------------------------------------------------
-
-uint16_t clr0, red0, green0, blue0;
-enum {COLOR_OPEN, COLOR_RED, COLOR_GREEN, COLOR_BLUE};
-int colorR0 = 0;
-
-const int WHITE_THERSOLD = 800; // **This depends with the distance from sensor to the object
-
-#define RED_GB_GAP 100
-#define DELAY_BUZZER 100
-#define DELAY_INDICATOR 100
-
-//----------------------------------------------------------------------------------------------
-// Motor Control variables
 
 int leftSpd = 0, rightSpd = 0;
 const double slowFactor = 1;
@@ -102,24 +97,26 @@ int baseSpeed = 150;
 
 int drift = 0;
 
-//------------------------------------------------------------------------
-//These variables are defined for the maze traversal
+#endif
 
+
+
+//-------------------------------------------------------------------------------------------------------------- Maze Traversal
 
 enum {LEFT_SENSOR, FRONT_SENSOR, RIGHT_SENSOR};
 int wall[] = {0, 0, 1};
-
 int isMazeSolved = 0;
 
 int maze[6][6];
 int mazeWalls[6][6];
+
 //walls when facing north
 //each binary mapping of the number represents walls
 //0-no wall  1-wall
 //0thBit-west  1stBit-north  2ndBit-east 3rdBit-south
 
 int currentFacingDir = 1; //Initially facing north
-int solvedCommandQueue[36]; // 0 -forward 1-right 2-back(not used) 3-left
+int solvedCommandQueue[1]; //36 0 -forward 1-right 2-back(not used) 3-left
 int commandNo = 0;
 
 int posCount = 1;
@@ -129,7 +126,6 @@ int finalXPosition, finalYPosition; //position of the destination cell. when rob
 
 int dir[4][2] = { {0, 1}, { -1, 0}, {0, -1},  { 1, 0}};
 
-//--------------------------------------------------------------------------------------------------------------------------------
 
 #if defined(STEPPER_MOTORS)
 
@@ -158,8 +154,7 @@ const int maze_turnBack_Time = 1000;
 #endif
 
 
-
-//-----------------------interpolation data-------------------------------
+//-------------------------------------------------------------------------------------------------------------- Interpolation
 
 const int noOfSpeedOptions PROGMEM = 3;
 const int noOfRotateOptions PROGMEM = 20;

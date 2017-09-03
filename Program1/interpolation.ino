@@ -1,3 +1,4 @@
+
 void testAndGetData(char rOrd, double spd, double steps){
   Serial.print(rOrd == 'r'? "Rotation ":"Distance ");
   Serial.print(spd);

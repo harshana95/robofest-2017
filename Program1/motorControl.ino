@@ -46,8 +46,6 @@ void motorWrite(int leftMotorSpeed, int rightMotorSpeed) {
   //leftMotorSpeed += drift;
   //rightMotorSpeed -= drift;
 
-  //Set motor direction according to the speed value
-
   if (leftMotorSpeed != leftSpd) {
     leftSpd = leftMotorSpeed;
 
@@ -89,7 +87,7 @@ void motorWrite(int leftMotorSpeed, int rightMotorSpeed) {
   analogWrite(rightMotorPWM, rightMotorSpeed);
 
   if (debug == true) {
-    Serial.print("   "); Serial.print(leftMotorSpeed); Serial.print(" | "); Serial.println(rightMotorSpeed);
+    Serial.print(">> L:"); Serial.print(leftMotorSpeed); Serial.print(" R:"); Serial.println(rightMotorSpeed);
   }
 }
 
@@ -128,8 +126,8 @@ void wait(int d) {
 }
 
 void calibrateSpeed() {
-  Serial.println(">> Calibrating Speed \n");
-  Serial.println(">> Increasing Mode");
+  Serial.println(F(">> Calibrating Speed \n"));
+  Serial.println(F(">> Increasing Mode"));
 
   for (int i = 0; i <= 255; i += 1) {
     Serial.print("Speed : "); Serial.println(i);
@@ -139,7 +137,7 @@ void calibrateSpeed() {
 
   delay(5000);
 
-  Serial.println("\n>> Decreasing Mode");
+  Serial.println(F("\n>> Decreasing Mode"));
 
   for (int i = 250; i >= 10 ; i -= 1) {
     Serial.print("Speed : "); Serial.println(i);

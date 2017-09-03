@@ -14,7 +14,7 @@ void serialEvent() {
       byte val = 0;
       debug = ! debug;
       EEPROM.update(debug, debug);
-      Serial.print("Print\t:"); Serial.println(debug);
+      Serial.print(F(">> Print\t:")); Serial.println(debug);
     }
 
     else if (inChar == 'p') {
@@ -25,7 +25,7 @@ void serialEvent() {
     }
     else if (inChar == 'c') {
       cleanEEPROM();
-      Serial.println(">> Maze cleared");
+      Serial.println(F(">> Maze cleaned"));
     }
 
     else if (inChar == 'q') {
@@ -33,12 +33,14 @@ void serialEvent() {
       Serial.println(irLineString);
     }
     else if (inChar == 's') {
-      Serial.print("Kp\t:"); Serial.println(kP * 10);
-      Serial.print("Ki\t:"); Serial.println(kI * 10);
-      Serial.print("Kd\t:"); Serial.println(kD * 10);
-      Serial.print("Base\t:" ); Serial.println(baseSpeed);
-      Serial.print("Max\t:"); Serial.println(maxSpeed);
-      Serial.print("Debug\t:"); Serial.println(debug);
+      /*
+        Serial.print("Kp\t:"); Serial.println(kP * 10);
+        Serial.print("Ki\t:"); Serial.println(kI * 10);
+        Serial.print("Kd\t:"); Serial.println(kD * 10);
+        Serial.print("Base\t:" ); Serial.println(baseSpeed);
+        Serial.print("Max\t:"); Serial.println(maxSpeed);
+        Serial.print("Debug\t:"); Serial.println(debug);
+      */
     }
 
     else if (inChar == 't') {
@@ -56,6 +58,7 @@ void serialEvent() {
       double spd = 0, val = 0;
       int valArr[5];
       Serial.println("Rotate - r, Distance - d, Exit - x\nspeed a10s steps q200w   eg: zra10sq100w");
+
       while (Serial.available()) {
         int r = Serial.read();
         rOrd = (char)r;
@@ -78,7 +81,7 @@ void serialEvent() {
         spd += spdArr[i - 1 - j] * pow(10, j);
       }
 
-      
+
       while (Serial.available()) {
         int r = Serial.read();
         if ((char) r == 'q') {
@@ -94,10 +97,11 @@ void serialEvent() {
       for (int j = i - 1; j > -1; j--) {
         val += valArr[i - 1 - j] * pow(10, j);
       }
-      stepsToRotate(round(spd),val);
+      stepsToRotate(round(spd), val);
       testAndGetData(rOrd, spd, val);
     }
     else if (mode == BLUETOOTH) {
+
 #if defined(STEPPER_MOTORS)
       if  (inChar == '8')motorWrite(100, 1, 1);
       else if (inChar == '2')motorWrite(100, -1, -1);
@@ -111,8 +115,27 @@ void serialEvent() {
       else if (inChar == '6')motorWrite(-1 * baseSpeed, baseSpeed);
 #endif
     }
+
+
     digitalWrite(13, LOW);
   }
+}
+
+void pick() {
+  mySerial.print("g");
+}
+
+void drop() {
+  mySerial.print("h");
+}
+
+void beep() {
+  mySerial.print("k");
+
+}
+
+void beep(int k) {
+  for (k; k > 0; k--)mySerial.print("k");
 }
 
 

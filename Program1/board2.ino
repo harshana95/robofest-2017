@@ -1,52 +1,6 @@
 
 
-void pick() {
-  mySerial.print("g");
-}
 
-void drop() {
-  mySerial.print("h");
-}
-
-void beep() {
-  mySerial.print("k");
-
-}
-
-/*boolean readColor() {
-
-  while (mySerial.available())mySerial.read();
-  mySerial.println("j");
-  mySerial.flush();
-  delay(100);
-  color = mySerial.read() - '0';     // 0-No 1-Red 2-Green 3-Blue
-
-  while (mySerial.available()) {
-    mySerial.read();
-    //Serial.println(mySerial.read() - '0');
-  }
-
-  if (color >= 0 && color <= 3) {
-    //correct
-    Serial.println(color);
-  } else {
-    color = -1;
-    //Serial.println(color);
-    //Serial.println("Error: Color reading");
-  }
-  return 1;
-  }
-*/
-void readWalls(int *wall) {
-  wall[RIGHT_SENSOR] = 0;
-  wall[FRONT_SENSOR] = 0;
-  wall[LEFT_SENSOR] = 0;
-
-  //for (int i = 0; i < 5; i++) {
-  wall[RIGHT_SENSOR] += digitalRead(12);
-  wall[FRONT_SENSOR] += digitalRead(11);
-  wall[LEFT_SENSOR] += digitalRead(10);
-}
 /*
   int readWalls(int *wall) {
   //Serial.println("Reading what's in the mySerial to clear");

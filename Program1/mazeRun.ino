@@ -2,8 +2,9 @@ void mazeRunAdvanced() {
 
   readWalls(wall);
   delay(100);
-  printArr(wall, 3);
 
+  Serial.print(">> Walls : ");
+  Serial.print(wall[0]); Serial.print(wall[1]); Serial.print(wall[2]); Serial.println();
 
   // TODO: does not store the wall data after forward. it will written when next time this function is called. may occur an error at last position
   //finding walls making north as the reference
@@ -12,21 +13,15 @@ void mazeRunAdvanced() {
     mazeWalls[posX][posY] = giveBinaryWallCode();
     updateMazeWallAddress(posX, posY);
 
-    explore(); //not done yet
+    explore(); 
 
   } else {
     executeCommand(commandNo);
     commandNo++;
   }
 
-
-  Serial.print(posX);
-  Serial.print(" ");
-  Serial.print(posY);
-  Serial.print(" ");
-  Serial.print(posCount);
-  Serial.println(" ");
-  Serial.println("------------------------------------------------------------");
+  Serial.print(">> X:");Serial.print(posX);Serial.print(" Y:");Serial.print(posY);Serial.print(" C:");Serial.print(posCount);Serial.println();
+  Serial.println(F("------------------------------------------------------------"));
 
 }
 
@@ -132,7 +127,7 @@ void executeCommand(int i) {
 void maze_goForward() {
 
 #if defined(STEPPER_MOTORS)
-  if (debug)Serial.println("---> Move Forward");
+  if (debug)Serial.println(F("---> Move Forward"));
   motorForward(300);
 
 #elif defined(GEARED_MOTORS)
@@ -143,12 +138,12 @@ void maze_goForward() {
 
 #endif
 }
+
 void maze_turnLeft() {
-
-
+  
 #if defined(STEPPER_MOTORS)
 
-  if (debug)Serial.println("---> Move Left");
+  if (debug)Serial.println(F("---> Move Left"));
   motorRotate(-100);
   motorRotate(10);
   motorForward(maze_forward_Steps);
@@ -163,8 +158,9 @@ void maze_turnLeft() {
 
 }
 void maze_turnRight() {
+  
 #if defined(STEPPER_MOTORS)
-  if (debug)Serial.println("---> Move Right");
+  if (debug)Serial.println(F("---> Move Right"));
   motorRotate(100);
   motorRotate(-10 );
   motorForward(maze_forward_Steps);
@@ -181,7 +177,7 @@ void maze_turnRight() {
 void maze_turnBack() {
 
 #if defined(STEPPER_MOTORS)
-  if (debug)Serial.println("---> Move Back");
+  if (debug)Serial.println(F("---> Move Back"));
   motorRotate(-183);
   motorRotate(10);
   motorForward(maze_forward_Steps);
@@ -196,6 +192,7 @@ void maze_turnBack() {
 }
 
 void printCurrentMaze() {
+
   Serial.print("#");
   for (int i = 0; i < 6; i++) {
     if ((mazeWalls[0][i] >> 2) % 2)
@@ -239,7 +236,7 @@ void printCurrentMaze() {
     }
     Serial.print("#\n");
   }
-  Serial.println("----------------------------");
+  Serial.println(F("----------------------------"));
 }
 
 void printCurrentMazeWalls() {
@@ -256,5 +253,32 @@ void printCurrentMazeWalls() {
     }
     Serial.print("\n");
   }
-  Serial.println("----------------------------");
+  Serial.println(F("----------------------------"));
 }
+
+
+
+
+
+
+//---------------------------------------------------------------------------------------------------------------------------------- Optionl module / Nuwan
+
+const int maze_data_1[] = {FRONT, LEFT, RIGHT, RIGHT, LEFT, FRONT, FRONT, LEFT, FRONT, BACK, FRONT, RIGHT, FRONT,
+                    RIGHT, RIGHT, LEFT, FRONT, RIGHT, BACK, FRONT, FRONT, FRONT, LEFT, RIGHT, RIGHT, FRONT,
+                    RIGHT, FRONT, FRONT, FRONT, FRONT, BACK, FRONT, FRONT, RIGHT, FRONT
+                   };
+
+const int maze_data_index = sizeof(maze_data_1);
+int maze_current_index = 0;
+
+void mazeOption1() {
+  if (maze_current_index < maze_data_index) {
+    if (maze_data_1[maze_current_index] == FRONT) maze_goForward();
+    else if (maze_data_1[maze_current_index] == LEFT) maze_turnLeft();
+    else if (maze_data_1[maze_current_index] == RIGHT) maze_turnRight();
+    else if (maze_data_1[maze_current_index] == BACK) maze_turnBack();
+    maze_current_index++;
+  }
+  delay(100);
+}
+
