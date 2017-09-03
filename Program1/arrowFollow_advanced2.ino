@@ -293,6 +293,11 @@ void firstArrowFollow(){
 				delay(100);
 			}
 		}
+    else{
+      //This is the tricky part,
+      //Can this scenario ever come?
+      
+    }
 
 
 		motorWrite(100, 100);
