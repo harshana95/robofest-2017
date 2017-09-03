@@ -83,19 +83,20 @@ void motorWrite(int steps, int left, int right) {
 }
 
 void motorWrite(int left, int right) {
-<<<<<<< HEAD
+/* HEAD*/
   if(left!=0 & right!=0 ){
     int leftDir = (left > 0) ? 1 : 0;
     int rightDir = (right > 0) ? 1 : 0;
     motorWrite(abs(left) / 10, leftDir, rightDir);
-=======
+  }
+/*=======
 
   if (left != 0 & right != 0) {
     int leftDir = (left > 0) ? 1 : 0;
     int rightDir = (right > 0) ? 1 : 0;
     motorWrite(abs(left) / 10, leftDir, rightDir);
   }
->>>>>>> 364d74872c4eda94ba0ed5a34a7545bf64e34424
+>>>>>>> 364d74872c4eda94ba0ed5a34a7545bf64e34424*/
 }
 
 
