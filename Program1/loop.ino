@@ -76,7 +76,9 @@ void loop() {
       if (buttonStatus == 0 ) {
         mode = BEGIN;
       } else {
-        mazeOption1();
+        loadCommandQueueFromEEPROM();
+        executeCommand(commandNo);
+        commandNo++;
       }
 
       break;
