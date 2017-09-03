@@ -76,7 +76,7 @@ void start(int boxColor) {
   }
   goFoward(10);
   firstArrowFollow();
-  //trailAndErrorArrowFollow_Loop();
+  trailAndErrorArrowFollow_Loop();
 
 
 }
