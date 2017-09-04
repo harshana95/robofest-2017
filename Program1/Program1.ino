@@ -1,3 +1,6 @@
+#include <MemoryFree.h>
+#include <pgmStrToRAM.h>
+
 #include <avr/pgmspace.h>
 
 #include <Arduino.h>
@@ -41,14 +44,15 @@ void setup() {
   //pinMode(BUTTON_2, INPUT_PULLUP);
 
   pinMode(PIN_LED, OUTPUT);
+  /*
   loadEEPROM(); // loading EEPROM data
-  if (isMazeSolved) { // maze has being traversed before.
+    if (isMazeSolved) { // maze has being traversed before.
     solveMaze();
-  } else {
+    } else {
     //cleanEEPROM();
-    //loadEEPROM();
-  }
-  stand();
+    }
+    stand();
+  */
 
   // Inform us that program is ready
   beep(2);
