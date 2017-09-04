@@ -1,16 +1,19 @@
 
-void testAndGetData(char rOrd, double spd, double steps){
-  Serial.print(rOrd == 'r'? "Rotation ":"Distance ");
+void testAndGetData(char rOrd, double spd, double steps) {
+  Serial.print(rOrd == 'r' ? "Rotation " : "Distance ");
   Serial.print(spd);
   Serial.print(" ");
   Serial.println(steps);
-  stepper.begin(spd, MICROSTEPS);
-  if (rOrd == 'r'){
+
+  //stepper.begin(spd, MICROSTEPS);
+  stepper.setRPM(spd);
+
+  if (rOrd == 'r') {
     motorWrite(steps, 1, -1);
-  }else if (rOrd == 'd'){
+  } else if (rOrd == 'd') {
     motorWrite(steps, 1, 1);
   }
-  stepper.begin(200, MICROSTEPS);
+  //stepper.begin(200, MICROSTEPS);
 }
 
 
@@ -26,7 +29,7 @@ int giveTheIndexOf(int* arr, int value, int n) {
 
 
 
-int stepsToRotate(int spd,double angle) {
+int stepsToRotate(int spd, double angle) {
   int steps = 0;
   int spdIndex = 0;
   spdIndex = giveTheIndexOf(speedOptions, spd, noOfSpeedOptions);
@@ -48,7 +51,7 @@ int stepsToRotate(int spd,double angle) {
   double tanz = (pgm_read_word_near(&(stepsGiven_Rotate[angleIndex])) - pgm_read_word_near(&(stepsGiven_Rotate[angleIndex - 1]))) / (double)(pgm_read_word_near(&(angleRotated[spdIndex][angleIndex])) - pgm_read_word_near(&(angleRotated[spdIndex][angleIndex - 1])));
 
   steps = pgm_read_word_near(&(stepsGiven_Rotate[angleIndex - 1])) + (angle - pgm_read_word_near(&(angleRotated[spdIndex][angleIndex - 1]))) * tanz;
-  return dir*steps;
+  return dir * steps;
 }
 
 
@@ -56,7 +59,7 @@ int stepsToRotate(int spd,double angle) {
 
 
 int stepsToForward(int spd, float distance) {
-    int steps = 0;
+  int steps = 0;
   int spdIndex = 0;
   spdIndex = giveTheIndexOf(speedOptions, spd, noOfSpeedOptions);
 
