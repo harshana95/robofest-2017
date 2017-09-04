@@ -12,8 +12,18 @@ void irSensorsBegin() {
   for (int i = 0; i < NUM_SENSORS; i++) {
     pinMode(irPins[i], INPUT);
   }
-  Serial.println(">> IRSensors : Begin...");
+  Serial.println(F(">> IRSensors : Begin..."));
 
+}
+
+void colorBegin() {
+
+  if (color0.begin()) {
+    // No error, can run program without problem
+  } else {
+    Serial.println(F(">> ColorSensor : Not Found"));
+    beep(3);
+  }
 }
 
 void sonarBegin() {
@@ -25,21 +35,30 @@ void sonarBegin() {
     digitalWrite(PIN_TRIGGER, LOW);*/
 }
 
-void irSensorsOutput() {
-
-  for (int i = 0; i < NUM_SENSORS; i++) {
-    pinMode(irPins[i], OUTPUT);
-  }
-  for (int i = 0; i < NUM_SENSORS; i++) {
-    digitalWrite(irPins[i], LOW);
-  }
-  Serial.println(">> IRSensors : DisplayMode");
-
+void wallSensorBegin() {
+  pinMode(PIN_LEFT_WALL_SENSOR, INPUT);
+  pinMode(PIN_FRONT_WALL_SENSOR, INPUT);
+  pinMode(PIN_RIGHT_WALL_SENSOR, INPUT);
 }
 
-//readSensorLine(unsigned int *sensor_values)
-int readSensorLine(unsigned int *sensor_values)
-{
+void readWalls(int *wall) {
+
+  wall[RIGHT_SENSOR] = digitalRead(PIN_RIGHT_WALL_SENSOR);
+  wall[FRONT_SENSOR] = digitalRead(PIN_FRONT_WALL_SENSOR);
+  wall[LEFT_SENSOR] = digitalRead(PIN_LEFT_WALL_SENSOR);
+
+  mySerial.print("d");
+  mySerial.print(wall[LEFT_SENSOR] + 2 * wall[FRONT_SENSOR] + 4 * wall[RIGHT_SENSOR]);
+  /*
+    if (mySerial.available() > 0) {
+      while (mySerial.available()) {
+        Serial.print((char)mySerial.read());
+      }
+    }
+  */
+}
+
+int readSensorLine(unsigned int *sensor_values) {
   weight = 0;
   sum = 0;
   allIn = false;
@@ -73,12 +92,55 @@ int readSensorLine(unsigned int *sensor_values)
     lastReading = weight / sum;
   }
 
-  //Serial.println(irLineString);
+
+  if (0)Serial.print(">> IR : "); Serial.println(irLineString);
+
   return lastReading;
 }
 
+
+
+void readColor() {
+
+  delay(10);
+  color0.getRawData(&raw_red, &raw_green, &raw_blue, &raw_clr);
+
+  if (raw_green > raw_blue && raw_green > raw_red ) {
+    floorColor = COLOR_GREEN;               // GREEN
+  }
+
+  else if (raw_blue > raw_red ) {
+    floorColor = COLOR_BLUE;                // BLUE
+  }
+  else if (((raw_green - raw_blue) < RED_GB_GAP) || ((raw_blue - raw_green) < RED_GB_GAP) ) {
+    floorColor = COLOR_RED;                 // RED
+  }
+  else {
+    floorColor = COLOR_OPEN;                // NO COLOR
+  }
+
+  //Serial.println(floorColor);
+
+  if (0) {
+    Serial.print(raw_blue);
+    Serial.print(" ");
+    Serial.print(raw_red);
+    Serial.print(" ");
+    Serial.print(raw_green);
+    Serial.print(" ");
+    Serial.print(raw_clr);
+    Serial.print(" ");
+    Serial.print(color0.calculateColorTemperature(raw_red, raw_green, raw_blue) );
+    Serial.print(" ");
+
+    Serial.print(floorColor);
+    Serial.println(" ");
+  }
+
+}
+
 int irSensorRead(int num) {
-  int reading = analogRead(irPins[num] - 14);
+  int reading = analogRead(irPins[num]);
 
   reading = (reading > 512);
   if (lineType == WHITE) reading = 1 - reading;
