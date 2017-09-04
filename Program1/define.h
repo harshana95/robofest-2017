@@ -67,7 +67,7 @@ unsigned int reading[6]; //Added by gihan for tempory use
 uint16_t raw_clr, raw_red, raw_green, raw_blue;
 enum {COLOR_OPEN, COLOR_RED, COLOR_GREEN, COLOR_BLUE};
 int floorColor = 0;
-
+int boxColor = 0;
 #define WHITE_THERSOLD  800 // **This depends with the distance from sensor to the object
 #define RED_GB_GAP 100
 
@@ -109,8 +109,8 @@ enum {LEFT_SENSOR, FRONT_SENSOR, RIGHT_SENSOR};
 int wall[] = {0, 0, 1};
 int isMazeSolved = 0;
 
-int** maze;
-int** mazeWalls;
+int maze[6][6];
+int mazeWalls[6][6];
 
 //walls when facing north
 //each binary mapping of the number represents walls
@@ -118,7 +118,7 @@ int** mazeWalls;
 //0thBit-west  1stBit-north  2ndBit-east 3rdBit-south
 
 int currentFacingDir = 1; //Initially facing north
-int* solvedCommandQueue; // 0 -forward 1-right 2-back(not used) 3-left
+int solvedCommandQueue[36]; // 0 -forward 1-right 2-back(not used) 3-left
 int commandNo = 0;
 
 int posCount = 1;

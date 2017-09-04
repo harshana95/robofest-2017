@@ -45,8 +45,8 @@ void serialEvent() {
 
     else if (inChar == 't') {
       //readWalls(wall);
-
-        mySerial.print("j");
+      readBoxColor();
+      //mySerial.print("j");
 
 
       if (mySerial.available() > 0) {
@@ -125,9 +125,31 @@ void serialEvent() {
   }
 }
 
+
+int readBoxColor() {
+  mySerial.print("j");
+  delay(10);
+  while (mySerial.available() > 0) {
+    int x = Serial.read() - '0';
+    //Serial.print(">> Reply: "); Serial.println(x);
+
+    if (x >= 0 && x < 4) {
+      boxColor = x;
+      break;
+    } else if (x == -49) {
+      break;
+    }
+  }
+  //return boxColor;
+}
 void stand() {
   mySerial.print("f");
   Serial.println(F(">> Stand:Complete"));
+}
+
+void readyToPick() {
+  mySerial.print("e");
+  Serial.println(F(">> Stand:readyToPick"));
 }
 
 void pick() {
