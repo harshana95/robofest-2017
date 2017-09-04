@@ -8,34 +8,6 @@
 //static int reading[6];
 
 
-void turnCW(int degrees) {
-  //I am assuming that this function can turn the robot clockwise to 10 degrees
-  motorRotate(degrees);
-}
-
-void goFoward(int mm) {
-  if (mm > 0) {
-    motorWrite(mm * 10, mm * 10);
-  } else {
-    motorWrite(mm * -10 , mm * -10);
-  }
-}
-
-int getColorReading() {
-  //This function can get the colour reading as 1-RED,2-GREEn.3=BLUE
-  // TODO
-  readColor();
-  Serial.print("Color = ");
-  if (floorColor == 1)Serial.println("R");
-  else if (floorColor == 2)Serial.println("G");
-  else if (floorColor == 3)Serial.println("B");
-  else Serial.println("None");
-  return floorColor;
-
-}
-
-
-
 void start(int boxColor) {
   //This uses the colour reading as 1-RED,2-GREEN.3=BLUE
 
@@ -244,12 +216,6 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
 
 
 
-}
-
-int sumOfArray(int ar[], int n) {
-  int sum = 0;
-  for (int i = 0; i < n; i++)sum += ar[i];
-  return sum;
 }
 
 
