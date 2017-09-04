@@ -9,7 +9,7 @@ void loop() {
 
       if (buttonStatus == 0 ) {
         beep();
-        mode = TEST;// FIND_ARROW;
+        mode = FIND_ARROW;
         /*
                 //---------stuff for maze run-----------------------------
                 // allocating for maze matrices. Free them afterwards
