@@ -21,7 +21,7 @@ void  readyToPick() {
   attachServos();
   pick.write(PICK_OFF);
   delay(1000);
-  grab(GRAB_DOWN);
+  //grab(GRAB_DOWN);
 }
 
 void dropBox() {

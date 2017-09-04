@@ -103,7 +103,7 @@ void motorWrite(int left, int right) {
     int leftDir = (left > 0) ? 1 : -1;
     int rightDir = (right > 0) ? 1 : -1;
     //motorWrite(abs(left) / 10, leftDir, rightDir);
-    softMotorWrite(abs(left) / 10, leftDir, rightDir);
+    motorWrite(abs(left) / 10, leftDir, rightDir);
   }
 }
 
