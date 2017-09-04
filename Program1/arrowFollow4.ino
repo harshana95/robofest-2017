@@ -78,7 +78,8 @@ void firstArrowFollow(int boxColor) {
   }
 
   readSensorLine(reading);
-  while (sumOfArray(reading, 6) != 0) {
+
+  while (sumOfArray(reading, 6) != 0){
     goFF();
     readSensorLine(reading);
   }
