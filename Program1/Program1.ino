@@ -46,6 +46,7 @@ void setup() {
     solveMaze();
   } else {
     //cleanEEPROM();
+    //loadEEPROM();
   }
   stand();
 

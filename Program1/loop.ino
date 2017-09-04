@@ -10,24 +10,7 @@ void loop() {
       if (buttonStatus == 0 ) {
         beep();
         mode = FIND_ARROW;
-        /*
-                //---------stuff for maze run-----------------------------
-                // allocating for maze matrices. Free them afterwards
-                for (int i = 0; i < 6; i++) {
-                  maze[i] = (int*) malloc(sizeof(int) * 6);
-                  mazeWalls[i] = (int*) malloc(sizeof(int) * 6);
-                }
-                loadEEPROM(); // loading EEPROM data
-                if (isMazeSolved){ // maze has being traversed before.
-                  solveMaze();
-                  free(maze);
-                  free(mazeWalls);
-                }else{
-                  cleanEEPROM();
-                }
-        */
-        //----------------------------------------------------------
-
+  
         Serial.println(F(">> BEGIN -> ###"));
         delay(500);
 
@@ -62,6 +45,7 @@ void loop() {
 
       if (buttonStatus == 0 || (readBoxColor() != 0)) { // Execute whrn button was pressed or color is not equal to 0
         mode = PICKING_BOX;
+        saveEEPROM();
         Serial.println(F(">> MAZE RUN -> PICKING_BOX"));
       } else {
         mazeRunAdvanced();
