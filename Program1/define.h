@@ -1,5 +1,7 @@
 
 boolean debug = 1;
+int color; //04/09/2017 ADDED BY GIHAN COZ THE getColorReading() function required this
+
 
 #define BLACK 0
 #define WHITE 1
