@@ -71,8 +71,10 @@ void firstArrowFollow(int boxColor) {
   			break;
   		}
   	}
-  	turnCW(-90);
-  	goFF();
+  	if(!foundTheTailfOfFirstArrow){
+  	 	turnCW(-90);
+  		goFF();
+  	}
   }
 
 
