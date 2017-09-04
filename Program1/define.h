@@ -109,8 +109,8 @@ enum {LEFT_SENSOR, FRONT_SENSOR, RIGHT_SENSOR};
 int wall[] = {0, 0, 1};
 int isMazeSolved = 0;
 
-int** maze;
-int** mazeWalls;
+int maze[6][6];
+int mazeWalls[6][6];
 
 //walls when facing north
 //each binary mapping of the number represents walls
@@ -118,7 +118,7 @@ int** mazeWalls;
 //0thBit-west  1stBit-north  2ndBit-east 3rdBit-south
 
 int currentFacingDir = 1; //Initially facing north
-int* solvedCommandQueue; // 0 -forward 1-right 2-back(not used) 3-left
+int solvedCommandQueue[36]; // 0 -forward 1-right 2-back(not used) 3-left
 int commandNo = 0;
 
 int posCount = 1;
