@@ -9,24 +9,7 @@ void loop() {
 
       if (buttonStatus == 0 ) {
         beep();
-        mode = FIND_ARROW;
-        /*
-                //---------stuff for maze run-----------------------------
-                // allocating for maze matrices. Free them afterwards
-                for (int i = 0; i < 6; i++) {
-                  maze[i] = (int*) malloc(sizeof(int) * 6);
-                  mazeWalls[i] = (int*) malloc(sizeof(int) * 6);
-                }
-                loadEEPROM(); // loading EEPROM data
-                if (isMazeSolved){ // maze has being traversed before.
-                  solveMaze();
-                  free(maze);
-                  free(mazeWalls);
-                }else{
-                  cleanEEPROM();
-                }
-        */
-        //----------------------------------------------------------
+        mode = FIND_ARROW;// FIND_ARROW;
 
         Serial.println(F(">> BEGIN -> ###"));
         delay(500);
@@ -72,8 +55,7 @@ void loop() {
 
     //-------------------------------------------------------------------------------------------------------------- Pick the box
     case PICKING_BOX:
-
-      // Go suitable distance back, expand arm and go suitable distance forward, now take the box
+      //Go suitable distance back, expand arm and go suitable distance forward, now take the box
       motorWrite(50, -1, -1);
       readyToPick();
       delay(1000);                  // TODO : Must optimize the time, distance
@@ -87,9 +69,12 @@ void loop() {
 
     //-------------------------------------------------------------------------------------------------------------- Find Arrow
     case FIND_ARROW:
-      start(COLOR_GREEN);
+      firstArrowFollow(COLOR_GREEN);
       break;
 
+    case SECOND_ARROW_FOLLOW:
+      trailAndErrorArrowFollow_Loop(COLOR_GREEN);
+      break;
 
     //-------------------------------------------------------------------------------------------------------------- Maze Option 1 : Run on pre defined maze
     case MAZE_OPTION:
