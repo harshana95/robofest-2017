@@ -78,7 +78,8 @@ void firstArrowFollow(int boxColor) {
   }
 
   readSensorLine(reading);
-  while (sumOfArray(reading, 6) == 0){
+
+  while (sumOfArray(reading, 6) != 0){
     goFF();
     readSensorLine(reading);
   }
@@ -118,30 +119,23 @@ void firstArrowFollow(int boxColor) {
     for (int j = 0; j < 6; j++) {
       weightedSum += reading[j] * weight[j];
     }
-    //Serial.println("Weighted sum = ");
-    //Serial.println(weightedSum);
 
     if (weightedSum != 0) {
       if (weightedSum < 0) {
-//        Serial.println("Forward loop- Turn right");
         motorWrite(100, -100);
         delay(100);
       }
       else {
-//        Serial.println("Forward loop- Turn left");
         motorWrite(-100, 100);
         delay(100);
       }
     }
     else {
-      //This is the tricky part,
-      //Can this scenario ever come?
+      break;
 
     }
 
-  
-    motorWrite(100, 100);
-    delay(100);
+    goFF();
     readSensorLine(reading);
   }
 

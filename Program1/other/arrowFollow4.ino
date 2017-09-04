@@ -41,7 +41,7 @@ void start(int boxColor) {
   //This uses the colour reading as 1-RED,2-GREEN.3=BLUE
 
 	Serial.println("I am at the start point of three arrows");
-	firstArrowFollow();
+	firstArrowFollow(boxColor);
 	trailAndErrorArrowFollow_Loop(boxColor);
 
 
