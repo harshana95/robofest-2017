@@ -53,8 +53,11 @@ void firstArrowFollow(int boxColor) {
   Serial.println("Trying to locate the tail of the first arrow> ");
 
 //We are assuming that the 3 arrows are infront of the robot
-  readSensorLine(reading);
-  while(sumOfArray(reading,6)!=0) goFF();
+  while(sumOfArray(reading,6)!=0){
+  	goFF();
+  	readSensorLine(reading);
+
+  } 
 
   boolean foundTheTailfOfFirstArrow=false;
 
@@ -68,8 +71,10 @@ void firstArrowFollow(int boxColor) {
   			break;
   		}
   	}
-  	turnCW(-90);
-  	goFF();
+  	if(!foundTheTailfOfFirstArrow){
+  	 	turnCW(-90);
+  		goFF();
+  	}
   }
 
 
