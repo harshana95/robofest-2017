@@ -42,14 +42,14 @@ void setup() {
 
   pinMode(PIN_LED, OUTPUT);
 
-  /*loadEEPROM(); // loading EEPROM data
+  loadEEPROM(); // loading EEPROM data
     if (isMazeSolved) { // maze has being traversed before.
     solveMaze();
     } else {
     //cleanEEPROM();
     }
     stand();
-  */
+  
   // Inform us that program is ready
   beep(2);
 
