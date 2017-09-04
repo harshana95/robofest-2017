@@ -64,7 +64,7 @@ void saveCommandQueueFromEEPROM(){
 }
 void loadCommandQueueFromEEPROM(){
   for (int i=0;i<36;i++){
-    EEPROM.read(80+i, solvedCommandQueue[i]);
+    solvedCommandQueue[i]=EEPROM.read(80+i);
   }
 }
 void cleanEEPROM() {
