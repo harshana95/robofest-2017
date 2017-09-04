@@ -1,3 +1,6 @@
+#include <MemoryFree.h>
+#include <pgmStrToRAM.h>
+
 #include <avr/pgmspace.h>
 
 #include <Arduino.h>
