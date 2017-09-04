@@ -75,7 +75,7 @@ void loop() {
       break;
 
     case SECOND_ARROW_FOLLOW:
-      trailAndErrorArrowFollow_Loop(COLOR_GREEN);
+      trailAndErrorArrowFollow_LoopOneArrow(COLOR_GREEN);
       break;
 
     //-------------------------------------------------------------------------------------------------------------- Maze Option 1 : Run on pre defined maze
