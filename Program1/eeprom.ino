@@ -56,6 +56,17 @@ void loadEEPROM() {
   }
 }
 
+void saveCommandQueueFromEEPROM(){
+  short int arr[] = {0};
+  for (int i=0;i<sizeof(arr)/sizeof(arr[0]);i++){
+    EEPROM.update(80+i, arr[i]);
+  }
+}
+void loadCommandQueueFromEEPROM(){
+  for (int i=0;i<36;i++){
+    solvedCommandQueue[i]=EEPROM.read(80+i);
+  }
+}
 void cleanEEPROM() {
   
   int addr = 9;

@@ -42,14 +42,6 @@ void setup() {
 
   pinMode(PIN_LED, OUTPUT);
 
-  // Load EEPROM data and analyze shortest path
-  if (0) {
-    loadEEPROM();
-    if (isMazeSolved) {
-      solveMaze();
-    }
-  }
-
   stand();
   // Inform us that program is ready
   beep(2);

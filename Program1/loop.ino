@@ -9,7 +9,25 @@ void loop() {
 
       if (buttonStatus == 0 ) {
         beep();
-        mode = TEST;//FIND_ARROW;
+        mode = FIND_ARROW;
+/*
+        //---------stuff for maze run-----------------------------
+        // allocating for maze matrices. Free them afterwards
+        for (int i = 0; i < 6; i++) {
+          maze[i] = (int*) malloc(sizeof(int) * 6);
+          mazeWalls[i] = (int*) malloc(sizeof(int) * 6);
+        }
+        loadEEPROM(); // loading EEPROM data
+        if (isMazeSolved){ // maze has being traversed before.
+          solveMaze();
+          free(maze);
+          free(mazeWalls);
+        }else{
+          cleanEEPROM();
+        }
+*/
+        //----------------------------------------------------------
+
         Serial.println(F(">> BEGIN -> ###"));
         delay(500);
 
@@ -65,7 +83,7 @@ void loop() {
 
     //-------------------------------------------------------------------------------------------------------------- Find Arrow
     case FIND_ARROW:
-      start(COLOR_BLUE);
+      start(COLOR_GREEN);
       break;
 
 
@@ -76,7 +94,9 @@ void loop() {
       if (buttonStatus == 0 ) {
         mode = BEGIN;
       } else {
-        mazeOption1();
+        loadCommandQueueFromEEPROM();
+        executeCommand(commandNo);
+        commandNo++;
       }
 
       break;
