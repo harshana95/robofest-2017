@@ -1,5 +1,6 @@
 void mazeRunAdvanced() {
 
+  
   readWalls(wall);
   delay(100);
 
@@ -54,7 +55,7 @@ void explore() {
 
   //check if the robo is out from the maze and change the mode to box picking thingy
   if (posX < 0 or posX > 5 or posY < 0 or posY > 5) {
-    mode = FIND_ARROW; // TODO: change this to correct mode
+    mode = PICK_BOX; // TODO: change this to correct mode
     isMazeSolved = 1;
     saveEEPROM();
   } else {

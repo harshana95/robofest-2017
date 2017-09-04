@@ -50,6 +50,7 @@ void setup() {
     }
     stand();
   */
+
   // Inform us that program is ready
   beep(2);
 
