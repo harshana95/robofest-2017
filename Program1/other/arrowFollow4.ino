@@ -26,77 +26,54 @@ int getColorReading() {
   // TODO
   readColor();
   Serial.print("Color = ");
-  if(color==1)Serial.println("R");
-  else if(color==2)Serial.println("G");
-  else if(color==3)Serial.println("B");
+  if (floorColor == 1)Serial.println("R");
+  else if (floorColor == 2)Serial.println("G");
+  else if (floorColor == 3)Serial.println("B");
   else Serial.println("None");
-  return color;
+  return floorColor;
 
 }
 
 
 
 void start(int boxColor) {
-  //03/09/2017 gihanchanaka@gmail.com
+  //04/09/2017 gihanchanaka@gmail.com
   //This uses the colour reading as 1-RED,2-GREEN.3=BLUE
 
-  const int directions = 5;
-  const int gap = 15; //degrees
-  const int steps = 5;
-  const int stepSize = 40; //mm
-
-/*  Serial.println("Starting the arrow finding algo");
-  Serial.print(directions);
-  Serial.print(" directions will be checked with ");
-  Serial.print(gap);
-  Serial.print(" deg betweeen two directions.");
-  Serial.println("");
-  Serial.print(steps);
-  Serial.print(" steps of length ");
-  Serial.print(stepSize);
-  Serial.print("cm ");
-*/
-
-  Serial.println("I am at the start point of three arrows");
-
-  turnCW(-1 * gap * (directions - 1) / 2);
-  int startR = 0;
-  float startTheta = 0.0;
-  boolean br = false;
-  for (int d = 0; d < directions; d++) {
-    for (int s = 0; s < steps; s++) {
-      if (getColorReading() == boxColor) {
-        startTheta = d;
-        startR = s;
-        br = true;
-        break;
-      }
-      if (s != steps - 1) {
-        goFoward(stepSize);
-      }
-    }
-    if (br)break;
-
-    Serial.print("Going back ");
-    goFoward(-stepSize * (steps - 1));
-    Serial.println("Turning");
-    turnCW(gap);
-
-
-  }
-
-  Serial.println("Found the first arrow starting point...");
-  goFoward(10);
-  firstArrowFollow();
-  trailAndErrorArrowFollow_Loop(boxColor);
+	Serial.println("I am at the start point of three arrows");
+	firstArrowFollow();
+	trailAndErrorArrowFollow_Loop(boxColor);
 
 
 }
 
 
 
-void firstArrowFollow() {
-  Serial.println("Following the first arrow");
+void firstArrowFollow(int boxColor) {
+  Serial.println("Trying to locate the tail of the first arrow> ");
+
+//We are assuming that the 3 arrows are infront of the robot
+  readSensorLine(reading);
+  while(sumOfArray(reading,6)!=0) goFF();
+
+  boolean foundTheTailfOfFirstArrow=false;
+
+  while(!foundTheTailfOfFirstArrow){
+  	turnCW(-90);
+  	for(int i=0;i<18;i++){
+  		turnCW(10);
+  		if(getColorReading()==boxColor){
+  			foundTheTailfOfFirstArrow=true;
+  			Serial.println("Found the tail of the first arrow! ");
+  			break;
+  		}
+  	}
+  	turnCW(-90);
+  	goFF();
+  }
+
+
+/*
   readSensorLine(reading);
   while (sumOfArray(reading, 6) != 0) {
     int weight[6] = { -3, -2, -1, 1, 2, 3};
@@ -158,14 +135,14 @@ void firstArrowFollow() {
     delay(100);
     readSensorLine(reading);
   }
-
+*/
   Serial.println("Finished the first arrow");
 }
 
 
 
 void trailAndErrorArrowFollow_Loop(int boxColour) {
-  int arrow=2;
+  int arrow=1;
   while (true) {
     Serial.print("Trying to find the tail of arrow -- ");
     Serial.println(arrow);
@@ -178,48 +155,57 @@ void trailAndErrorArrowFollow_Loop(int boxColour) {
 
 
 void goF(){
-  //03/09/2017
+  //03/09/2017 go forward
   motorWrite(100, 100);
   delay(100);
 }
 
+void goFF(){
+	//Go forward 2 steps
+	motorWrite(200, 200);
+ 	delay(100);	
+}
+
+
 void goL(){
-  //03/09/2017
+  //03/09/2017 turn left
   motorWrite(-100,100);
   delay(100);
 }
 
 void goR(){
-  //03/09/2017 
+  //03/09/2017  turn right
   motorWrite(100,-100);
   delay(100);
 }
 
 void goB(){
-  //03/09/2017 
+  //03/09/2017 go back
   motorWrite(-100,-100);
   delay(100);
 }
 
 
 void goLF(){
-  //03/09/2017 
+  //03/09/2017 turn left and go forward
   goL();
   goF();
 }
 
 void goRF(){
-  //03/09/2017 
+  //03/09/2017 turn right and go forward
   goR();
   goF();
 }
 
 void goBR(){
+	//go back and turn right
   goB();
   goR();
 }
 
 void goBL(){
+	//go back and turn left
   goB();
   goL();
 }

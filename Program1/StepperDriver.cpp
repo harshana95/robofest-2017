@@ -201,6 +201,7 @@ long StepperDriver::nextAction(void) {
       calcStepPulse();
     }
     m = micros() - m;
+
     /*
        We currently try to do a 50% duty cycle so it's easy to see.
        Other option is step_high_min, pulse_duration-step_high_min.

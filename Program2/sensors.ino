@@ -20,37 +20,48 @@ void colorBegin() {
 
 
 void readColor() {
-
-  //color0.setInterrupt(false);  // turn on LED
   delay(10);
   color0.getRawData(&red0, &green0, &blue0, &clr0);
-  //color0.setInterrupt(true);   // turn off LED
 
+  boolean ledUpdate = 0;
 
-  /*if ((red0 > WHITE_THERSOLD) && (blue0 > WHITE_THERSOLD) && (green0 > WHITE_THERSOLD)) {
-    colorR0 = COLOR_OPEN;
-    indicatorShow(10);    // All off
-    }
-    else */
   if (green0 > blue0 && green0 > red0 ) {
     colorR0 = COLOR_GREEN;              //GREEN
-    indicatorShow(COLOR_GREEN);
+    if (ledUpdate)indicatorShow(COLOR_GREEN);
   }
 
   else if (blue0 > red0 ) {
     colorR0 = COLOR_BLUE; //RED
-    indicatorShow(COLOR_BLUE);
+    if (ledUpdate)indicatorShow(COLOR_BLUE);
   }
 
   else if (((green0 - blue0) < RED_GB_GAP) || ((blue0 - green0) < RED_GB_GAP) ) {
     colorR0 = COLOR_RED;                                   //RED
-    indicatorShow(COLOR_RED);
+    if (ledUpdate)indicatorShow(COLOR_RED);
   }
   else {
     colorR0 = COLOR_OPEN;
-    indicatorShow(0);    // All off
+    if (ledUpdate)indicatorShow(0);   // All off
   }
   indicatorShow(colorR0);
+
+
+  if (0) {
+    Serial.print(blue0);
+    Serial.print(" ");
+    Serial.print(red0);
+    Serial.print(" ");
+    Serial.print(green0);
+    Serial.print(" ");
+    //Serial.print(clr0);
+    Serial.print(" ");
+    //Serial.print(color0.calculateColorTemperature(red0, green0, blue0) );
+    Serial.print(" ");
+
+    Serial.print(colorR0);
+    Serial.println(" ");
+  }
+
 
 }
 

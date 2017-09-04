@@ -9,24 +9,25 @@ void loop() {
 
       if (buttonStatus == 0 ) {
         beep();
-        mode = FIND_ARROW;
-/*
-        //---------stuff for maze run-----------------------------
-        // allocating for maze matrices. Free them afterwards
-        for (int i = 0; i < 6; i++) {
-          maze[i] = (int*) malloc(sizeof(int) * 6);
-          mazeWalls[i] = (int*) malloc(sizeof(int) * 6);
-        }
-        loadEEPROM(); // loading EEPROM data
-        if (isMazeSolved){ // maze has being traversed before.
-          solveMaze();
-          free(maze);
-          free(mazeWalls);
-        }else{
-          cleanEEPROM();
-        }
-*/
+        mode = TEST;// FIND_ARROW;
+        /*
+                //---------stuff for maze run-----------------------------
+                // allocating for maze matrices. Free them afterwards
+                for (int i = 0; i < 6; i++) {
+                  maze[i] = (int*) malloc(sizeof(int) * 6);
+                  mazeWalls[i] = (int*) malloc(sizeof(int) * 6);
+                }
+                loadEEPROM(); // loading EEPROM data
+                if (isMazeSolved){ // maze has being traversed before.
+                  solveMaze();
+                  free(maze);
+                  free(mazeWalls);
+                }else{
+                  cleanEEPROM();
+                }
+        */
         //----------------------------------------------------------
+
         Serial.println(F(">> BEGIN -> ###"));
         delay(500);
 
@@ -57,12 +58,11 @@ void loop() {
     //-------------------------------------------------------------------------------------------------------------- Maze run
     case MAZE_RUN:
 
-      //readColor();
       buttonStatus = digitalRead(BUTTON_1);
 
-      if (buttonStatus == 0 ) {   // TODO: is  color dected ?
-        mode = BEGIN;
-        Serial.println(F(">> MAZE RUN -> ###"));
+      if (buttonStatus == 0 || (readBoxColor() != 0)) { // Execute whrn button was pressed or color is not equal to 0
+        mode = PICKING_BOX;
+        Serial.println(F(">> MAZE RUN -> PICKING_BOX"));
       } else {
         mazeRunAdvanced();
       }
@@ -73,6 +73,11 @@ void loop() {
     //-------------------------------------------------------------------------------------------------------------- Pick the box
     case PICKING_BOX:
 
+      // Go suitable distance back, expand arm and go suitable distance forward, now take the box
+      motorWrite(50, -1, -1);
+      readyToPick();
+      delay(1000);                  // TODO : Must optimize the time, distance
+      motorWrite(60, 1, 1);
       pick();
       delay(1000);
       mode = FIND_ARROW;
