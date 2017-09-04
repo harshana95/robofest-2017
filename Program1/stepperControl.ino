@@ -54,9 +54,9 @@ void motorRotatePivot(double angle) {
   int steps = STEPS_PER_ROUND * (angle / 360);
 
   if (steps > 0) {
-    motorWrite(steps * 2, 1, 0); // CW
+    softMotorWrite(steps * 2, 1, 0); // CW
   } else {
-    motorWrite(steps * 2, 0, 1); // CCW
+    softMotorWrite(steps * 2, 0, 1); // CCW
   }
 }
 
@@ -74,7 +74,7 @@ void motorWrite(int steps, int left, int right) {
   stepper.move(steps * MICROSTEPS);
   delay(150);                         //Leave some delay until robot stop is's movement
   stepper.disable();
-
+  
   //stepper.getTimeForMove(steps);
 
 }
@@ -91,7 +91,7 @@ void softMotorWrite(int steps, int left, int right) {
 
   stepper.move(steps * MICROSTEPS);
   //delay(150);                        //Leave some delay until robot stop is's movement
-  //stepper.disable();
+  stepper.disable();
   //stepper.getTimeForMove(steps);
 
 }
