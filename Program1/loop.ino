@@ -9,7 +9,8 @@ void loop() {
 
       if (buttonStatus == 0 ) {
         beep();
-        mode = FIND_ARROW;// FIND_ARROW;
+
+        mode = FIND_ARROW;
 
         Serial.println(F(">> BEGIN -> ###"));
         delay(500);
@@ -45,6 +46,7 @@ void loop() {
 
       if (buttonStatus == 0 || (readBoxColor() != 0)) { // Execute whrn button was pressed or color is not equal to 0
         mode = PICKING_BOX;
+        saveEEPROM();
         Serial.println(F(">> MAZE RUN -> PICKING_BOX"));
       } else {
         mazeRunAdvanced();

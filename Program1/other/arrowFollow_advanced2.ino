@@ -104,8 +104,8 @@ void firstArrowFollow() {
     for (int j = 0; j < 6; j++) {
       weightedSum += reading[j] * weight[j];
     }
-    //Serial.print("Weighted sum = ");
-    //Serial.println(weightedSum);
+    Serial.print("Weighted sum = ");
+    Serial.println(weightedSum);
 
     if (weightedSum != 0) {
       if (weightedSum < 0) {
@@ -133,10 +133,10 @@ void firstArrowFollow() {
     readSensorLine(reading);
     //Serial.println("^^----^");
 
-    //if(sumOfArray(reading, 6)==0) Serial.println(":-)");
+    if(sumOfArray(reading, 6)==0) Serial.println(":-)");
   }
 
-//  Serial.print("F");
+  Serial.print("F");
 }
 
 
@@ -144,11 +144,11 @@ void firstArrowFollow() {
 void trailAndErrorArrowFollow_Loop(int boxColour) {
   int arrow = 2;
   while (true) {
-    Serial.print(F("Trying to find the tail of arrow -- "));
-    Serial.println(arrow);
+//    Serial.print("Trying to find the tail of arrow -- ");
+//    Serial.println(arrow);
     trailAndErrorArrowFollow_LoopOneArrow(boxColour);
-    Serial.print(F("Finished  arrow -- "));
-    Serial.println(arrow);
+//    Serial.print("Finished  arrow -- ");
+//    Serial.println(arrow);
     arrow++;
   }
 }
@@ -227,7 +227,7 @@ void trailAndErrorArrowFollow_Forward() {
               R[8]
   */
 
-  //Serial.print("Forward loop| weight= ");
+  Serial.print("Forward loop| weight= ");
   int weight[6] = { -3, -2, -1, 1, 2, 3};
 
   readSensorLine(reading);
@@ -236,17 +236,17 @@ void trailAndErrorArrowFollow_Forward() {
     weightedSum += reading[j] * weight[j];
   }
 
-  //Serial.println(weightedSum);
+  Serial.println(weightedSum);
 
   //LOGIC -- 1 -- Basic
   if (weightedSum != 0) {
     if (weightedSum < 0) {
-      //Serial.println("Forward loop- Turn right");
+      Serial.println("Forward loop- Turn right");
       motorWrite(100, -100);
       delay(100);
     }
     else {
-      //Serial.println("Forward loop- Turn left");
+      Serial.println("Forward loop- Turn left");
       motorWrite(-100, 100);
       delay(100);
     }
@@ -266,7 +266,7 @@ void trailAndErrorArrowFollow_Backward() {
               R[8]
   */
 
-  //Serial.print("Backward loop| weight= ");
+  Serial.print("Backward loop| weight= ");
   int weight[6] = { -3, -2, -1, 1, 2, 3};
 
   readSensorLine(reading);
@@ -280,12 +280,12 @@ void trailAndErrorArrowFollow_Backward() {
   //LOGIC -- 1 -- Basic
   if (weightedSum != 0) {
     if (weightedSum > 0) {
-      //Serial.println("Backward loop- Turn right");
+      Serial.println("Backward loop- Turn right");
       motorWrite(50, -50);
       delay(100);
     }
     else {
-      //Serial.println("Backward loop- Turn left");
+      Serial.println("Backward loop- Turn left");
       motorWrite(-50, 50);
       delay(100);
     }
