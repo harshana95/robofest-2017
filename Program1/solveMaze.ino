@@ -7,22 +7,22 @@ void solveMaze() {
   int exittime[36];
   DFS(exittime);
 
-  Serial.println("Current maze");
+  Serial.println(F("Current maze"));
   printCurrentMaze();
 
-  Serial.println("Walls in each cell");
+  Serial.println(F("Walls in each cell"));
   printCurrentMazeWalls();
 
-  Serial.println("Exit time from each cell using DFS");
+  Serial.println(F("Exit time from each cell using DFS"));
   printArr(exittime, 36);
   removeConflicts(distance, exittime);
 
-  Serial.println("Distance from start cell using BFS (conflicts removed)");
+  Serial.println(F("Distance from start cell using BFS (conflicts removed)"));
   printArr(distance, 36);
   
   findPath(distance);
 
-  Serial.println("Command Queue");
+  Serial.println(F("Command Queue"));
   printArr(solvedCommandQueue,36);
   
 }

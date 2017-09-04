@@ -93,7 +93,7 @@ int readSensorLine(unsigned int *sensor_values) {
   }
 
 
-  if (0)Serial.print(">> IR : "); Serial.println(irLineString);
+  //if (0)Serial.print(">> IR : "); Serial.println(irLineString);
 
   return lastReading;
 }
