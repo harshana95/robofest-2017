@@ -139,7 +139,7 @@ void firstArrowFollow(int boxColor) {
     readSensorLine(reading);
   }
 
-
+  mode=SECOND_ARROW_FOLLOW;
   Serial.println(F("Finished the first arrow"));
 }
 

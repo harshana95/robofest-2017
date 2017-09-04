@@ -9,7 +9,7 @@ void loop() {
 
       if (buttonStatus == 0 ) {
         beep();
-        mode = TEST;// FIND_ARROW;
+        mode = FIND_ARROW;// FIND_ARROW;
         /*
                 //---------stuff for maze run-----------------------------
                 // allocating for maze matrices. Free them afterwards
@@ -72,8 +72,7 @@ void loop() {
 
     //-------------------------------------------------------------------------------------------------------------- Pick the box
     case PICKING_BOX:
-
-      // Go suitable distance back, expand arm and go suitable distance forward, now take the box
+      //Go suitable distance back, expand arm and go suitable distance forward, now take the box
       motorWrite(50, -1, -1);
       readyToPick();
       delay(1000);                  // TODO : Must optimize the time, distance
@@ -87,9 +86,12 @@ void loop() {
 
     //-------------------------------------------------------------------------------------------------------------- Find Arrow
     case FIND_ARROW:
-      start(COLOR_GREEN);
+      firstArrowFollow(COLOR_GREEN);
       break;
 
+    case SECOND_ARROW_FOLLOW:
+      trailAndErrorArrowFollow_Loop(COLOR_GREEN);
+      break;
 
     //-------------------------------------------------------------------------------------------------------------- Maze Option 1 : Run on pre defined maze
     case MAZE_OPTION:

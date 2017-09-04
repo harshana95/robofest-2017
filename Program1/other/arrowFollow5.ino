@@ -4,7 +4,6 @@
 
 //int RED = 1, GREEN = 2, BLUE = 3;
 
-#include <math.h>    // (no semicolon)
 //static int reading[6];
 
 
@@ -40,8 +39,10 @@ void start(int boxColor) {
   //04/09/2017 gihanchanaka@gmail.com
   //This uses the colour reading as 1-RED,2-GREEN.3=BLUE
 
-	Serial.println("I am at the start point of three arrows");
+	Serial.println(F("I am at the start point of three arrows"));
 	firstArrowFollow(boxColor);
+  Serial.println(F("Let us start finding other arrows"));
+	
 	trailAndErrorArrowFollow_Loop(boxColor);
 
 
@@ -53,7 +54,7 @@ void firstArrowFollow(int boxColor) {
   Serial.println("Trying to locate the tail of the first arrow> ");
 
 //We are assuming that the 3 arrows are infront of the robot
-  while(sumOfArray(reading,6)!=0){
+  while(sumOfArray(reading,6)==0){
   	goFF();
   	readSensorLine(reading);
 
@@ -67,7 +68,7 @@ void firstArrowFollow(int boxColor) {
   		turnCW(10);
   		if(getColorReading()==boxColor){
   			foundTheTailfOfFirstArrow=true;
-  			Serial.println("Found the tail of the first arrow! ");
+  			Serial.println(F("Found the tail of the first arrow! "));
   			break;
   		}
   	}
@@ -76,9 +77,8 @@ void firstArrowFollow(int boxColor) {
   		goFF();
   	}
   }
-
   readSensorLine(reading);
-  while (sumOfArray(reading, 6) != 0) {
+  while (sumOfArray(reading, 6) == 0) {
     goFF();
     readSensorLine(reading);
   }
@@ -121,16 +121,17 @@ void firstArrowFollow(int boxColor) {
 
     if (weightedSum != 0) {
       if (weightedSum < 0) {
-        motorWrite(100, -100);
-        delay(100);
+        goR();
+        Serial.println("R");
       }
       else {
-        motorWrite(-100, 100);
-        delay(100);
+        goL();
+        Serial.println("L");
       }
     }
     else {
-      break;
+      goF();
+      Serial.println("F");
 
     }
 
@@ -139,18 +140,18 @@ void firstArrowFollow(int boxColor) {
   }
 
 
-  Serial.println("Finished the first arrow");
+  Serial.println(F("Finished the first arrow"));
 }
 
 
 
-void trailAndErrorArrowFollow_Loop(int boxColour) {
+void trailAndErrorArrowFollow_Loop(int boxColor) {
   int arrow=1;
   while (true) {
-    Serial.print("Trying to find the tail of arrow -- ");
+    Serial.print(F("Trying to find the tail of arrow -- "));
     Serial.println(arrow);
-    trailAndErrorArrowFollow_LoopOneArrow(boxColour);
-    Serial.print("Finished  arrow -- ");
+    trailAndErrorArrowFollow_LoopOneArrow(boxColor);
+    Serial.print(F("Finished  arrow -- "));
     Serial.println(arrow);
     arrow++;
   }
