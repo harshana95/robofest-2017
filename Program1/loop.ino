@@ -1,6 +1,8 @@
 
-void loop() {
 
+void loop() {
+  displayLoopStatus(mode);
+  
   switch (mode) {
 
     //-------------------------------------------------------------------------------------------------------------- Begin
@@ -90,6 +92,38 @@ void loop() {
         commandNo++;
       }
 
+      break;
+  }
+
+}
+
+
+void displayLoopStatus(int mode){
+  Serial.println("New loop iteration>>");
+  Serial.print("Free memory: ");
+  Serial.println(freeMemory());
+  Serial.print("Mode: ");
+  switch(mode){
+    case BEGIN:
+      Serial.println("BEGIN");
+      break;
+    case TEST:
+      Serial.println("TEST");
+      break;
+    case MAZE_RUN:
+      Serial.println("MAZE_RUN");
+      break;
+    case PICKING_BOX:
+      Serial.println("PICKING_BOX");
+      break;
+    case FIND_ARROW:
+      Serial.println("FIND ARROW");
+      break;
+    case SECOND_ARROW_FOLLOW:
+      Serial.println("SECOND_ARROW_FOLLOW");
+      break;
+    case MAZE_OPTION:
+      Serial.println("MAZE_OPTION");
       break;
   }
 
