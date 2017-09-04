@@ -107,8 +107,8 @@ enum {LEFT_SENSOR, FRONT_SENSOR, RIGHT_SENSOR};
 int wall[] = {0, 0, 1};
 int isMazeSolved = 0;
 
-int maze[6][6];
-int mazeWalls[6][6];
+int** maze;
+int** mazeWalls;
 
 //walls when facing north
 //each binary mapping of the number represents walls
@@ -116,7 +116,7 @@ int mazeWalls[6][6];
 //0thBit-west  1stBit-north  2ndBit-east 3rdBit-south
 
 int currentFacingDir = 1; //Initially facing north
-int solvedCommandQueue[1]; //36 0 -forward 1-right 2-back(not used) 3-left
+int* solvedCommandQueue; // 0 -forward 1-right 2-back(not used) 3-left
 int commandNo = 0;
 
 int posCount = 1;
@@ -156,11 +156,11 @@ const int maze_turnBack_Time = 1000;
 
 //-------------------------------------------------------------------------------------------------------------- Interpolation
 
-const int noOfSpeedOptions PROGMEM = 3;
-const int noOfRotateOptions PROGMEM = 20;
-const int noOfDistanceOptions PROGMEM = 10;
+const int noOfSpeedOptions = 3;
+const int noOfRotateOptions = 20;
+const int noOfDistanceOptions = 10;
 
-const int speedOptions[noOfSpeedOptions] PROGMEM = {100, 200, 300};
+int speedOptions[noOfSpeedOptions] = {100, 200, 300};
 // 0 is needed to interpolate between 0th value and 1st value
 const int stepsGiven_Rotate[noOfRotateOptions] PROGMEM = {0, 10, 20, 30, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 170, 190, 210, 220, 230};
 const int stepsGiven_Distance[noOfDistanceOptions] PROGMEM = {0, 100, 200, 300, 400, 500, 600, 700, 800, 900};

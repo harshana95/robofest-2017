@@ -15,7 +15,7 @@ void testAndGetData(char rOrd, double spd, double steps){
 
 
 
-int giveTheIndexOf(int *arr, int value, int n) {
+int giveTheIndexOf(int* arr, int value, int n) {
   for (int i = 0; i < n; i++) {
     if (arr[i] >= value) {
       return i;
@@ -62,7 +62,7 @@ int stepsToForward(int spd, float distance) {
 
   int distanceIndex;
   for (int i = 0; i < noOfDistanceOptions; i++) {
-    if (distanceWentFoarward[spdIndex][i] >= distance) {
+    if (pgm_read_word_near(&(distanceWentFoarward[spdIndex][i])) >= distance) {
       distanceIndex = i;
       break;
     }
@@ -70,8 +70,8 @@ int stepsToForward(int spd, float distance) {
 
   // LINEAR INTERPOLATION
   // y = Y_n-1 + (x - X_n-1)*tanz     tanz = (Y_n - Y_n-1)/(X_n - X_n-1)
-  float tanz = (stepsGiven_Distance[distanceIndex] - stepsGiven_Distance[distanceIndex - 1]) / (double)(distanceWentFoarward[spdIndex][distanceIndex] - distanceWentFoarward[spdIndex][distanceIndex - 1]);
+  float tanz = (pgm_read_word_near(&(stepsGiven_Distance[distanceIndex])) - pgm_read_word_near(&(stepsGiven_Distance[distanceIndex - 1]))) / (double)(pgm_read_word_near(&(distanceWentFoarward[spdIndex][distanceIndex])) - pgm_read_word_near(&(distanceWentFoarward[spdIndex][distanceIndex - 1])));
 
-  steps = stepsGiven_Distance[distanceIndex - 1] + (distance - distanceWentFoarward[spdIndex][distanceIndex - 1]) * tanz;
+  steps = pgm_read_word_near(&(stepsGiven_Distance[distanceIndex - 1])) + (distance - pgm_read_word_near(&(distanceWentFoarward[spdIndex][distanceIndex - 1]))) * tanz;
   return steps;
 }

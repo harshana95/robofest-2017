@@ -13,20 +13,20 @@ void mazeRunAdvanced() {
     mazeWalls[posX][posY] = giveBinaryWallCode();
     updateMazeWallAddress(posX, posY);
 
-    explore(); 
+    explore();
 
   } else {
     executeCommand(commandNo);
     commandNo++;
   }
 
-  Serial.print(">> X:");Serial.print(posX);Serial.print(" Y:");Serial.print(posY);Serial.print(" C:");Serial.print(posCount);Serial.println();
+  Serial.print(">> X:"); Serial.print(posX); Serial.print(" Y:"); Serial.print(posY); Serial.print(" C:"); Serial.print(posCount); Serial.println();
   Serial.println(F("------------------------------------------------------------"));
 
 }
 
 void explore() {
-
+  // IF YOU WANT LEFT HAND RULE PUT LEFT SENSOR CHECK AS FIRST CHECK!!!
   if (!wall[RIGHT_SENSOR]) {
     maze_turnRight();
     shiftDirVector(-1);
@@ -140,7 +140,7 @@ void maze_goForward() {
 }
 
 void maze_turnLeft() {
-  
+
 #if defined(STEPPER_MOTORS)
 
   if (debug)Serial.println(F("---> Move Left"));
@@ -158,7 +158,7 @@ void maze_turnLeft() {
 
 }
 void maze_turnRight() {
-  
+
 #if defined(STEPPER_MOTORS)
   if (debug)Serial.println(F("---> Move Right"));
   motorRotate(100);
@@ -255,30 +255,3 @@ void printCurrentMazeWalls() {
   }
   Serial.println(F("----------------------------"));
 }
-
-
-
-
-
-
-//---------------------------------------------------------------------------------------------------------------------------------- Optionl module / Nuwan
-
-const int maze_data_1[] = {FRONT, LEFT, RIGHT, RIGHT, LEFT, FRONT, FRONT, LEFT, FRONT, BACK, FRONT, RIGHT, FRONT,
-                    RIGHT, RIGHT, LEFT, FRONT, RIGHT, BACK, FRONT, FRONT, FRONT, LEFT, RIGHT, RIGHT, FRONT,
-                    RIGHT, FRONT, FRONT, FRONT, FRONT, BACK, FRONT, FRONT, RIGHT, FRONT
-                   };
-
-const int maze_data_index = sizeof(maze_data_1);
-int maze_current_index = 0;
-
-void mazeOption1() {
-  if (maze_current_index < maze_data_index) {
-    if (maze_data_1[maze_current_index] == FRONT) maze_goForward();
-    else if (maze_data_1[maze_current_index] == LEFT) maze_turnLeft();
-    else if (maze_data_1[maze_current_index] == RIGHT) maze_turnRight();
-    else if (maze_data_1[maze_current_index] == BACK) maze_turnBack();
-    maze_current_index++;
-  }
-  delay(100);
-}
-
