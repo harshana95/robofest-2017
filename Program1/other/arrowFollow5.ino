@@ -84,10 +84,10 @@ void firstArrowFollow(int boxColor) {
     for (int j = 0; j < 6; j++) weightedSum += reading[j] * weight[j];
 
     if (weightedSum != 0) {
-      if (weightedSum < 0) {goR();//Serial.println("R");}
-      else {goL();//Serial.println("L");}
+      if (weightedSum < 0) goR();//Serial.println("R");}
+      else goL();//Serial.println("L");}
     }
-    else {goF();//Serial.println("F");}
+    else goF();//Serial.println("F");}
 
     goFF();
     readSensorLine(reading);
