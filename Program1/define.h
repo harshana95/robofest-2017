@@ -180,3 +180,4 @@ const int distanceWentFoarward[noOfSpeedOptions][noOfDistanceOptions] PROGMEM = 
 };
 
 
+void motorWrite(int leftMotorSpeed, int rightMotorSpeed);

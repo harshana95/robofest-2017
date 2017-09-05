@@ -67,46 +67,27 @@ void firstArrowFollow(int boxColor) {
     int leftZeroFrom = 2;
     int rightZeroFrom = 3;
 
-    for (leftZeroFrom = 2; leftZeroFrom > -1; leftZeroFrom--) {
+    for (leftZeroFrom = 2; leftZeroFrom > -1; leftZeroFrom--) 
       if (reading[leftZeroFrom] == 0)break;
-    }
-    for (int i = leftZeroFrom; i > -1; i--) {
-      weight[i] == 0;
-    }
+    for (int i = leftZeroFrom; i > -1; i--) weight[i] == 0;
 
 
-    for (rightZeroFrom = 3; rightZeroFrom < 6; rightZeroFrom++) {
+    for (rightZeroFrom = 3; rightZeroFrom < 6; rightZeroFrom++) 
       if (reading[leftZeroFrom] == 0)break;
-    }
-    for (int i = leftZeroFrom; i >-1; i--) {
-      weight[i] == 0;
-    }
+    for (int i = leftZeroFrom; i >-1; i--) weight[i] == 0;
+    
 
-    for (int i = rightZeroFrom; i < 6; i++) {
-      weight[i] == 0;
-    }
+    for (int i = rightZeroFrom; i < 6; i++) weight[i] == 0;
     //Isolation over
 
     int weightedSum = 0;
-    for (int j = 0; j < 6; j++) {
-      weightedSum += reading[j] * weight[j];
-    }
+    for (int j = 0; j < 6; j++) weightedSum += reading[j] * weight[j];
 
     if (weightedSum != 0) {
-      if (weightedSum < 0) {
-        goR();
-        //Serial.println("R");
-      }
-      else {
-        goL();
-        //Serial.println("L");
-      }
+      if (weightedSum < 0) {goR();//Serial.println("R");}
+      else {goL();//Serial.println("L");}
     }
-    else {
-      goF();
-      //Serial.println("F");
-
-    }
+    else {goF();//Serial.println("F");}
 
     goFF();
     readSensorLine(reading);
@@ -115,21 +96,6 @@ void firstArrowFollow(int boxColor) {
   mode=SECOND_ARROW_FOLLOW;
   //Serial.println(F("Finished the first arrow"));
 }
-
-
-void trailAndErrorArrowFollow_Loop(int boxColor) {
-  int arrow=1;
-  while (true) {
-    Serial.print(F("Trying to find the tail of arrow -- "));
-    Serial.println(arrow);
-    trailAndErrorArrowFollow_LoopOneArrow(boxColor);
-    Serial.print(F("Finished  arrow -- "));
-    Serial.println(arrow);
-    arrow++;
-  }
-}
-
-
 
 
 
@@ -157,6 +123,11 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
     Changing the function to reject other colours
   */
 
+  /*
+    04/09/2017 gihanchanaka@gmail.com
+    Some more changes to reject wrong coloured arrows
+  */
+
   
 
   boolean foundColor=false;
@@ -166,80 +137,31 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
 
     readSensorLine(reading);
     while (sumOfArray(reading, 6) == 0) {
-      motorWrite(100, 100);
-      delay(100);
+      goFF();
       readSensorLine(reading);
     }
-
-
-
-
+    goFF();goFF();
     if(getColorReading()==boxColor){
       foundColor=true;
+      break;
     }
     else{
-
-      int weightedSum;
-      weightedSum=updatedWeightedSum();
-      if (weightedSum!=0) {
-        if (weightedSum < 0) {
-          goLF();
-          if(getColorReading()==boxColor)foundColor=true;
-          else{
-  //******
-            weightedSum=updatedWeightedSum();
-            if (weightedSum!=0) {
-              if (weightedSum < 0) {
-                goLF();
-                if(getColorReading()==boxColor)foundColor=true;
-                if(!foundColor)goBR();
-
-              }
-              else {
-                goRF();
-                if(getColorReading()==boxColor)foundColor=true;
-                if(!foundColor)goBL();
-              }
-
-            }
-  //*****         
+      int ws=updatedWeightedSum()
+      if(tempWeightedSum!=0){
+        turnCW(-90*sign(ws));
+        for(int i=0;i<18;i++){
+          turnCW(10*sign(ws));
+          if(getColorReading()==boxColor){
+            foundColor=true;
+            break;
           }
-          if(!foundColor)goBR();
-
         }
-        else {
-          goRF();
-          if(getColorReading()==boxColor)foundColor=true;
-          else{
-  //******
-            weightedSum=updatedWeightedSum();
-            if (weightedSum!=0) {
-              if (weightedSum < 0) {
-                goLF();
-                if(getColorReading()==boxColor)foundColor=true;
-                if(!foundColor)goBR();
-
-              }
-              else {
-                goRF();
-                if(getColorReading()==boxColor)foundColor=true;
-                if(!foundColor)goBL();
-              }
-
-            }
-  //*****     
-          }
-          if(!foundColor)goBL();
+        if(!foundColor){
+          turnCW(-90*sign(ws));
+          goFF();goFF();
         }
       }
     }
-
-    if(!foundColor){
-      goF();
-      goF();
-    }
-
-
   }
 
   
