@@ -98,6 +98,7 @@ void firstArrowFollow(int boxColor) {
     //    Serial.println(freeMemory());
     if (weightedSum != 0) {
 
+
       if (weightedSum < 0)goR();//Serial.println("R");}
       else goL();//Serial.println("L");}
     }
@@ -323,6 +324,8 @@ void trailAndErrorArrowFollow_Backward() {
   motorWrite(-50, -50);
   delay(100);
 }
+
+
 
 
 
