@@ -22,8 +22,9 @@ void setup() {
   //sonarBegin();
   colorBegin();
   indicatorBegin();
-
-  attachServos();
+  
+  //stand();
+  //attachServos();
 }
 
 void loop() {

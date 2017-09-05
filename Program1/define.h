@@ -13,7 +13,7 @@ int color; //04/09/2017 ADDED BY GIHAN COZ THE getColorReading() function requir
 #define BACK 2
 
 // Mode eNum
-enum {BEGIN, TEST, MAZE_RUN, MAZE_OPTION, PICKING_BOX, FIND_ARROW, BLUETOOTH,SECOND_ARROW_FOLLOW};
+enum {BEGIN, TEST, MAZE_RUN, MAZE_OPTION, PICK_BOX, FIND_ARROW, BLUETOOTH,SECOND_ARROW_FOLLOW};
 
 // EEPROM eNum
 //enum {eP, eI, eD, eMax, eBase, eDebug};
