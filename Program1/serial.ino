@@ -60,18 +60,8 @@ void serialEvent() {
     //-------------------------------------------------------------------------------------------------------------- t -> test
     else if (inChar == 't') {
 
-      //readWalls(wall);
-      readBoxColor();
-      //mySerial.print("j");
-
-
-      /*if (mySerial.available() > 0) {
-        while (mySerial.available()) {
-          Serial.print((char)mySerial.read());
-        }
-        }*/
-
-
+      //readBoxColor();
+   
     //-------------------------------------------------------------------------------------------------------------- z -> interpolate
     } else if (inChar == 'z') {
       char rOrd;
