@@ -154,6 +154,7 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
       int ws = updatedWeightedSum();
       if (ws != 0) {
         turnCW(-90 * sign(ws));
+        sign_ws = sign(ws)>0;
         for (int i = 0; i < 18; i++) {
           turnCW(10 * sign(ws));
           if (getColorReading() == boxColor) {
