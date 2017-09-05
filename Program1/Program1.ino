@@ -1,3 +1,6 @@
+#include <MemoryFree.h>
+#include <pgmStrToRAM.h>
+
 #include <avr/pgmspace.h>
 
 #include <Arduino.h>
@@ -5,13 +8,19 @@
 #include <SoftwareSerial.h>
 #include "define.h"
 
+
+
 #include <Adafruit_Sensor.h>
 #include "Adafruit_TCS34725.h"
+
+#include "arrowFollowUtilities.h"
 
 SoftwareSerial mySerial(3, 2); // RX, TX
 
 #if defined(STEPPER_MOTORS)
 #include "StepperDriver.h"
+
+
 StepperDriver stepper(MOTOR_STEPS);    //(MOTOR_STEPS, DIR, STEP, ENBL);
 #endif
 
@@ -41,13 +50,15 @@ void setup() {
   //pinMode(BUTTON_2, INPUT_PULLUP);
 
   pinMode(PIN_LED, OUTPUT);
+  /*
   loadEEPROM(); // loading EEPROM data
-  if (isMazeSolved) { // maze has being traversed before.
+    if (isMazeSolved) { // maze has being traversed before.
     solveMaze();
-  } else {
+    } else {
     //cleanEEPROM();
-  }
-  stand();
+    }
+    stand();
+  */
 
   // Inform us that program is ready
   beep(2);

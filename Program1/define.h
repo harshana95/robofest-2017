@@ -13,7 +13,7 @@ int color; //04/09/2017 ADDED BY GIHAN COZ THE getColorReading() function requir
 #define BACK 2
 
 // Mode eNum
-enum {BEGIN, TEST, MAZE_RUN, MAZE_OPTION, PICKING_BOX, FIND_ARROW, BLUETOOTH};
+enum {BEGIN, TEST, MAZE_RUN, MAZE_OPTION, PICKING_BOX, FIND_ARROW, BLUETOOTH,SECOND_ARROW_FOLLOW};
 
 // EEPROM eNum
 //enum {eP, eI, eD, eMax, eBase, eDebug};
@@ -51,7 +51,7 @@ String irLineString = "000000";
 int lastReading = CENTER_EDGE_READING;
 int weight = 0, sum = 0, value = 0;
 
-unsigned int reading[6]; //Added by gihan for tempory use
+int reading[6];
 
 //-------------------------------------------------------------------------------------------------------------- Line Following
 /*
@@ -180,3 +180,4 @@ const int distanceWentFoarward[noOfSpeedOptions][noOfDistanceOptions] PROGMEM = 
 };
 
 
+void motorWrite(int leftMotorSpeed, int rightMotorSpeed);
