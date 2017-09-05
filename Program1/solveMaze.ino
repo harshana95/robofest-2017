@@ -44,6 +44,18 @@ void findPath(int* distance) {
   while (1) {
     Serial.println(pos);
     if (pos/6 == finalXPosition and pos%6==finalYPosition) {
+      if (boxXPosition == -1){ // box at north
+        solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + 4+1)%4;
+      }else if(boxXPosition == 6){// box at south
+        solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + 4+3)%4;
+      }
+      if (boxYPosition == -1){// box at west
+        solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + 4+0)%4;
+      }else if(boxYPosition == 6){// box at east
+        solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + 4+2)%4;
+      }
+      solvedCommandQueueIndex++;
+      solvedCommandQueue[solvedCommandQueueIndex] = 4;
       break;
     }
     distance[pos] = 255; // since current pos will never visit again
@@ -79,15 +91,11 @@ void findPath(int* distance) {
     solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + 4+nextIndex)%4;
     solvedCommandQueueIndex++;
     currentFacingDir = nextIndex;
-    int previous_pos = pos;
     switch (currentFacingDir){
       case 0:pos=pos-1;break;
       case 1:pos=pos-6;break;
       case 2:pos=pos+1;break;
       case 3:pos=pos+6;break;
-    }
-    if (pos<0 or pos>35 or pos == previous_pos-1 or pos == previous_pos + 1){
-      
     }
   }
 
