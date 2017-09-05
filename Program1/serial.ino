@@ -1,6 +1,13 @@
 
-//TODO: Need well defined communication protocol
-
+/*
+   b -> debug (on|off)
+   p -> print curent Maze
+   c -> clean current maze
+   q -> print IR sensor values
+   t -> test
+   z -> interpolate
+     -> bluetooth mode
+*/
 void serialEvent() {
 
   while (Serial.available()) {
@@ -10,6 +17,8 @@ void serialEvent() {
     int r = Serial.read();
     char inChar = (char)r;
 
+
+    //-------------------------------------------------------------------------------------------------------------- b -> debug
     if (inChar == 'b') {
       byte val = 0;
       debug = ! debug;
@@ -17,21 +26,26 @@ void serialEvent() {
       Serial.print(F(">> Print\t:")); Serial.println(debug);
     }
 
+    //-------------------------------------------------------------------------------------------------------------- p -> print curent Maze
     else if (inChar == 'p') {
       loadEEPROM();
       printCurrentMaze();
       printCurrentMazeWalls();
-
     }
+    
+    //-------------------------------------------------------------------------------------------------------------- c -> clean current maze
     else if (inChar == 'c') {
       cleanEEPROM();
       Serial.println(F(">> Maze cleaned"));
     }
 
+    //-------------------------------------------------------------------------------------------------------------- q -> print IR sensor values
     else if (inChar == 'q') {
       readSensorLine(sensor_values);
       Serial.println(irLineString);
     }
+    
+    //-------------------------------------------------------------------------------------------------------------- s -> ???
     else if (inChar == 's') {
       /*
         Serial.print("Kp\t:"); Serial.println(kP * 10);
@@ -43,19 +57,22 @@ void serialEvent() {
       */
     }
 
+    //-------------------------------------------------------------------------------------------------------------- t -> test
     else if (inChar == 't') {
+
       //readWalls(wall);
       readBoxColor();
       //mySerial.print("j");
 
 
-      if (mySerial.available() > 0) {
+      /*if (mySerial.available() > 0) {
         while (mySerial.available()) {
           Serial.print((char)mySerial.read());
         }
-      }
+        }*/
 
 
+    //-------------------------------------------------------------------------------------------------------------- z -> interpolate
     } else if (inChar == 'z') {
       char rOrd;
       int spdArr[5];
@@ -104,6 +121,8 @@ void serialEvent() {
       stepsToRotate(round(spd), val);
       testAndGetData(rOrd, spd, val);
     }
+    
+    //-------------------------------------------------------------------------------------------------------------- 2,4,5,6,7,8,9-> bluetooth mode
     else if (mode == BLUETOOTH) {
 
 #if defined(STEPPER_MOTORS)
@@ -120,15 +139,22 @@ void serialEvent() {
 #endif
     }
 
-
     digitalWrite(13, LOW);
   }
 }
 
 
+
+
+
+
+
 void readBoxColor() {
+
+  while (mySerial.available()) {} // nothing
   mySerial.print("j");
   delay(10);
+
   while (mySerial.available() > 0) {
     int x = Serial.read() - '0';
     //Serial.print(">> Reply: "); Serial.println(x);
@@ -164,7 +190,6 @@ void drop() {
 
 void beep() {
   mySerial.print("k");
-
 }
 
 void beep(int k) {
