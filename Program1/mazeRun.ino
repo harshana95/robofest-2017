@@ -121,6 +121,21 @@ void executeCommand(int i) {
     maze_turnBack(); // never happens :P
   } else if (solvedCommandQueue[i] == 4) {
     mode = PICK_BOX;
+  } else if (solvedCommandQueue[i] == 10) {
+    // fast farward 2 cells
+    motorForward(300*2);
+  } else if (solvedCommandQueue[i] == 20) {
+    // fast farward 3 cells
+    motorForward(300*3);
+  } else if (solvedCommandQueue[i] == 30) {
+    // fast farward 4 cells
+    motorForward(300*4);
+  } else if (solvedCommandQueue[i] == 40) {
+    // fast farward 5 cells
+    motorForward(300*5);
+  } else if (solvedCommandQueue[i] == 50) {
+    // fast farward 6 cells
+    motorForward(300*6);
   }
 }
 
