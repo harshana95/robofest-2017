@@ -81,7 +81,7 @@ void cleanEEPROM() {
       for (int j = 0; j < 6; j++) {
         EEPROM.update(addr, 255);
         EEPROM.update(addr + 50, 255);
-        EEPROM.update(80 + i, 0);
+        EEPROM.update(80 + addr, 0);
         addr += 1;
       }
     }

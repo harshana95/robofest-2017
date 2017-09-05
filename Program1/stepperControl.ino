@@ -18,7 +18,7 @@ void stepperMotorBegin() {
   digitalWrite(PIN_STEP, LOW);
 
   stepper.begin(200, MICROSTEPS);
-  stepper.setSpeedProfile(LINEAR_SPEED, 500, 2000);    //TODO: LINEAR_SPEED | CONSTANT_SPEED   500,2000
+  stepper.setSpeedProfile(LINEAR_SPEED, 500, 500);    //TODO: LINEAR_SPEED | CONSTANT_SPEED   500,2000
 
   Serial.println(F(">> Steppers : Begin..."));
   stepper.disable();
@@ -74,7 +74,7 @@ void motorWrite(int steps, int left, int right) {
   stepper.move(steps * MICROSTEPS);
   delay(150);                         //Leave some delay until robot stop is's movement
   stepper.disable();
-  
+
   //stepper.getTimeForMove(steps);
 
 }
@@ -83,15 +83,16 @@ void softMotorWrite(int steps, int left, int right) {
 
   //This mode doesn't disable motor. Make sure to disable after use
 
-  digitalWrite(PIN_EN_LEFT, (left == 0));   // TODO: Uncomment this if using Pivot Motions, not tested yet
+  digitalWrite(PIN_EN_LEFT, (left == 0));
   digitalWrite(PIN_EN_RIGHT, (right == 0));
 
   digitalWrite(PIN_DIR_LEFT, (left == 1));
   digitalWrite(PIN_DIR_RIGHT, (right == 1));
 
   stepper.move(steps * MICROSTEPS);
-  //delay(150);                        //Leave some delay until robot stop is's movement
+  ///delay(150);                        //Leave some delay until robot stop is's movement Nuwan:05/09/2017
   stepper.disable();
+  
   //stepper.getTimeForMove(steps);
 
 }
