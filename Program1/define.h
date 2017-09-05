@@ -122,7 +122,7 @@ int solvedCommandQueue[36]; // 0 -forward 1-right 2-back(not used) 3-left
 int commandNo = 0;
 
 int posCount = 1;
-int startXPosition = 2, startYPosition = 5; // starting position of the maze
+int startXPosition = 5, startYPosition = 5; // starting position of the maze
 int posX = startXPosition, posY = startYPosition; // current position for traversing the maze at first
 int finalXPosition, finalYPosition; //position of the destination cell. when robo reach here the box should be in front!!!!
 

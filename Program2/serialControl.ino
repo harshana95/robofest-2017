@@ -1,6 +1,17 @@
-//String inputString = "";        // a string to hold incoming data
-//String cmd2 = "";
-//boolean stringComplete = false;  // whether the string is complete
+
+/*
+
+  a -> Read walls
+
+  q -> Ready to pick
+  w -> stand
+  e -> pickBox
+  r -> dropBox
+  j -> readColor
+  k -> beep
+  d -> Change indicator (boolean 000 - 111 )
+*/
+
 
 
 void serialEvent() {
@@ -11,6 +22,7 @@ void serialEvent() {
     int r = Serial.read();
     char inChar = (char)r;
 
+    // --------------------------------------------------------------------------------------- Read Walls - Not required now
     if (inChar == 'a') {
       //while (!readWalls(wall)) {
       int x = wall[0] + 2 * wall[1] + 4 * wall[2];
@@ -22,6 +34,7 @@ void serialEvent() {
 
     }
 
+    // --------------------------------------------------------------------------------------- Servo Commands
     else if (inChar == 'q' ) {
       readyToPick();
     }
@@ -35,13 +48,18 @@ void serialEvent() {
       dropBox();
     }
 
+    // --------------------------------------------------------------------------------------- Read box color
     else if (inChar == 'j') {
       char val = '0' + colorR0;
       Serial.print(val);
     }
+
+    // --------------------------------------------------------------------------------------- Buzzer
     else if (inChar == 'k') {
       buzzer(1);
     }
+
+    // --------------------------------------------------------------------------------------- Indicator change
 
     else if (inChar == 'd') {
       if (Serial.available() == 1) {

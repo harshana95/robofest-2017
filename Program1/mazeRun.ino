@@ -1,6 +1,5 @@
 void mazeRunAdvanced() {
 
-  
   readWalls(wall);
   delay(100);
 
@@ -24,6 +23,7 @@ void mazeRunAdvanced() {
   Serial.print(">> X:"); Serial.print(posX); Serial.print(" Y:"); Serial.print(posY); Serial.print(" C:"); Serial.print(posCount); Serial.println();
   Serial.println(F("------------------------------------------------------------"));
 
+  delay(3000);
 }
 
 void explore() {
@@ -238,6 +238,13 @@ void printCurrentMaze() {
     Serial.print("#\n");
   }
   Serial.println(F("----------------------------"));
+  Serial.println(isMazeSolved);
+  Serial.println(startXPosition);
+  Serial.println(startYPosition);
+  Serial.println(finalXPosition);
+  Serial.println(finalXPosition);
+
+
 }
 
 void printCurrentMazeWalls() {

@@ -44,27 +44,27 @@ void setup() {
   //pinMode(BUTTON_2, INPUT_PULLUP);
 
   pinMode(PIN_LED, OUTPUT);
-  /*
-    loadEEPROM(); // loading EEPROM data
-    if (isMazeSolved) { // maze has being traversed before.
+
+  loadEEPROM(); // loading EEPROM data
+  if (isMazeSolved) { // maze has being traversed before.
     solveMaze();
-    } else {
-    //cleanEEPROM();
-    }
-    stand();
-  */
+  } else {
+    cleanEEPROM();
+  }
+
+
 
   stand();
   // Inform us that program is ready
-  beep(2);
+  //beep(2);
 
 }
 
 void test() {
   /*pick();
-  delay(2000);
-  drop();
-  delay(2000);*/
+    delay(2000);
+    drop();
+    delay(2000);*/
   //readWalls(wall);
 }
 
