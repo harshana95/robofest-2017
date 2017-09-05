@@ -59,6 +59,9 @@ void loop() {
     case MAZE_RUN:
 
       buttonStatus = digitalRead(BUTTON_1);
+      readBoxColor();
+      
+      if (buttonStatus == 0 || (boxColor != 0)) { // Execute whrn button was pressed or color is not equal to 0
         mode = PICKING_BOX;
         Serial.println(F(">> MAZE RUN -> PICKING_BOX"));
       } else {

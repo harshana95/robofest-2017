@@ -90,7 +90,7 @@ void softMotorWrite(int steps, int left, int right) {
   digitalWrite(PIN_DIR_RIGHT, (right == 1));
 
   stepper.move(steps * MICROSTEPS);
-  //delay(150);                        //Leave some delay until robot stop is's movement
+  delay(150);                        //Leave some delay until robot stop is's movement
   stepper.disable();
   //stepper.getTimeForMove(steps);
 
