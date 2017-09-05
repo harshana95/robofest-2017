@@ -9,6 +9,7 @@ int binaryEncodedIRReading() {
 }
 
 bool isThisTheDestination(int boxColor) {
+  Serial.println(F("check dest"));
   /*
     Harshana
     2017-9-4 7:30 P.M.
@@ -37,6 +38,9 @@ bool isThisTheDestination(int boxColor) {
     orsum = orsum || binaryEncodedIRReading;
     goFoward(80 / res);
   }
+  Serial.println(andsum);
+  Serial.println(orsum);
+  
   if (andsum == (1 << 7) - 1) {
     // perfectly matched all the points.
     // good place to unload the box

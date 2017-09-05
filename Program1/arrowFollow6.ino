@@ -36,7 +36,7 @@ void firstArrowFollow(int boxColor) {
   boolean foundTheTailfOfFirstArrow = false;
 
   while (!foundTheTailfOfFirstArrow) {
-    turnCW(-90);
+    turnCW(-90);                              // Nuwan: Try to reduce this to 60 deg
     for (int i = 0; i < 18; i++) {
       turnCW(10);
       if (getColorReading() == boxColor) {
@@ -46,7 +46,7 @@ void firstArrowFollow(int boxColor) {
       }
     }
     if (!foundTheTailfOfFirstArrow) {
-      turnCW(-90);
+      turnCW(-90);                            // Nuwan: Try to reduce this to 60 deg
       goFF();
     }
   }
@@ -67,20 +67,35 @@ void firstArrowFollow(int boxColor) {
     int leftZeroFrom = 2;
     int rightZeroFrom = 3;
 
-    for (leftZeroFrom = 2; leftZeroFrom > -1; leftZeroFrom--)
-      if (reading[leftZeroFrom] == 0)break;
-    for (int i = leftZeroFrom; i > -1; i--) weight[i] == 0;
+    for (leftZeroFrom = 2; leftZeroFrom > -1; leftZeroFrom--) {
+      if (reading[leftZeroFrom] == 0) {
+        //Serial.print("Breaking left at ");
+        //Serial.println(leftZeroFrom);
+        break;
+      }
+    }
+    for (int i = leftZeroFrom; i > -1; i--) weight[i] = 0;
 
+    for (rightZeroFrom = 3; rightZeroFrom < 6; rightZeroFrom++) {
+      if (reading[rightZeroFrom] == 0) {
+        //Serial.print("Breaking right at ");
+        //Serial.println(rightZeroFrom);
+        break;
+      }
+    }
+    for (int i = rightZeroFrom; i < 6; i++) weight[i] = 0;
 
-    for (rightZeroFrom = 3; rightZeroFrom < 6; rightZeroFrom++)
-      if (reading[rightZeroFrom] == 0)break;
-    for (int i = rightZeroFrom; i < 6; i++) weight[i] == 0;
     //Isolation over
+
+    //    Serial.println("IR readings: ");
+    //    printArr(reading, 6);
+    //    Serial.println("New weights: ");
+    //    printArr(weight, 6);
 
     int weightedSum = 0;
     for (int j = 0; j < 6; j++) weightedSum += reading[j] * weight[j];
-    Serial.print("15.Free memory: ");
-    Serial.println(freeMemory());
+    //    Serial.print("15.Free memory: ");
+    //    Serial.println(freeMemory());
     if (weightedSum != 0) {
 
       if (weightedSum < 0)goR();//Serial.println("R");}
@@ -94,16 +109,16 @@ void firstArrowFollow(int boxColor) {
     }
 
   }
-  Serial.print("11.Free memory: ");
-  Serial.println(freeMemory());
-
+  /*Serial.print("11.Free memory: ");
+    Serial.println(freeMemory());
+  */
   mode = SECOND_ARROW_FOLLOW;
   Serial.println(F("Finished the first arrow"));
 }
 
 
 void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
-  Serial.println("Starting");
+  Serial.println("\n\nStarting TO FIND A NEW ARROW \n\n");
   /*
     31/08/2017
     We have to test this function by keeping the robot POINTED AT AN ARROW
@@ -135,6 +150,7 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
 
 
   //<<<<<<<<<The part of the function to find an arrow tail>>>>>>>>>
+  
   while (!foundColor) {
     Serial.print("1. Free memory: ");
     Serial.println(freeMemory());
@@ -167,7 +183,7 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
         }
       }
       else {
-
+        goFF();
       }
     }
 
@@ -180,21 +196,27 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
   readSensorLine(reading);
   while (sumOfArray(reading, 6) != 0) {
     trailAndErrorArrowFollow_Forward();
+    Serial.println(sumOfArray(reading, 6));
     readSensorLine(reading);
+    if (sumOfArray(reading, 6) >= 5) {
+
+      if (isThisTheDestination(boxColor)) {
+        mode = DROP_BOX; //*************************************************************
+        return;     // TODO : ???
+      }
+    }
   }
 
-  motorWrite(-100, -100);
-  delay(100);
+  goBB(); goBB();
   readSensorLine(reading);
   while (sumOfArray(reading, 6) != 0) {
-    motorWrite(-100, -100);
-    delay(100);
+
+    goBB();
     readSensorLine(reading);
   }
 
   while (sumOfArray(reading, 6) == 0) {
-    motorWrite(100, 100);
-    delay(100);
+    goF();
     readSensorLine(reading);
   }
 
@@ -289,7 +311,7 @@ void trailAndErrorArrowFollow_Backward() {
   if (weightedSum != 0) {
     if (weightedSum > 0) {
       //Serial.println("Backward loop- Turn right");
-      motorWrite(50, -50);
+      goL();
       delay(100);
     }
     else {

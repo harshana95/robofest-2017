@@ -2,9 +2,6 @@
 boolean debug = 1;
 int color; //04/09/2017 ADDED BY GIHAN COZ THE getColorReading() function required this
 
-// Harshana
-boolean sign_ws = 0;
-
 #define BLACK 0
 #define WHITE 1
 #define lineType BLACK
@@ -15,7 +12,7 @@ boolean sign_ws = 0;
 #define BACK 2
 
 // Mode eNum
-enum {BEGIN, TEST, MAZE_RUN, MAZE_OPTION, PICK_BOX, FIND_ARROW, BLUETOOTH, SECOND_ARROW_FOLLOW};
+enum {BEGIN, TEST, MAZE_RUN, MAZE_OPTION, PICK_BOX, FIND_ARROW, BLUETOOTH, SECOND_ARROW_FOLLOW,DROP_BOX};
 
 // EEPROM eNum
 //enum {eP, eI, eD, eMax, eBase, eDebug};
@@ -125,9 +122,10 @@ int solvedCommandQueue[36]; // 0 -forward 1-right 2-back(not used) 3-left
 int commandNo = 0;
 
 int posCount = 1;
-int startXPosition = 2, startYPosition = 5; // starting position of the maze
+int startXPosition = 5, startYPosition = 5; // starting position of the maze
 int posX = startXPosition, posY = startYPosition; // current position for traversing the maze at first
 int finalXPosition, finalYPosition; //position of the destination cell. when robo reach here the box should be in front!!!!
+int boxXPosition, boxYPosition; // coordinates of the box position. THIS IS OUTSIDE THE MAZE
 
 int dir[4][2] = { {0, 1}, { -1, 0}, {0, -1},  { 1, 0}};
 

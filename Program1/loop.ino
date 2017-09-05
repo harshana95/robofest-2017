@@ -1,4 +1,4 @@
-
+int oldMode = mode;
 
 void loop() {
   displayLoopStatus(mode);
@@ -8,11 +8,11 @@ void loop() {
     //-------------------------------------------------------------------------------------------------------------- Begin
     case BEGIN:
       buttonStatus = digitalRead(BUTTON_1);
-
+      readColor();
       if (buttonStatus == 0 ) {
         beep();
         stand();
-        mode = FIND_ARROW;
+        mode = MAZE_RUN;//FIND_ARROW;
 
         Serial.println(F(">> BEGIN -> ###"));
         delay(500);
@@ -45,9 +45,9 @@ void loop() {
     case MAZE_RUN:
 
       buttonStatus = digitalRead(BUTTON_1);
-      readBoxColor();
+      //readBoxColor();
       
-      if (buttonStatus == 0 || (boxColor != 0)) { // Execute whrn button was pressed or color is not equal to 0
+      if (buttonStatus == 0) { // Execute whrn button was pressed or color is not equal to 0
         mode = PICK_BOX;
         saveEEPROM();
         Serial.println(F(">> MAZE RUN -> PICKING_BOX"));
@@ -103,31 +103,36 @@ void loop() {
 
 void displayLoopStatus(int mode) {
   /*Serial.println("New loop iteration>>");
-  Serial.print("Free memory: ");
-  Serial.println(freeMemory());
-  Serial.print("Mode: ");*/
-  switch (mode) {
-    case BEGIN:
-      Serial.println("BEGIN");
-      break;
-    case TEST:
-      Serial.println("TEST");
-      break;
-    case MAZE_RUN:
-      Serial.println("MAZE_RUN");
-      break;
-    case PICK_BOX:
-      Serial.println("PICKING_BOX");
-      break;
-    case FIND_ARROW:
-      Serial.println("FIND ARROW");
-      break;
-    case SECOND_ARROW_FOLLOW:
-      Serial.println("SECOND_ARROW_FOLLOW");
-      break;
-    case MAZE_OPTION:
-      Serial.println("MAZE_OPTION");
-      break;
-  }
+    Serial.print("Free memory: ");
+    Serial.println(freeMemory());
+    Serial.print("Mode: ");*/
 
+  if (mode != oldMode) {
+    oldMode = mode;
+    Serial.println(F("--------------------------------------------------"));
+    switch (mode) {
+      case BEGIN:
+        Serial.println("BEGIN");
+        break;
+      case TEST:
+        Serial.println("TEST");
+        break;
+      case MAZE_RUN:
+        Serial.println("MAZE_RUN");
+        break;
+      case PICK_BOX:
+        Serial.println("PICKING_BOX");
+        break;
+      case FIND_ARROW:
+        Serial.println("FIND ARROW");
+        break;
+      case SECOND_ARROW_FOLLOW:
+        Serial.println("SECOND_ARROW_FOLLOW");
+        break;
+      case MAZE_OPTION:
+        Serial.println("MAZE_OPTION");
+        break;
+    }
+    Serial.println(F("--------------------------------------------------"));
+  }
 }

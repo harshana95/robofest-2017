@@ -14,6 +14,7 @@ void colorBegin() {
     //Serial.println(">> ColorSensor : Begin");
   } else {
     Serial.println(">> ColorSensor : Not Found");
+    beep(4);
     //while (1); // halt!
   }
 }
@@ -44,7 +45,6 @@ void readColor() {
     if (ledUpdate)indicatorShow(0);   // All off
   }
   indicatorShow(colorR0);
-
 
   if (0) {
     Serial.print(blue0);

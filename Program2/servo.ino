@@ -14,7 +14,7 @@ void pickBox() {
   grab.write(GRAB_UP);
   delay(500);
   detachServos();
-  Serial.println(">> Pick : Complete");
+  //Serial.println(">> Pick : Complete");
 
 }
 
@@ -25,6 +25,7 @@ void  readyToPick() {
   grab.write(GRAB_DOWN);
   delay(1000);
   detachServos();
+  //Serial.println(">> readyToPick : Complete");
 }
 
 void dropBox() {
@@ -34,7 +35,7 @@ void dropBox() {
   pick.write(PICK_OFF);
   delay(500);
   detachServos();
-  Serial.println(">> Drop : Complete");
+  //Serial.println(">> Drop : Complete");
 }
 
 void stand() {
@@ -44,6 +45,7 @@ void stand() {
   pick.write(PICK_ON);
   delay(1000);
   detachServos();
+  //Serial.println(">> stand : Complete");
 }
 
 void attachServos() {

@@ -1,6 +1,5 @@
 void mazeRunAdvanced() {
 
-  
   readWalls(wall);
   delay(100);
 
@@ -24,6 +23,7 @@ void mazeRunAdvanced() {
   Serial.print(">> X:"); Serial.print(posX); Serial.print(" Y:"); Serial.print(posY); Serial.print(" C:"); Serial.print(posCount); Serial.println();
   Serial.println(F("------------------------------------------------------------"));
 
+  delay(3000);
 }
 
 void explore() {
@@ -111,14 +111,16 @@ void shiftDirVector(int c) {
 void executeCommand(int i) {
   // check if the box is there in front. before executing this function
   Serial.println(solvedCommandQueue[i]);
-  if (solvedCommandQueue[i] == 1) { // these values need to chage appropriately
+  if (solvedCommandQueue[i] == 3) { // these values need to chage appropriately
     maze_turnLeft();
   } else if (solvedCommandQueue[i] == 0) {
     maze_goForward();
-  } else if (solvedCommandQueue[i] == 3) {
+  } else if (solvedCommandQueue[i] == 1) {
     maze_turnRight();
-  } else {
+  } else if (solvedCommandQueue[i] == 2) {
     maze_turnBack(); // never happens :P
+  } else if (solvedCommandQueue[i] == 4) {
+    mode = PICK_BOX;
   }
 }
 
@@ -192,6 +194,7 @@ void maze_turnBack() {
 #endif
 }
 
+// ------------------------------------------------------------------------------------------------
 void printCurrentMaze() {
 
   Serial.print("#");
@@ -238,6 +241,13 @@ void printCurrentMaze() {
     Serial.print("#\n");
   }
   Serial.println(F("----------------------------"));
+  Serial.print("isMaze : "); Serial.println(isMazeSolved);
+  Serial.print("Position  x1: "); Serial.println(startXPosition);
+  Serial.print("Position  y1: ");  Serial.println(startYPosition);
+  Serial.print("Position  x2: ");  Serial.println(finalXPosition);
+  Serial.print("Position  y2: ");  Serial.println(finalYPosition);
+
+
 }
 
 void printCurrentMazeWalls() {
