@@ -121,7 +121,7 @@ void readColor() {
 
   //Serial.println(floorColor);
 
-  if (0) {
+  if (1) {
     Serial.print(raw_blue);
     Serial.print(" ");
     Serial.print(raw_red);

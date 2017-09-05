@@ -6,10 +6,10 @@
 	I am putting all the functions here instead of keeping a copy in every file
 */
 
-int sign(int x){
-	if(x>0)return 1;
-	if(x<0)return -1;
-	return 0;
+int sign(int x) {
+  if (x > 0)return 1;
+  if (x < 0)return -1;
+  return 0;
 }
 
 
@@ -31,7 +31,10 @@ int getColorReading() {
   // TODO
   readColor();
   Serial.print("Color = ");
-  if (floorColor == 1)Serial.println("R");
+  if (floorColor == 1) {
+    floorColor = 0;
+    Serial.println("R");
+  }
   else if (floorColor == 2)Serial.println("G");
   else if (floorColor == 3)Serial.println("B");
   else Serial.println("None");
@@ -45,73 +48,68 @@ int sumOfArray(int ar[], int n) {
   return sum;
 }
 
-void goF(){
+void goF() {
   //03/09/2017 go forward
   motorWrite(100, 100);
   delay(100);
 }
 
-void goFF(){
-  //Go forward 2 steps
-  motorWrite(200, 200);
-  delay(100); 
-}
 
 
-void goL(){
+void goL() {
   //03/09/2017 turn left
-  motorWrite(-100,100);
+  motorWrite(-100, 100);
   delay(100);
 }
 
-void goR(){
+void goR() {
   //03/09/2017  turn right
-  motorWrite(100,-100);
+  motorWrite(100, -100);
   delay(100);
 }
 
-void goB(){
+void goB() {
   //03/09/2017 go back
-  motorWrite(-100,-100);
+  motorWrite(-100, -100);
   delay(100);
 }
 
 
-void goLF(){
+void goLF() {
   //03/09/2017 turn left and go forward
   goL();
   goF();
 }
 
-void goRF(){
+void goRF() {
   //03/09/2017 turn right and go forward
   goR();
   goF();
 }
 
-void goBR(){
+void goBR() {
   //go back and turn right
   goB();
   goR();
 }
 
-void goBL(){
+void goBL() {
   //go back and turn left
   goB();
   goL();
 }
 
-void goFF(){
+void goFF() {
   goF();
   goF();
 }
 
-void goBB(){
+void goBB() {
   goB();
   goB();
 }
 
-int updatedWeightedSum(){
+int updatedWeightedSum() {
   //03/09/2017
   int weight[6] = { -3, -2, -1, 1, 2, 3};
   readSensorLine(reading);

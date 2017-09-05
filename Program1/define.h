@@ -2,9 +2,6 @@
 boolean debug = 1;
 int color; //04/09/2017 ADDED BY GIHAN COZ THE getColorReading() function required this
 
-// Harshana
-boolean sign_ws = 0;
-
 #define BLACK 0
 #define WHITE 1
 #define lineType BLACK
@@ -15,7 +12,7 @@ boolean sign_ws = 0;
 #define BACK 2
 
 // Mode eNum
-enum {BEGIN, TEST, MAZE_RUN, MAZE_OPTION, PICK_BOX, FIND_ARROW, BLUETOOTH, SECOND_ARROW_FOLLOW};
+enum {BEGIN, TEST, MAZE_RUN, MAZE_OPTION, PICK_BOX, FIND_ARROW, BLUETOOTH, SECOND_ARROW_FOLLOW,DROP_BOX};
 
 // EEPROM eNum
 //enum {eP, eI, eD, eMax, eBase, eDebug};

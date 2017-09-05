@@ -118,7 +118,7 @@ void firstArrowFollow(int boxColor) {
 
 
 void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
-  Serial.println("Starting");
+  Serial.println("\n\nStarting TO FIND A NEW ARROW \n\n");
   /*
     31/08/2017
     We have to test this function by keeping the robot POINTED AT AN ARROW
@@ -182,7 +182,7 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
         }
       }
       else {
-
+        goFF();
       }
     }
 
@@ -195,21 +195,27 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
   readSensorLine(reading);
   while (sumOfArray(reading, 6) != 0) {
     trailAndErrorArrowFollow_Forward();
+    Serial.println(sumOfArray(reading,6));
     readSensorLine(reading);
+    if(sumOfArray(reading,6)>=5){
+      
+      if(isThisTheDestination(boxColor)){
+        mode=DROP_BOX;  //*************************************************************
+        return;     // TODO : ???
+      }
+    }
   }
 
-  motorWrite(-100, -100);
-  delay(100);
+  goBB();goBB();
   readSensorLine(reading);
   while (sumOfArray(reading, 6) != 0) {
-    motorWrite(-100, -100);
-    delay(100);
+    
+    goBB();
     readSensorLine(reading);
   }
 
   while (sumOfArray(reading, 6) == 0) {
-    motorWrite(100, 100);
-    delay(100);
+    goF();
     readSensorLine(reading);
   }
 
