@@ -231,7 +231,7 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
   //<<<<<<<<<ARROW HEAD REJECTION OVER
 
 
->>>>>>> 0afe0895923d319df10a3dd9959511b8427f9873:Program1/arrowFollow6.ino
+
   motorWrite(200, 200);
 }//end of function
 
