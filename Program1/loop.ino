@@ -12,7 +12,7 @@ void loop() {
       if (buttonStatus == 0 ) {
         beep();
         stand();
-        mode = MAZE_RUN;//FIND_ARROW;
+        mode = FIND_ARROW;//MAZE_RUN;//FIND_ARROW;
 
         Serial.println(F(">> BEGIN -> ###"));
         delay(500);
