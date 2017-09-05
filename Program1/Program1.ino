@@ -23,7 +23,7 @@ Adafruit_TCS34725 color0 = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_154MS, TCS
 volatile int mode = BEGIN ;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(57600);
   mySerial.begin(9600);
 
   irSensorsBegin();

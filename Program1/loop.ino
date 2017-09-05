@@ -12,7 +12,7 @@ void loop() {
       if (buttonStatus == 0 ) {
         beep();
         stand();
-        mode = PICK_BOX;//FIND_ARROW;
+        mode = FIND_ARROW;
 
         Serial.println(F(">> BEGIN -> ###"));
         delay(500);
@@ -75,6 +75,8 @@ void loop() {
     //-------------------------------------------------------------------------------------------------------------- Find Arrow
     case FIND_ARROW:
       firstArrowFollow(COLOR_GREEN);
+      Serial.println("FIND ARROW CASE OVERRR");
+      delay(1000);
       break;
 
     case SECOND_ARROW_FOLLOW:

@@ -60,13 +60,13 @@ void goFF() {
 
 void goL() {
   //03/09/2017 turn left
-  motorWrite(-100, 100);
+  motorWrite(-50, 50);
   delay(100);
 }
 
 void goR() {
   //03/09/2017  turn right
-  motorWrite(100, -100);
+  motorWrite(50, -50);
   delay(100);
 }
 

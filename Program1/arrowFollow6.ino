@@ -82,7 +82,8 @@ void firstArrowFollow(int boxColor) {
 
     int weightedSum = 0;
     for (int j = 0; j < 6; j++) weightedSum += reading[j] * weight[j];
-
+    Serial.print("15.Free memory: ");
+    Serial.println(freeMemory());
     if (weightedSum != 0) {
       if (weightedSum < 0)goR();//Serial.println("R");}
       else goL();//Serial.println("L");}
@@ -94,14 +95,16 @@ void firstArrowFollow(int boxColor) {
       readSensorLine(reading);
     }
 
-    mode = SECOND_ARROW_FOLLOW;
-    //Serial.println(F("Finished the first arrow"));
   }
+  Serial.print("11.Free memory: ");
+  Serial.println(freeMemory());
+
+  mode = SECOND_ARROW_FOLLOW;
+  Serial.println(F("Finished the first arrow"));
 }
 
 
 void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
-  Serial.begin(9600);
   Serial.println("Starting");
   /*
     31/08/2017
@@ -134,7 +137,8 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
 
   //<<<<<<<<<The part of the function to find an arrow tail>>>>>>>>>
   while (!foundColor) {
-
+    Serial.print("1. Free memory: ");
+    Serial.println(freeMemory());
     readSensorLine(reading);
     while (sumOfArray(reading, 6) == 0) {
       goFF();
@@ -145,6 +149,7 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
       foundColor = true;
       break;
     }
+
     else {
       int ws = updatedWeightedSum();
       if (ws != 0) {
@@ -161,10 +166,17 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
           goFF(); goFF();
         }
       }
+      else {
+        Serial.print("10.Free memory: ");
+        Serial.println(freeMemory());
+      }
     }
+    Serial.print("2.Free memory: ");
+    Serial.println(freeMemory());
   }
 
-
+  Serial.print("Free memory: ");
+  Serial.println(freeMemory());
   //<<<<<<<<<The part of the function to go along the arrow>>>>>>>>>
 
   Serial.println("Found the tail of arrow");
@@ -196,6 +208,7 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
     readSensorLine(reading);
   }
 
+
   motorWrite(200, 200);
 }//end of function
 
@@ -207,6 +220,8 @@ void trailAndErrorArrowFollow_Forward() {
               R[7]
               R[8]
   */
+  Serial.print("3. Free memory: ");
+  Serial.println(freeMemory());
 
   //Serial.print("Forward loop| weight= ");
   int weight[6] = { -3, -2, -1, 1, 2, 3};
