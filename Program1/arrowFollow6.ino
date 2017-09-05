@@ -78,10 +78,7 @@ void firstArrowFollow(int boxColor) {
 
 
     for (rightZeroFrom = 3; rightZeroFrom < 6; rightZeroFrom++)
-      if (reading[leftZeroFrom] == 0)break;
-    for (int i = leftZeroFrom; i > -1; i--) weight[i] == 0;
-
-
+      if (reading[rightZeroFrom] == 0)break;
     for (int i = rightZeroFrom; i < 6; i++) weight[i] == 0;
     //Isolation over
 
