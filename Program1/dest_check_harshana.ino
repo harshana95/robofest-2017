@@ -38,8 +38,8 @@ bool isThisTheDestination(int boxColor) {
     orsum = orsum || binaryEncodedIRReading;
     goFoward(80 / res);
   }
-  Serial.println(andsum);
-  Serial.println(orsum);
+  Serial.println(andsum,BIN);
+  Serial.println(orsum,BIN);
   
   if (andsum == (1 << 7) - 1) {
     // perfectly matched all the points.
