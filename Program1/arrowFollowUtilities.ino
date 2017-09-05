@@ -54,8 +54,6 @@ void goF() {
   delay(100);
 }
 
-
-
 void goL() {
   //03/09/2017 turn left
   motorWrite(-100, 100);
