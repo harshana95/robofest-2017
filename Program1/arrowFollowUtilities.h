@@ -13,9 +13,9 @@ int sign(int x){
 }
 
 
-void turnCW(int degrees) {
+void turnCW(int degrs) {
   //I am assuming that this function can turn the robot clockwise to 10 degrees
-  motorRotate(degrees);
+  motorRotate(degrs);
 }
 
 void goFoward(int mm) {

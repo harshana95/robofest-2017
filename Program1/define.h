@@ -62,6 +62,7 @@ int reading[6];
   int lastError = 0;
 
 */
+bool sign_ws; // true means first encounter of a colored mark is in right. false if o.w.
 
 //-------------------------------------------------------------------------------------------------------------- Color Sensor
 uint16_t raw_clr, raw_red, raw_green, raw_blue;
