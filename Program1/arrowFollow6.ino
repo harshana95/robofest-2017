@@ -3,7 +3,6 @@
 */
 
 //int RED = 1, GREEN = 2, BLUE = 3;
-
 //static int reading[6];
 
 
@@ -15,11 +14,7 @@
   //Serial.println(F("I am at the start point of three arrows"));
   firstArrowFollow(boxColor);
   //Serial.println(F("Let us start finding other arrows"));
-<<<<<<< HEAD:Program1/arrowFollow5.ino
 
-  trailAndErrorArrowFollow_Loop(boxColor);
-=======
->>>>>>> 0afe0895923d319df10a3dd9959511b8427f9873:Program1/arrowFollow6.ino
 
   trailAndErrorArrowFollow_Loop(boxColor);
 
@@ -148,7 +143,7 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
       goFF();
       readSensorLine(reading);
     }
-    goFF(); goFF();
+    //    goFF(); goFF();
     if (getColorReading() == boxColor) {
       foundColor = true;
       break;
@@ -160,8 +155,7 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
       if (ws != 0) {
 
         turnCW(-90 * sign(ws));
-        sign_ws = sign(ws)>0;
-        for (int i = 0; i < 18; i++) {
+        for (int i = 0; i < 9; i++) {
           turnCW(10 * sign(ws));
           if (getColorReading() == boxColor) {
             foundColor = true;
@@ -169,22 +163,16 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
           }
         }
         if (!foundColor) {
-          turnCW(-90 * sign(ws));
           goFF(); goFF();
         }
       }
       else {
-        Serial.print("10.Free memory: ");
-        Serial.println(freeMemory());
+
       }
     }
-    Serial.print("2.Free memory: ");
-    Serial.println(freeMemory());
+
   }
 
-
-  Serial.print("Free memory: ");
-  Serial.println(freeMemory());
 
   //<<<<<<<<<The part of the function to go along the arrow>>>>>>>>>
 
@@ -213,15 +201,16 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
 
   //ARROW HEAD REJECTION>>>>>>>>>>>> 05/09/2017 gihanchanaka@gmail.com
 
-  int alignedSteps=0;
-  boolean rightDirection=false;
+  int alignedSteps = 0;
+  boolean rightDirection = false;
+
   readSensorLine(reading);
   while (sumOfArray(reading, 6) != 0) {
-    if(updatedWeightedSum()==0) alignedSteps++;
-    else alignedSteps=0;
-    if(alignedSteps>=4){
+    if (updatedWeightedSum() == 0) alignedSteps++;
+    else alignedSteps = 0;
+    if (alignedSteps >= 4) {
       readSensorLine(reading);
-      if(sumOfArray(reading,6)!=2)rightDirection=true;
+      if (sumOfArray(reading, 6) != 2)rightDirection = true;
       goFF();
     }
     else trailAndErrorArrowFollow_Forward();
@@ -309,8 +298,6 @@ void trailAndErrorArrowFollow_Backward() {
       delay(100);
     }
   }
-
-
   motorWrite(-50, -50);
   delay(100);
 }
