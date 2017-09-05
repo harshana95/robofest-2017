@@ -65,7 +65,7 @@ void serialEvent() {
       if (Serial.available() == 1) {
         // instruction bit
         int x = (Serial.read() - '0');
-        Serial.print(">> LED Upadte : ");
+        Serial.print(">> LED Update : ");
         Serial.println(x, BIN);
         indicatorChange(COLOR_BLUE, x % 2);
         indicatorChange(COLOR_GREEN, (x / 2) % 2);
