@@ -125,6 +125,7 @@ int posCount = 1;
 int startXPosition = 5, startYPosition = 5; // starting position of the maze
 int posX = startXPosition, posY = startYPosition; // current position for traversing the maze at first
 int finalXPosition, finalYPosition; //position of the destination cell. when robo reach here the box should be in front!!!!
+int boxXPosition, boxYPosition; // coordinates of the box position. THIS IS OUTSIDE THE MAZE
 
 int dir[4][2] = { {0, 1}, { -1, 0}, {0, -1},  { 1, 0}};
 

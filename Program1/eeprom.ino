@@ -28,6 +28,9 @@ void saveEEPROM() {
   }
   EEPROM.update(120, finalXPosition);
   EEPROM.update(121, finalYPosition);
+  EEPROM.update(123, posX);
+  EEPROM.update(124, posY);
+  
 }
 
 void updateMazeAddress(int i, int j) {
@@ -58,6 +61,8 @@ void loadEEPROM() {
 
   finalXPosition = EEPROM.read(120);
   finalYPosition = EEPROM.read(121);
+  boxXPosition = EEPROM.read(122);
+  boxYPosition = EEPROM.read(123);
 }
 
 void saveCommandQueueFromEEPROM() {
@@ -89,5 +94,7 @@ void cleanEEPROM() {
 
   EEPROM.update(120, 0);
   EEPROM.update(121, 0);
+  EEPROM.update(122, 0);
+  EEPROM.update(123, 0);
 }
 
