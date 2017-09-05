@@ -44,10 +44,13 @@ bool isThisTheDestination(int boxColor) {
   if (andsum == (1 << 7) - 1) {
     // perfectly matched all the points.
     // good place to unload the box
-    goFoward(-80);
-    goFoward(-20);
+    /*goFoward(-80);
+    goFoward(-20);*/
     // TODO: goback needed distance
+    mode = DROP_BOX;
+    
     return true;
+    
   } else if (((andsum >> 2) % 2 == 1 or (andsum >> 3) % 2 == 1) and (orsum % 2 == 1 or (orsum >> 5) % 2 == 1)) {
     // now most probably destination is at a rotated position w.r.t robot
     // unlikely an arrow!!

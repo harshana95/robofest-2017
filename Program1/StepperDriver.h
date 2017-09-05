@@ -47,9 +47,6 @@ class StepperDriver {
     /*
        Motor Configuration
     */
-    short motor_steps;           // motor steps per revolution (usually 200)
-    short accel = 1000;     // maximum acceleration [steps/s^2]
-    short decel = 1000;     // maximum deceleration [steps/s^2]
 
     /*
        Driver Configuration
@@ -89,10 +86,20 @@ class StepperDriver {
     static const short MAX_MICROSTEP = 128;
 
   public:
+
+    /*int interreptCounter = 0;     // Nuwan
+    int irStepperPins[6] = {14, 15, 16, 17, 19, 20};
+    int irCounter = 0;*/
+
+    short motor_steps;           // motor steps per revolution (usually 200)
+    short accel = 1000;     // maximum acceleration [steps/s^2]
+    short decel = 1000;     // maximum deceleration [steps/s^2]
+
+  
     StepperDriver(short steps);
     StepperDriver(short steps, short dir_pin, short step_pin);
     StepperDriver(short steps, short dir_pin, short step_pin, short enable_pin);
-    
+
     void begin(short rpm = 60, short microsteps = 1);
     /*
        Set current microstep level, 1=full speed, 32=fine microstepping

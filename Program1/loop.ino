@@ -46,7 +46,7 @@ void loop() {
 
       buttonStatus = digitalRead(BUTTON_1);
       //readBoxColor();
-      
+
       if (buttonStatus == 0) { // Execute whrn button was pressed or color is not equal to 0
         mode = PICK_BOX;
         saveEEPROM();
@@ -83,6 +83,23 @@ void loop() {
       trailAndErrorArrowFollow_LoopOneArrow(COLOR_GREEN);
       break;
 
+
+    //-------------------------------------------------------------------------------------------------------------- Drop box
+    case DROP_BOX:
+
+      motorWrite(100, -1, -1);      // Need to calibrate this distance
+      drop();
+      beep(3);
+      Serial.println(F(">> Task is completed"));
+      mode = PROG_END;
+      break;
+
+    //-------------------------------------------------------------------------------------------------------------- End of the program
+    case PROG_END:
+      delay(1000);
+      // ha ha its completed
+      break;
+
     //-------------------------------------------------------------------------------------------------------------- Maze Option 1 : Run on pre defined maze
     case MAZE_OPTION:
       buttonStatus = digitalRead(BUTTON_1);
@@ -94,10 +111,8 @@ void loop() {
         executeCommand(commandNo);
         commandNo++;
       }
-
       break;
   }
-
 }
 
 
