@@ -143,22 +143,22 @@ void readBoxColor() {
   //return boxColor;
 }
 void stand() {
-  mySerial.print("f");
+  mySerial.print("w");
   Serial.println(F(">> Stand:Complete"));
 }
 
 void readyToPick() {
-  mySerial.print("e");
+  mySerial.print("q");
   Serial.println(F(">> Stand:readyToPick"));
 }
 
 void pick() {
-  mySerial.print("g");
+  mySerial.print("e");
   Serial.println(F(">> Pick:Complete"));
 }
 
 void drop() {
-  mySerial.print("h");
+  mySerial.print("r");
   Serial.println(F(">> Drop:Complete"));
 }
 

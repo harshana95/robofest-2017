@@ -2,7 +2,7 @@
 
 void loop() {
   displayLoopStatus(mode);
-  
+
   switch (mode) {
 
     //-------------------------------------------------------------------------------------------------------------- Begin
@@ -11,8 +11,8 @@ void loop() {
 
       if (buttonStatus == 0 ) {
         beep();
-
-        mode = FIND_ARROW;
+        stand();
+        mode = PICK_BOX;//FIND_ARROW;
 
         Serial.println(F(">> BEGIN -> ###"));
         delay(500);
@@ -63,11 +63,11 @@ void loop() {
       //Go suitable distance back, expand arm and go suitable distance forward, now take the box
       motorWrite(50, -1, -1);
       readyToPick();
-      delay(1000);                  // TODO : Must optimize the time, distance
-      motorWrite(60, 1, 1);
+      delay(2000);                  // TODO : Must optimize the time, distance
+      motorWrite(80, 1, 1);
       pick();
       delay(1000);
-      mode = FIND_ARROW;
+      mode = BEGIN;//FIND_ARROW;
       Serial.println(F(">> PICKING_BOX -> FIND_ARROW"));
       break;
 
@@ -99,12 +99,12 @@ void loop() {
 }
 
 
-void displayLoopStatus(int mode){
+void displayLoopStatus(int mode) {
   Serial.println("New loop iteration>>");
   Serial.print("Free memory: ");
   Serial.println(freeMemory());
   Serial.print("Mode: ");
-  switch(mode){
+  switch (mode) {
     case BEGIN:
       Serial.println("BEGIN");
       break;

@@ -8,8 +8,6 @@
 #include <SoftwareSerial.h>
 #include "define.h"
 
-
-
 #include <Adafruit_Sensor.h>
 #include "Adafruit_TCS34725.h"
 
@@ -17,8 +15,6 @@ SoftwareSerial mySerial(3, 2); // RX, TX
 
 #if defined(STEPPER_MOTORS)
 #include "StepperDriver.h"
-
-
 StepperDriver stepper(MOTOR_STEPS);    //(MOTOR_STEPS, DIR, STEP, ENBL);
 #endif
 
@@ -49,7 +45,7 @@ void setup() {
 
   pinMode(PIN_LED, OUTPUT);
   /*
-  loadEEPROM(); // loading EEPROM data
+    loadEEPROM(); // loading EEPROM data
     if (isMazeSolved) { // maze has being traversed before.
     solveMaze();
     } else {
@@ -58,16 +54,17 @@ void setup() {
     stand();
   */
 
+  stand();
   // Inform us that program is ready
   beep(2);
 
 }
 
 void test() {
-  pick();
+  /*pick();
   delay(2000);
   drop();
-  delay(2000);
+  delay(2000);*/
   //readWalls(wall);
 }
 

@@ -1,8 +1,9 @@
 
+
 #define PICK_ON 150
 #define PICK_OFF 70
 
-#define GRAB_UP 30
+#define GRAB_UP 3
 #define GRAB_DOWN 90
 
 void pickBox() {
@@ -21,13 +22,15 @@ void  readyToPick() {
   attachServos();
   pick.write(PICK_OFF);
   delay(1000);
-  //grab(GRAB_DOWN);
+  grab.write(GRAB_DOWN);
+  delay(1000);
+  detachServos();
 }
 
 void dropBox() {
   attachServos();
   grab.write(GRAB_DOWN);
-  delay(500);
+  delay(1000);
   pick.write(PICK_OFF);
   delay(500);
   detachServos();

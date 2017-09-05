@@ -22,13 +22,16 @@ void serialEvent() {
 
     }
 
-    else if (inChar == 'f') {
+    else if (inChar == 'q' ) {
+      readyToPick();
+    }
+    else if (inChar == 'w') {
       stand();
     }
-    else if (inChar == 'g') {
+    else if (inChar == 'e') {
       pickBox();
     }
-    else if (inChar == 'h') {
+    else if (inChar == 'r') {
       dropBox();
     }
 
