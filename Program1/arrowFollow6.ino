@@ -15,6 +15,7 @@
   firstArrowFollow(boxColor);
   //Serial.println(F("Let us start finding other arrows"));
 
+
   trailAndErrorArrowFollow_Loop(boxColor);
 
 
@@ -75,7 +76,6 @@ void firstArrowFollow(int boxColor) {
     }
     for (int i = leftZeroFrom; i > -1; i--) weight[i] = 0;
 
-
     for (rightZeroFrom = 3; rightZeroFrom < 6; rightZeroFrom++){
       if (reading[rightZeroFrom] == 0){
         //Serial.print("Breaking right at ");
@@ -97,6 +97,7 @@ void firstArrowFollow(int boxColor) {
 //    Serial.print("15.Free memory: ");
 //    Serial.println(freeMemory());
     if (weightedSum != 0) {
+
       if (weightedSum < 0)goR();//Serial.println("R");}
       else goL();//Serial.println("L");}
     }
@@ -147,6 +148,7 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
 
   boolean foundColor = false;
 
+
   //<<<<<<<<<The part of the function to find an arrow tail>>>>>>>>>
   while (!foundColor) {
     Serial.print("1. Free memory: ");
@@ -162,9 +164,11 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
       break;
     }
 
+
     else {
       int ws = updatedWeightedSum();
       if (ws != 0) {
+
         turnCW(-90 * sign(ws));
         for (int i = 0; i < 9; i++) {
           turnCW(10 * sign(ws));
@@ -183,6 +187,7 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
     }
 
   }
+
 
   //<<<<<<<<<The part of the function to go along the arrow>>>>>>>>>
 
@@ -208,9 +213,12 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
     readSensorLine(reading);
   }
 
+
   //ARROW HEAD REJECTION>>>>>>>>>>>> 05/09/2017 gihanchanaka@gmail.com
+
   int alignedSteps = 0;
   boolean rightDirection = false;
+
   readSensorLine(reading);
   while (sumOfArray(reading, 6) != 0) {
     if (updatedWeightedSum() == 0) alignedSteps++;
@@ -223,7 +231,9 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
     else trailAndErrorArrowFollow_Forward();
     readSensorLine(reading);
   }
+
   //<<<<<<<<<ARROW HEAD REJECTION OVER
+
 
 
   motorWrite(200, 200);
