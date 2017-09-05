@@ -117,8 +117,10 @@ void executeCommand(int i) {
     maze_goForward();
   } else if (solvedCommandQueue[i] == 1) {
     maze_turnRight();
-  } else {
+  } else if (solvedCommandQueue[i] == 2) {
     maze_turnBack(); // never happens :P
+  } else if (solvedCommandQueue[i] == 4) {
+    mode = PICK_BOX;
   }
 }
 
@@ -192,6 +194,7 @@ void maze_turnBack() {
 #endif
 }
 
+// ------------------------------------------------------------------------------------------------
 void printCurrentMaze() {
 
   Serial.print("#");
