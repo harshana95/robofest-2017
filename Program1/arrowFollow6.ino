@@ -201,12 +201,22 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
     readSensorLine(reading);
   }
 
-
+  //ARROW HEAD REJECTION>>>>>>>>>>>> 05/09/2017 gihanchanaka@gmail.com
+  int alignedSteps=0;
+  boolean rightDirection=false;
   readSensorLine(reading);
   while (sumOfArray(reading, 6) != 0) {
-    trailAndErrorArrowFollow_Forward();
+    if(updatedWeightedSum()==0) alignedSteps++;
+    else alignedSteps=0;
+    if(alignedSteps>=4){
+      readSensorLine(reading);
+      if(sumOfArray(reading,6)!=2)rightDirection=true;
+      goFF();
+    }
+    else trailAndErrorArrowFollow_Forward();
     readSensorLine(reading);
   }
+  //<<<<<<<<<ARROW HEAD REJECTION OVER
 
 
   motorWrite(200, 200);
