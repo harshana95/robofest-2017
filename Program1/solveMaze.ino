@@ -79,11 +79,15 @@ void findPath(int* distance) {
     solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + 4+nextIndex)%4;
     solvedCommandQueueIndex++;
     currentFacingDir = nextIndex;
+    int previous_pos = pos;
     switch (currentFacingDir){
       case 0:pos=pos-1;break;
       case 1:pos=pos-6;break;
       case 2:pos=pos+1;break;
       case 3:pos=pos+6;break;
+    }
+    if (pos<0 or pos>35 or pos == previous_pos-1 or pos == previous_pos + 1){
+      
     }
   }
 

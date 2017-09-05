@@ -111,11 +111,11 @@ void shiftDirVector(int c) {
 void executeCommand(int i) {
   // check if the box is there in front. before executing this function
   Serial.println(solvedCommandQueue[i]);
-  if (solvedCommandQueue[i] == 1) { // these values need to chage appropriately
+  if (solvedCommandQueue[i] == 3) { // these values need to chage appropriately
     maze_turnLeft();
   } else if (solvedCommandQueue[i] == 0) {
     maze_goForward();
-  } else if (solvedCommandQueue[i] == 3) {
+  } else if (solvedCommandQueue[i] == 1) {
     maze_turnRight();
   } else {
     maze_turnBack(); // never happens :P
@@ -238,11 +238,11 @@ void printCurrentMaze() {
     Serial.print("#\n");
   }
   Serial.println(F("----------------------------"));
-  Serial.println(isMazeSolved);
-  Serial.println(startXPosition);
-  Serial.println(startYPosition);
-  Serial.println(finalXPosition);
-  Serial.println(finalXPosition);
+  Serial.print("isMaze : "); Serial.println(isMazeSolved);
+  Serial.print("Position  x1: "); Serial.println(startXPosition);
+  Serial.print("Position  y1: ");  Serial.println(startYPosition);
+  Serial.print("Position  x2: ");  Serial.println(finalXPosition);
+  Serial.print("Position  y2: ");  Serial.println(finalYPosition);
 
 
 }
