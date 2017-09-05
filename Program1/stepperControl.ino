@@ -18,7 +18,7 @@ void stepperMotorBegin() {
   digitalWrite(PIN_STEP, LOW);
 
   stepper.begin(200, MICROSTEPS);
-  stepper.setSpeedProfile(LINEAR_SPEED, 500, 2000);    //TODO: LINEAR_SPEED | CONSTANT_SPEED   500,2000
+  stepper.setSpeedProfile(LINEAR_SPEED, 500, 500);    //TODO: LINEAR_SPEED | CONSTANT_SPEED   500,2000
 
   Serial.println(F(">> Steppers : Begin..."));
   stepper.disable();
@@ -74,7 +74,7 @@ void motorWrite(int steps, int left, int right) {
   stepper.move(steps * MICROSTEPS);
   delay(150);                         //Leave some delay until robot stop is's movement
   stepper.disable();
-  
+
   //stepper.getTimeForMove(steps);
 
 }
@@ -90,7 +90,7 @@ void softMotorWrite(int steps, int left, int right) {
   digitalWrite(PIN_DIR_RIGHT, (right == 1));
 
   stepper.move(steps * MICROSTEPS);
-  //delay(150);                        //Leave some delay until robot stop is's movement
+  delay(150);                        //Leave some delay until robot stop is's movement
   stepper.disable();
   //stepper.getTimeForMove(steps);
 

@@ -1,23 +1,21 @@
-
-
 /*
-  04/09/2017 gihanchanaka@gmail.com
-  These are the utilities for the arrow following part
+	04/09/2017 gihanchanaka@gmail.com
+	These are the utilities for the arrow following part
 
 
-  I am putting all the functions here instead of keeping a copy in every file
+	I am putting all the functions here instead of keeping a copy in every file
 */
 
 int sign(int x){
-  if(x>0)return 1;
-  if(x<0)return -1;
-  return 0;
+	if(x>0)return 1;
+	if(x<0)return -1;
+	return 0;
 }
 
 
-void turnCW(int degrees) {
+void turnCW(int degrs) {
   //I am assuming that this function can turn the robot clockwise to 10 degrees
-  motorRotate((double)degrees);
+  motorRotate(degrs);
 }
 
 void goFoward(int mm) {
@@ -103,6 +101,15 @@ void goBL(){
   goL();
 }
 
+void goFF(){
+  goF();
+  goF();
+}
+
+void goBB(){
+  goB();
+  goB();
+}
 
 int updatedWeightedSum(){
   //03/09/2017
