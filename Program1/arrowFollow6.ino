@@ -137,12 +137,7 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
 
 
   boolean foundColor = false;
-<<<<<<< HEAD:Program1/arrowFollow5.ino
 
-  //<<<<<<<<<The part of the function to find an arrow tail>>>>>>>>>
-  while (!foundColor) {
-=======
->>>>>>> 0afe0895923d319df10a3dd9959511b8427f9873:Program1/arrowFollow6.ino
 
   //<<<<<<<<<The part of the function to find an arrow tail>>>>>>>>>
   while (!foundColor) {
@@ -158,16 +153,12 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
       foundColor = true;
       break;
     }
-<<<<<<< HEAD:Program1/arrowFollow5.ino
-    else {
-      int ws = updatedWeightedSum()
-      if (tempWeightedSum != 0) {
-=======
+
 
     else {
       int ws = updatedWeightedSum();
       if (ws != 0) {
->>>>>>> 0afe0895923d319df10a3dd9959511b8427f9873:Program1/arrowFollow6.ino
+
         turnCW(-90 * sign(ws));
         sign_ws = sign(ws)>0;
         for (int i = 0; i < 18; i++) {
@@ -191,12 +182,10 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
     Serial.println(freeMemory());
   }
 
-<<<<<<< HEAD:Program1/arrowFollow5.ino
 
-=======
   Serial.print("Free memory: ");
   Serial.println(freeMemory());
->>>>>>> 0afe0895923d319df10a3dd9959511b8427f9873:Program1/arrowFollow6.ino
+
   //<<<<<<<<<The part of the function to go along the arrow>>>>>>>>>
 
   Serial.println("Found the tail of arrow");
@@ -220,12 +209,10 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
     delay(100);
     readSensorLine(reading);
   }
-<<<<<<< HEAD:Program1/arrowFollow5.ino
-//ARROW HEAD REJECTION>>>>>>>>>>>> 05/09/2017 gihanchanaka@gmail.com
-=======
+
 
   //ARROW HEAD REJECTION>>>>>>>>>>>> 05/09/2017 gihanchanaka@gmail.com
->>>>>>> 0afe0895923d319df10a3dd9959511b8427f9873:Program1/arrowFollow6.ino
+
   int alignedSteps=0;
   boolean rightDirection=false;
   readSensorLine(reading);
@@ -240,9 +227,7 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
     else trailAndErrorArrowFollow_Forward();
     readSensorLine(reading);
   }
-<<<<<<< HEAD:Program1/arrowFollow5.ino
-//<<<<<<<<<ARROW HEAD REJECTION OVER
-=======
+
   //<<<<<<<<<ARROW HEAD REJECTION OVER
 
 
