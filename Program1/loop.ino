@@ -102,10 +102,10 @@ void loop() {
 
 
 void displayLoopStatus(int mode) {
-  Serial.println("New loop iteration>>");
+  /*Serial.println("New loop iteration>>");
   Serial.print("Free memory: ");
   Serial.println(freeMemory());
-  Serial.print("Mode: ");
+  Serial.print("Mode: ");*/
   switch (mode) {
     case BEGIN:
       Serial.println("BEGIN");
