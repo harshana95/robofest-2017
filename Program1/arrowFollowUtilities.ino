@@ -101,16 +101,6 @@ void goBL() {
   goL();
 }
 
-void goFF() {
-  goF();
-  goF();
-}
-
-void goBB() {
-  goB();
-  goB();
-}
-
 int updatedWeightedSum() {
   //03/09/2017
   int weight[6] = { -3, -2, -1, 1, 2, 3};

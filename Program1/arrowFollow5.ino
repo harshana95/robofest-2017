@@ -98,8 +98,6 @@ void firstArrowFollow(int boxColor) {
     //Serial.println(F("Finished the first arrow"));
   }
 }
-}
-}
 
 
 void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
@@ -148,8 +146,8 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
       break;
     }
     else {
-      int ws = updatedWeightedSum()
-      if (tempWeightedSum != 0) {
+      int ws = updatedWeightedSum();
+      if (ws != 0) {
         turnCW(-90 * sign(ws));
         for (int i = 0; i < 18; i++) {
           turnCW(10 * sign(ws));

@@ -48,7 +48,7 @@ void loop() {
       readBoxColor();
       
       if (buttonStatus == 0 || (boxColor != 0)) { // Execute whrn button was pressed or color is not equal to 0
-        mode = PICKING_BOX;
+        mode = PICK_BOX;
         saveEEPROM();
         Serial.println(F(">> MAZE RUN -> PICKING_BOX"));
       } else {
@@ -59,7 +59,7 @@ void loop() {
 
 
     //-------------------------------------------------------------------------------------------------------------- Pick the box
-    case PICKING_BOX:
+    case PICK_BOX:
       //Go suitable distance back, expand arm and go suitable distance forward, now take the box
       motorWrite(50, -1, -1);
       readyToPick();
@@ -114,7 +114,7 @@ void displayLoopStatus(int mode){
     case MAZE_RUN:
       Serial.println("MAZE_RUN");
       break;
-    case PICKING_BOX:
+    case PICK_BOX:
       Serial.println("PICKING_BOX");
       break;
     case FIND_ARROW:
