@@ -19,11 +19,7 @@ void turnCW(int degrs) {
 }
 
 void goFoward(int mm) {
-  if (mm > 0) {
     motorWrite(mm * 10, mm * 10);
-  } else {
-    motorWrite(mm * -10 , mm * -10);
-  }
 }
 
 int getColorReading() {

@@ -1,9 +1,9 @@
 
 
-#define PICK_ON 150
-#define PICK_OFF 70
+#define PICK_ON 120
+#define PICK_OFF 40
 
-#define GRAB_UP 3
+#define GRAB_UP 30
 #define GRAB_DOWN 90
 
 void pickBox() {

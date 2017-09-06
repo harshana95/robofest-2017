@@ -1,7 +1,7 @@
 void solveMaze() {
 
   derriveWalls();
-  
+
   int distance[36];
   BFS(distance);
   int exittime[36];
@@ -19,21 +19,21 @@ void solveMaze() {
 
   Serial.println(F("Distance from start cell using BFS (conflicts removed)"));
   printArr(distance, 36);
-  
+
   findPath(distance);
 
   Serial.println(F("Command Queue"));
-  printArr(solvedCommandQueue,36);
-  
+  printArr(solvedCommandQueue, 36);
+
 }
 
-void derriveWalls(){
-  
+void derriveWalls() {
+
 }
 
 void findPath(int* distance) {
   int currentFacingDir = 1; // facing north
-  int pos = startXPosition*6 + startYPosition;
+  int pos = startXPosition * 6 + startYPosition;
 
   int eastDist, westDist, northDist, southDist;
   int distArr[4];
@@ -43,16 +43,16 @@ void findPath(int* distance) {
   int distCount = 0; // this will count the distance from BFS and follow while incrementing
   while (1) {
     Serial.println(pos);
-    if (pos/6 == finalXPosition and pos%6==finalYPosition) {
-      if (boxXPosition == -1){ // box at north
-        solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + 4+1)%4;
-      }else if(boxXPosition == 6){// box at south
-        solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + 4+3)%4;
+    if (pos / 6 == finalXPosition and pos % 6 == finalYPosition) {
+      if (boxXPosition == -1) { // box at north
+        solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + 4 + 1) % 4;
+      } else if (boxXPosition == 6) { // box at south
+        solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + 4 + 3) % 4;
       }
-      if (boxYPosition == -1){// box at west
-        solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + 4+0)%4;
-      }else if(boxYPosition == 6){// box at east
-        solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + 4+2)%4;
+      if (boxYPosition == -1) { // box at west
+        solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + 4 + 0) % 4;
+      } else if (boxYPosition == 6) { // box at east
+        solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + 4 + 2) % 4;
       }
       solvedCommandQueueIndex++;
       solvedCommandQueue[solvedCommandQueueIndex] = 4;
@@ -77,25 +77,34 @@ void findPath(int* distance) {
       southDist = 255;
 
     distArr[0] = westDist; distArr[1] = northDist; distArr[2] = eastDist; distArr[3] = southDist;
-    
+
     nextIndex = -1;
-    for (int i=0;i<4;i++){
-      if (distArr[i] == distCount+1){
+    for (int i = 0; i < 4; i++) {
+      if (distArr[i] == distCount + 1) {
         nextIndex = i;
         break;
       }
     }
 
     distCount++;
+
+    solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + 4 + nextIndex) % 4;
+
+    //checking for straight forward configurations
+    if (solvedCommandQueueIndex > 0 and solvedCommandQueue[solvedCommandQueueIndex] == 0) {
+      if (solvedCommandQueue[solvedCommandQueueIndex - 1] % 10 == 0) {
+        solvedCommandQueueIndex--;
+        solvedCommandQueue[solvedCommandQueueIndex] = (solvedCommandQueue[solvedCommandQueueIndex]/10 + 1)*10;
+      }
+    }
     
-    solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + 4+nextIndex)%4;
     solvedCommandQueueIndex++;
     currentFacingDir = nextIndex;
-    switch (currentFacingDir){
-      case 0:pos=pos-1;break;
-      case 1:pos=pos-6;break;
-      case 2:pos=pos+1;break;
-      case 3:pos=pos+6;break;
+    switch (currentFacingDir) {
+      case 0: pos = pos - 1; break;
+      case 1: pos = pos - 6; break;
+      case 2: pos = pos + 1; break;
+      case 3: pos = pos + 6; break;
     }
   }
 
@@ -110,8 +119,8 @@ void removeConflicts(int* distance, int* exittime) {
   int x, y;
   for (int i = 0; i < 6; i++) {
     for (int j = 0; j < 6; j++) {
-      x=5-i; y=5-j;
-      
+      x = 5 - i; y = 5 - j;
+
       if (y + 1 < 6) {
         eastDist = distance[x * 6 + y + 1];   eastExittime = exittime[x * 6 + y + 1];
       }
@@ -131,10 +140,10 @@ void removeConflicts(int* distance, int* exittime) {
         westDist = 255; westExittime = 0;
       }
       if (x + 1 >= 0 && x + 1 < 6) {
-        southDist = distance[(x + 1) * 6 + y]; southExittime = exittime[(x + 1)*6 + y];
+        southDist = distance[(x + 1) * 6 + y]; southExittime = exittime[(x + 1) * 6 + y];
       }
       else {
-        southDist = 255; southExittime =0;
+        southDist = 255; southExittime = 0;
       }
 
       distArr[0] = westDist; distArr[1] = northDist; distArr[2] = eastDist; distArr[3] = southDist;
@@ -142,7 +151,7 @@ void removeConflicts(int* distance, int* exittime) {
       for (int i = 0; i < 3; i++) {
         for (int j = i + 1; j < 4; j++) {
           if (distArr[i] == 255 or distArr[j] == 255) continue;
-          
+
           if (distArr[i] == distArr[j]) {
             if (exittimeArr[i] < exittimeArr[j]) { // find the best side to turn. make the unwanted path as 100. so robo will not go there.
               distArr[i] = 100;
@@ -165,7 +174,7 @@ void removeConflicts(int* distance, int* exittime) {
         }
       }
 
-      
+
     }
   }
 }
@@ -176,12 +185,12 @@ void removeConflicts(int* distance, int* exittime) {
 
 /*
 
- ---------> Y
-|
-|
-|
-v        -|- (5,5)
-X
+  ---------> Y
+  |
+  |
+  |
+  v        -|- (5,5)
+  X
 
 */
 
@@ -191,7 +200,7 @@ void BFS(int* distance) {
   //nodes are defined as cells in maze
   int queue[36]; // can this be larger than 36??????? since there are loops????
   int queueP = 0; //points to the last element in the queue
-  
+
   int visited[36];
   //initilialize queue with -1
   //initialize visited with 0;
@@ -200,19 +209,19 @@ void BFS(int* distance) {
     visited[i] = 0; queue[i] = -1; distance[i] = 255;
   }
 
-  queue[queueP] = startXPosition*6 + startYPosition;
+  queue[queueP] = startXPosition * 6 + startYPosition;
   distance[queue[0]] = 0; // start distance is 0
-  
+
   int currentCell;
   int edges;
   int isWall;
   int depth = 0;
-  
+
   while (1) {
-    if (queueP < 0){
+    if (queueP < 0) {
       break;
     }
-    currentCell = pop(queue,36);
+    currentCell = pop(queue, 36);
     //Serial.print("-----------------------------------------------------------\nChecking cell ");
     //Serial.println(currentCell);
     if (visited[currentCell]) {
@@ -227,7 +236,7 @@ void BFS(int* distance) {
     if (edges == -1) continue;
 
     depth += 1;
-    
+
     //Serial.print("Going to Cell ");
     //Serial.println(currentCell);
     //Serial.print("walls ");
@@ -237,32 +246,60 @@ void BFS(int* distance) {
       edges = edges >> 1;
       if (isWall)
         continue;
-      
+
       queueP++;
       switch (j) {
         case 0: //No wall at south
-          if (currentCell+6>35){queueP=-1; Serial.println("Out of the maze from south");continue;}
-          if (visited[currentCell + 6]) {queueP--;continue;}
+          if (currentCell + 6 > 35) {
+            queueP = -1;
+            Serial.println("Out of the maze from south");
+            continue;
+          }
+          if (visited[currentCell + 6]) {
+            queueP--;
+            continue;
+          }
           queue[queueP] = currentCell + 6; distance[queue[queueP]] = distance[currentCell] + 1;
           break;
         case 1: //No wall at east
-          if ((currentCell+1)&6==0){queueP=-1; Serial.println("Out of the maze from east");continue;}
-          if (visited[currentCell + 1]) {queueP--;continue;}
+          if ((currentCell + 1) & 6 == 0) {
+            queueP = -1;
+            Serial.println("Out of the maze from east");
+            continue;
+          }
+          if (visited[currentCell + 1]) {
+            queueP--;
+            continue;
+          }
           queue[queueP] = currentCell + 1; distance[queue[queueP]] = distance[currentCell] + 1;
           break;
         case 2: //No wall at north
-          if (currentCell-6<0){queueP=-1; Serial.println("Out of the maze from north");continue;}
-          if (visited[currentCell - 6]) {queueP--;continue;}
+          if (currentCell - 6 < 0) {
+            queueP = -1;
+            Serial.println("Out of the maze from north");
+            continue;
+          }
+          if (visited[currentCell - 6]) {
+            queueP--;
+            continue;
+          }
           queue[queueP] = currentCell - 6; distance[queue[queueP]] = distance[currentCell] + 1;
           break;
         case 3: //No wall at west
-          if (currentCell%6==0){queueP=-1; Serial.println("Out of the maze from west");continue;}
-          if (visited[currentCell - 1]) {queueP--; continue;}
+          if (currentCell % 6 == 0) {
+            queueP = -1;
+            Serial.println("Out of the maze from west");
+            continue;
+          }
+          if (visited[currentCell - 1]) {
+            queueP--;
+            continue;
+          }
           queue[queueP] = currentCell - 1; distance[queue[queueP]] = distance[currentCell] + 1;
           break;
-      
+
       }
-      
+
     }
   }
 
@@ -273,11 +310,11 @@ void BFS(int* distance) {
 
 
 void DFS(int* exittime) {
-  
+
   int queue[36]; // can this be larger than 36??????? since there are loops????
   int queueP = 0; //points to the last element in the queue
 
-  
+
   int visited[36];
   //initilialize queue with -1
   //initialize visited with 0;
@@ -286,13 +323,13 @@ void DFS(int* exittime) {
     visited[i] = 0; queue[i] = -1; exittime[i] = 0;
   }
 
-  queue[queueP] = startXPosition*6 + startYPosition;
+  queue[queueP] = startXPosition * 6 + startYPosition;
 
   int currentCell;
   int edges;
   int isWall;
   int extime = 0;
-  
+
   while (1) {
     if (queueP < 0)
       break;
@@ -314,58 +351,86 @@ void DFS(int* exittime) {
     exittime[currentCell] = extime;
     //Serial.print("Going to Cell ");
     //Serial.println(currentCell);
-    
+
     for (int j = 0; j < 4; j++) {
       isWall = edges % 2;
       edges = edges >> 1;
       if (isWall)
         continue;
-      
+
       queueP++;
       switch (j) {
         case 0: //No wall at south
-          if (currentCell+6>35){queueP=-1; Serial.println("Out of the maze from south");continue;}
-          if (visited[currentCell + 6]) {queueP--;continue;}
+          if (currentCell + 6 > 35) {
+            queueP = -1;
+            Serial.println("Out of the maze from south");
+            continue;
+          }
+          if (visited[currentCell + 6]) {
+            queueP--;
+            continue;
+          }
           queue[queueP] = currentCell + 6; break;
         case 1: //No wall at east
-          if ((currentCell+1)&6==0){queueP=-1; Serial.println("Out of the maze from east");continue;}
-          if (visited[currentCell + 1]) {queueP--;continue;}
+          if ((currentCell + 1) & 6 == 0) {
+            queueP = -1;
+            Serial.println("Out of the maze from east");
+            continue;
+          }
+          if (visited[currentCell + 1]) {
+            queueP--;
+            continue;
+          }
           queue[queueP] = currentCell + 1; break;
         case 2: //No wall at north
-          if (currentCell-6<0){queueP=-1; Serial.println("Out of the maze from north");continue;}
-          if (visited[currentCell - 6]) {queueP--;continue;}
+          if (currentCell - 6 < 0) {
+            queueP = -1;
+            Serial.println("Out of the maze from north");
+            continue;
+          }
+          if (visited[currentCell - 6]) {
+            queueP--;
+            continue;
+          }
           queue[queueP] = currentCell - 6; break;
         case 3: //No wall at west
-          if (currentCell%6==0){queueP=-1; Serial.println("Out of the maze from west");continue;}
-          if (visited[currentCell - 1]) {queueP--; continue;}
+          if (currentCell % 6 == 0) {
+            queueP = -1;
+            Serial.println("Out of the maze from west");
+            continue;
+          }
+          if (visited[currentCell - 1]) {
+            queueP--;
+            continue;
+          }
           queue[queueP] = currentCell - 1; break;
-      
+
       }
-      
+
     }
     //printArr(exittime,36);
   }
 
 }
 
-int pop(int*arr, int n){
+int pop(int*arr, int n) {
   int x = arr[0];
-  for (int i=0;i<n-1;i++){
-   arr[i] = arr[i+1];
+  for (int i = 0; i < n - 1; i++) {
+    arr[i] = arr[i + 1];
   }
   return x;
 }
 
-void printArr(int* arr, int n){
-  for (int i=0;i<n;i++){
+void printArr(int* arr, int n) {
+  for (int i = 0; i < n; i++) {
     Serial.print(arr[i]);
-    if (arr[i]>99)
-    Serial.print(" ");
-    else if (arr[i]>9 or arr[i]<0)
-    Serial.print("  ");
+    if (arr[i] > 99)
+      Serial.print(" ");
+    else if (arr[i] > 9 or arr[i] < 0)
+      Serial.print("  ");
     else
-    Serial.print("   ");
-    if ((i+1)%6==0) Serial.println("");
+      Serial.print("   ");
+    if ((i + 1) % 6 == 0) Serial.println("");
   }
   Serial.println("");
 }
