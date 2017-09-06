@@ -14,7 +14,7 @@ void colorBegin() {
     Serial.println(">> ColorSensor : Begin");
   } else {
     Serial.println(">> ColorSensor : Not Found");
-    //buzzer(4);
+
     //while (1); // halt!
   }
 }

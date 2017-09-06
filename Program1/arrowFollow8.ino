@@ -2,7 +2,7 @@
 //06/09/2017 gihanchanaka@gmail.com
 //These global variales are needed ONLY IF we are using the bottom panel as a colour sensor
 int floorColorGrid[6];
-int calibratedData[6][3][2];//calibratedData[sensor][color][0=min,1=max]
+int calibratedData[6][4][2];//calibratedData[sensor][color][0=min,1=max]
 //*****************************************
 
 
