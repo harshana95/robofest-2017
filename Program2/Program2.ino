@@ -17,10 +17,10 @@ void setup() {
   Serial.println(">> Begin : Prog2");
 
   //compassBegin();
-  sharpIRBegin();
+  //sharpIRBegin();
   //sonarBegin();
   colorBegin();
-  indicatorBegin();
+  //indicatorBegin();
 
 }
 
@@ -35,11 +35,11 @@ void setup() {
 
 void loop() {
 
-  readColor();
+  //readColor();
   delay(100);
   //readWalls(wall);
   //readCompass();
-  //Serial.println(colorR0);
+  Serial.println(0);
 
 }
 
