@@ -12,7 +12,7 @@ void loop() {
       if (buttonStatus == 0 ) {
         beep();
         stand();
-        mode = FIND_ARROW;
+        mode = PICK_BOX;//MAZE_OPTION;// FIND_ARROW;
 
         Serial.println(F(">> BEGIN -> ###"));
         delay(500);
@@ -64,10 +64,12 @@ void loop() {
       motorWrite(50, -1, -1);
       readyToPick();
       delay(2000);                  // TODO : Must optimize the time, distance
-      motorWrite(80, 1, 1);
+      motorWrite(120, 1, 1);
       pick();
+      motorWrite(60, 1, 1);
       delay(1000);
-      mode = BEGIN;//FIND_ARROW;
+      mode = FIND_ARROW;
+      beep();
       Serial.println(F(">> PICKING_BOX -> FIND_ARROW"));
       break;
 
@@ -102,15 +104,17 @@ void loop() {
 
     //-------------------------------------------------------------------------------------------------------------- Maze Option 1 : Run on pre defined maze
     case MAZE_OPTION:
-      buttonStatus = digitalRead(BUTTON_1);
 
-      if (buttonStatus == 0 ) {
+      mazeOption1();
+      /*buttonStatus = digitalRead(BUTTON_1);
+
+        if (buttonStatus == 0 ) {
         mode = BEGIN;
-      } else {
+        } else {
         loadCommandQueueFromEEPROM();
         executeCommand(commandNo);
         commandNo++;
-      }
+        }*/
       break;
   }
 }

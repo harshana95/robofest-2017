@@ -35,7 +35,7 @@ void setup() {
 
 void loop() {
 
-  //readColor();
+  readColor();
   delay(100);
   //readWalls(wall);
   //readCompass();
