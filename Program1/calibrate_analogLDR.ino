@@ -14,7 +14,7 @@ void calibrateFor(int clr) {
   int noOfReadings = 100;
 
   beep(2);
-  delay(3000);
+  delay(5000);
   beep(1);
 
   // first reading to find the average
@@ -28,7 +28,7 @@ void calibrateFor(int clr) {
     arr[j] /= noOfReadings;
   }
 
-  int maxArr[] = {0, 0, 0, 0, 0, 0};
+  /*int maxArr[] = {0, 0, 0, 0, 0, 0};
   int minArr[] = {0, 0, 0, 0, 0, 0};
   int maxCount[] = {0, 0, 0, 0, 0, 0};
   int minCount[] = {0, 0, 0, 0, 0, 0};
@@ -54,7 +54,7 @@ void calibrateFor(int clr) {
     if (minCount[j] != 0)
       minArr[j] /= minCount[j];
   }
-
+  
   // finding avg larger than max avg
   // finding avg smaller than min avg
   int maxArr2[] = {0, 0, 0, 0, 0, 0};
@@ -79,23 +79,15 @@ void calibrateFor(int clr) {
       maxArr2[j] /= maxCount2[j];
     if (minCount2[j] != 0)
       minArr2[j] /= minCount2[j];
-  }
+  }*/
 
   for (int j = 0; j < 6; j++) {
-    calibratedData[j][clr][1] = maxArr2[j];
-    calibratedData[j][clr][0] = minArr2[j];
+    calibratedData[j][clr] = arr[j];
 
   }
-  Serial.println("min");
+  Serial.println("avg");
   for (int j = 0; j < 6; j++) {
-    Serial.print(calibratedData[j][clr][0]);
-    Serial.print(" ");
-  }
-  Serial.println("");
-
-  Serial.println("max");
-  for (int j = 0; j < 6; j++) {
-    Serial.print(calibratedData[j][clr][1]);
+    Serial.print(calibratedData[j][clr]);
     Serial.print(" ");
   }
   Serial.println("");

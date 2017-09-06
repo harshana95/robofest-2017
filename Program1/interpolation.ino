@@ -9,7 +9,9 @@ void testAndGetData(char rOrd, double spd, double steps) {
   stepper.setRPM(spd);
 
   if (rOrd == 'r') {
+    motorWrite(300, 1, 1);
     motorWrite(steps, 1, -1);
+    motorWrite(300, 1, 1);
   } else if (rOrd == 'd') {
     motorWrite(steps, 1, 1);
   }
