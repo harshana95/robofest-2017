@@ -48,20 +48,22 @@ void debugProcedure() {
     Serial.print("Floor = ");
     printColor(getColorReading());
     Serial.print(" Box= ");
-    printColor(readBoxColor());
+    readBoxColor();
+    printColor(boxColor);
     Serial.println("");
     delay(4000);
   }
-
-
-  void printColor(int c){
-    if(c==1) Serial.print("R");
-    if(c==2) Serial.print("G");
-    if(c==3) Serial.print("B");
-    if(c<1 or c>3) Serial.print("N");
-  }
-
-
-
-
 }
+
+
+void printColor(int c) {
+  if (c == 1) Serial.print("R");
+  if (c == 2) Serial.print("G");
+  if (c == 3) Serial.print("B");
+  if (c<1 or c>3) Serial.print("N");
+}
+
+
+
+
+
