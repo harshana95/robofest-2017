@@ -45,9 +45,13 @@ void setup() {
 
   pinMode(PIN_LED, OUTPUT);
 
+  saveCommandQueueFromEEPROM();
+  
   loadEEPROM(); // loading EEPROM data
+  isMazeSolved = 1;
   if (isMazeSolved) { // maze has being traversed before.
-    solveMaze();
+    //solveMaze();
+    loadCommandQueueFromEEPROM();
   } else {
     cleanEEPROM();
   }

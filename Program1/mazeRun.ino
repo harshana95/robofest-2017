@@ -23,7 +23,6 @@ void mazeRunAdvanced() {
   Serial.print(">> X:"); Serial.print(posX); Serial.print(" Y:"); Serial.print(posY); Serial.print(" C:"); Serial.print(posCount); Serial.println();
   Serial.println(F("------------------------------------------------------------"));
 
-  delay(3000);
 }
 
 void explore() {
