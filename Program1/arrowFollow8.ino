@@ -2,7 +2,7 @@
 //06/09/2017 gihanchanaka@gmail.com
 //These global variales are needed ONLY IF we are using the bottom panel as a colour sensor
 int floorColorGrid[6];
-int calibratedData[6][3][2];//calibratedData[sensor][color][0=min,1=max]
+int calibratedData[6][4][2];//calibratedData[sensor][color][0=min,1=max]
 //*****************************************
 
 
@@ -129,9 +129,41 @@ void readFloorColorGrid() {
 }
 
 
+void firstArrowFollow(int boxColor) {
+  readFloorColorGrid();
+  Serial.print("Box color = ");
+  Serial.println(boxColor);
+  Serial.print("Color reading: ");
+  for (int i = 0; i < 6; i++) {
+    Serial.print(" ");
+    Serial.print(floorColorGrid[i]);
+  }
+  Serial.print("  W=");
+  int ws = weightedSumColor(boxColor);
+  Serial.println(ws);
+
+  if (ws < 0)goL();
+  if (ws > 0)goR();
+  if (ws == 0)goF();
+  goF();
+}
+
+void trailAndErrorArrowFollow_LoopOneArrow(int boxColor){
+  //We dont need this
+}
+
+int weightedSumColor(int boxColor) {
+  int w[6] = { -3, -2, -1, 1, 2, 3};
+  int sum = 0;
+  for (int i = 0; i < 6; i++)if (floorColorGrid[i] == boxColor)sum += w[i];
+  return w;
+}
+
+
 int analogReadForLDR(int i) {
   //06/09/2017
   //To be implemented
-  return i;
+  delay(1);
+  return analogRead(irPins[i]);
 }
 

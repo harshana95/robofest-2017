@@ -9,18 +9,20 @@ void loop() {
     case BEGIN:
       buttonStatus = digitalRead(BUTTON_1);
       readColor();
+
       if (buttonStatus == 0 ) {
         beep();
         stand();
-        mode = PICK_BOX;//MAZE_OPTION;// FIND_ARROW;
+        mode = PICK_BOX;
+        // MAZE_OPTION FIND_ARROW MAZE_RUN
 
         Serial.println(F(">> BEGIN -> ###"));
-        delay(500);
+        //delay(500);
 
       } else {
         //readWalls(wall);
         //delay(1000);
-        delay(100);
+        delay(50);
       }
 
       break;
@@ -35,7 +37,7 @@ void loop() {
         beep(2);
         Serial.println(F(">> TEST -> BEGIN"));
       } else {
-        test();
+        //test();
       }
 
       break;
@@ -66,7 +68,7 @@ void loop() {
       delay(2000);                  // TODO : Must optimize the time, distance
       motorWrite(120, 1, 1);
       pick();
-      motorWrite(60, 1, 1);
+      motorWrite(120, -1, -1);
       delay(1000);
       mode = FIND_ARROW;
       beep();
@@ -76,7 +78,11 @@ void loop() {
 
     //-------------------------------------------------------------------------------------------------------------- Find Arrow
     case FIND_ARROW:
-      firstArrowFollow(COLOR_GREEN);
+
+      // Set speed profile to linear speed with default values
+      stepper.setSpeedProfile(LINEAR_SPEED, 500, 2000);    //TODO: LINEAR_SPEED | CONSTANT_SPEED   500,2000
+
+      firstArrowFollow(COLOR_BLUE);
       Serial.println("FIND ARROW CASE OVERRR");
       delay(1000);
       break;

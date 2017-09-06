@@ -121,7 +121,10 @@ void readColor() {
     floorColor = COLOR_OPEN;                // NO COLOR
   }
 
-  //Serial.println(floorColor);
+  if (floorColor == 1)Serial.println("R");
+  else if (floorColor == 2)Serial.println("G");
+  else if (floorColor == 3)Serial.println("B");
+  else Serial.println("None");
 
   if (0) {
     Serial.print(raw_blue);
@@ -132,10 +135,10 @@ void readColor() {
     Serial.print(" ");
     Serial.print(raw_clr);
     Serial.print(" ");
-    Serial.print(color0.calculateColorTemperature(raw_red, raw_green, raw_blue) );
-    Serial.print(" ");
+    //Serial.print(color0.calculateColorTemperature(raw_red, raw_green, raw_blue) );
+    //Serial.print(" ");
 
-    Serial.print(floorColor);
+    Serial.print(50 * (floorColor - 2));
     Serial.println(" ");
   }
 

@@ -23,7 +23,7 @@ void mazeRunAdvanced() {
   Serial.print(">> X:"); Serial.print(posX); Serial.print(" Y:"); Serial.print(posY); Serial.print(" C:"); Serial.print(posCount); Serial.println();
   Serial.println(F("------------------------------------------------------------"));
 
-  delay(1000);
+
 }
 
 void explore() {
@@ -75,7 +75,12 @@ void explore() {
   posY += dir[1][1];
 
   //check if the robo is out from the maze and change the mode to box picking thingy
-  if (posX < 0 or posX > 5 or posY < 0 or posY > 5) {
+
+  //if (posX < 0 or posX > 5 or posY < 0 or posY > 5) {
+  if (posX == finalXPosition && posY = finalYPosition) {
+
+    
+    
     mode = PICK_BOX; // TODO: change this to correct mode
     isMazeSolved = 1;
     saveEEPROM();

@@ -39,7 +39,8 @@ void loop() {
   delay(100);
   //readWalls(wall);
   //readCompass();
-  //Serial.println(0);
 
+  
+  
 }
 

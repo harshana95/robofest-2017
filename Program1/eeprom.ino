@@ -66,7 +66,7 @@ void loadEEPROM() {
 }
 
 void saveCommandQueueFromEEPROM() {
-  short int arr[] = {0};
+  short int arr[] = {0,3,1,0,3,3,0,10,3,1,0,0,1,3,4};
   for (int i = 0; i < sizeof(arr) / sizeof(arr[0]); i++) {
     EEPROM.update(80 + i, arr[i]);
   }

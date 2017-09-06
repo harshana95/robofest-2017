@@ -12,7 +12,7 @@ int color; //04/09/2017 ADDED BY GIHAN COZ THE getColorReading() function requir
 #define BACK 2
 
 // Mode eNum
-enum {BEGIN, TEST, MAZE_RUN, MAZE_OPTION, PICK_BOX, FIND_ARROW, BLUETOOTH, SECOND_ARROW_FOLLOW,DROP_BOX, PROG_END};
+enum {BEGIN, TEST, MAZE_RUN, MAZE_OPTION, PICK_BOX, FIND_ARROW, BLUETOOTH, SECOND_ARROW_FOLLOW, DROP_BOX, PROG_END};
 
 // EEPROM eNum
 //enum {eP, eI, eD, eMax, eBase, eDebug};
@@ -124,7 +124,10 @@ int commandNo = 0;
 int posCount = 1;
 int startXPosition = 5, startYPosition = 5; // starting position of the maze
 int posX = startXPosition, posY = startYPosition; // current position for traversing the maze at first
-int finalXPosition, finalYPosition; //position of the destination cell. when robo reach here the box should be in front!!!!
+
+int finalXPosition = 10;  // TODO: define this
+int finalYPosition = 10; //position of the destination cell. when robo reach here the box should be in front!!!!
+
 int boxXPosition, boxYPosition; // coordinates of the box position. THIS IS OUTSIDE THE MAZE
 
 int dir[4][2] = { {0, 1}, { -1, 0}, {0, -1},  { 1, 0}};
@@ -171,11 +174,11 @@ int speedOptions[noOfSpeedOptions] = {100, 200, 300};
 const int stepsGiven_Rotate[noOfRotateOptions] PROGMEM = {0, 10, 20, 30, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 170, 190, 210, 220, 230};
 const int stepsGiven_Distance[noOfDistanceOptions] PROGMEM = {0, 100, 200, 300, 400, 500, 600, 700, 800, 900};
 /*
- * 
- * 200
- * 50-50 100-97 80-78 
- * 
- */
+
+   200
+   50-50 100-97 80-78
+
+*/
 const int angleRotated[noOfSpeedOptions][noOfRotateOptions] PROGMEM = {
   {0, 10, 20, 30, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 180, 1},
   {0, 20, 40, 50, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1},
