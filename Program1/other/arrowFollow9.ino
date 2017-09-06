@@ -40,9 +40,23 @@ void firstArrowFollow(int boxColor) {
     for (int i = 0; i < 18; i++) {
       turnCW(10);
       if (getColorReading() == boxColor) {
-        foundTheTailfOfFirstArrow = true;
-        //Serial.println(F("Found the tail of the first arrow! "));
-        break;
+        int hitCount = 0;
+        delay(2000);
+        for (int xx = 0; xx < 4; xx++) if (getColorReading() == boxColor)hitCount++;
+
+        turnCW(-5);
+        delay(2000);
+        for (int xx = 0; xx < 4; xx++) if (getColorReading() == boxColor)hitCount++;
+        turnCW(10);
+        delay(2000);
+        for (int xx = 0; xx < 4; xx++) if (getColorReading() == boxColor)hitCount++;
+        turnCW(-5);
+        Serial.print("Hits = ");
+        Serial.println(hitCount);
+        if (hitCount > 5) {
+          foundTheTailfOfFirstArrow = true;
+          break;
+        }
       }
     }
     if (!foundTheTailfOfFirstArrow) {
@@ -186,6 +200,8 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
             turnCW(10);
             for (int xx = 0; xx < 4; xx++) if (getColorReading() == boxColor)hitCount++;
             turnCW(-5);
+            Serial.print("Hits = ");
+            Serial.println(hitCount);
             if (hitCount > 5) {
               foundColor = true;
               break;
@@ -207,6 +223,8 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
               turnCW(10);
               for (int xx = 0; xx < 4; xx++) if (getColorReading() == boxColor)hitCount++;
               turnCW(-5);
+              Serial.print("Hits = ");
+              Serial.println(hitCount);
               if (hitCount > 5) {
                 foundColor = true;
                 break;
