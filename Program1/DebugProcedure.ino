@@ -1,4 +1,7 @@
 void debugProcedure() {
+  //06/09/2017 gihanchanaka@gmail.com
+
+  
   //Go forward 1 feet
   goF();
   delay(1000);
@@ -57,6 +60,7 @@ void debugProcedure() {
 
 
 void printColor(int c) {
+  //06/09/2017 gihanchanaka@gmail.com
   if (c == 1) Serial.print("R");
   if (c == 2) Serial.print("G");
   if (c == 3) Serial.print("B");
