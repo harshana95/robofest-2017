@@ -32,7 +32,7 @@ void serialEvent() {
       printCurrentMaze();
       printCurrentMazeWalls();
     }
-    
+
     //-------------------------------------------------------------------------------------------------------------- c -> clean current maze
     else if (inChar == 'c') {
       cleanEEPROM();
@@ -43,8 +43,10 @@ void serialEvent() {
     else if (inChar == 'q') {
       readSensorLine(sensor_values);
       Serial.println(irLineString);
+      Serial.print("Sum=");
+      Serial.println(sumOfArray(sensor_values, 6));
     }
-    
+
     //-------------------------------------------------------------------------------------------------------------- s -> ???
     else if (inChar == 's') {
       /*
@@ -60,9 +62,10 @@ void serialEvent() {
     //-------------------------------------------------------------------------------------------------------------- t -> test
     else if (inChar == 't') {
 
-      //readBoxColor();
-   
-    //-------------------------------------------------------------------------------------------------------------- z -> interpolate
+      readBoxColor();
+      Serial.println(floorColor);
+
+      //-------------------------------------------------------------------------------------------------------------- z -> interpolate
     } else if (inChar == 'z') {
       char rOrd;
       int spdArr[5];
@@ -111,7 +114,7 @@ void serialEvent() {
       stepsToRotate(round(spd), val);
       testAndGetData(rOrd, spd, val);
     }
-    
+
     //-------------------------------------------------------------------------------------------------------------- 2,4,5,6,7,8,9-> bluetooth mode
     else if (mode == BLUETOOTH) {
 
@@ -127,6 +130,13 @@ void serialEvent() {
       else if (inChar == '4')motorWrite(baseSpeed, -1 * baseSpeed);
       else if (inChar == '6')motorWrite(-1 * baseSpeed, baseSpeed);
 #endif
+    }
+
+    else if (inChar == '+') {
+      pick();
+    }
+    else if (inChar == '-') {
+      drop();
     }
 
     digitalWrite(13, LOW);
@@ -186,13 +196,13 @@ void beep(int k) {
   for (k; k > 0; k--)mySerial.print("k");
 }
 
-void ledBlue(){
+void ledBlue() {
   mySerial.print("]");
 }
-void ledRed(){
+void ledRed() {
   mySerial.print("]");
 }
-void ledGreen(){
+void ledGreen() {
   mySerial.print("|");
 }
 

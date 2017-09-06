@@ -58,6 +58,8 @@ void readWalls(int *wall) {
   */
 }
 
+
+
 int readSensorLine(unsigned int *sensor_values) {
   weight = 0;
   sum = 0;

@@ -23,27 +23,49 @@ void mazeRunAdvanced() {
   Serial.print(">> X:"); Serial.print(posX); Serial.print(" Y:"); Serial.print(posY); Serial.print(" C:"); Serial.print(posCount); Serial.println();
   Serial.println(F("------------------------------------------------------------"));
 
+
 }
 
 void explore() {
   // IF YOU WANT LEFT HAND RULE PUT LEFT SENSOR CHECK AS FIRST CHECK!!!
-  if (!wall[RIGHT_SENSOR]) {
-    maze_turnRight();
-    shiftDirVector(-1);
-    currentFacingDir = (currentFacingDir + 1 + 4) % 4;
-  }
-  else if (!wall[FRONT_SENSOR]) {
-    maze_goForward();
-  }
-  else if (!wall[LEFT_SENSOR]) {
-    maze_turnLeft();
-    currentFacingDir = (currentFacingDir - 1 + 4) % 4;
-    shiftDirVector(1);
-  }
-  else {
-    maze_turnBack();
-    currentFacingDir = (currentFacingDir + 2 + 4) % 4;
-    shiftDirVector(-2);
+  if (RIGHT_HAND_RULE) {
+    if (!wall[RIGHT_SENSOR]) {
+      maze_turnRight();
+      shiftDirVector(-1);
+      currentFacingDir = (currentFacingDir + 1 + 4) % 4;
+    }
+    else if (!wall[FRONT_SENSOR]) {
+      maze_goForward();
+    }
+    else if (!wall[LEFT_SENSOR]) {
+      maze_turnLeft();
+      currentFacingDir = (currentFacingDir - 1 + 4) % 4;
+      shiftDirVector(1);
+    }
+    else {
+      maze_turnBack();
+      currentFacingDir = (currentFacingDir + 2 + 4) % 4;
+      shiftDirVector(-2);
+    }
+  } else {
+    if (!wall[LEFT_SENSOR]) {
+      maze_turnLeft();
+      currentFacingDir = (currentFacingDir - 1 + 4) % 4;
+      shiftDirVector(1);
+    }
+    else if (!wall[FRONT_SENSOR]) {
+      maze_goForward();
+    }
+    else if (!wall[RIGHT_SENSOR]) {
+      maze_turnRight();
+      shiftDirVector(-1);
+      currentFacingDir = (currentFacingDir + 1 + 4) % 4;
+    }
+    else {
+      maze_turnBack();
+      currentFacingDir = (currentFacingDir + 2 + 4) % 4;
+      shiftDirVector(-2);
+    }
   }
   // store the last position as the last valid position in the maze
   finalXPosition = posX; finalYPosition = posY;

@@ -18,8 +18,10 @@ void stepperMotorBegin() {
   digitalWrite(PIN_STEP, LOW);
 
   stepper.begin(200, MICROSTEPS);
+
   stepper.setSpeedProfile(LINEAR_SPEED, 10000, 10000);    //TODO: LINEAR_SPEED | CONSTANT_SPEED   500,2000
 
+  
   Serial.println(F(">> Steppers : Begin..."));
   stepper.disable();
 }
