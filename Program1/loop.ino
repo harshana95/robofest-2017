@@ -13,8 +13,8 @@ void loop() {
       if (buttonStatus == 0 ) {
         beep();
         stand();
-        mode = PICK_BOX;
-        // MAZE_OPTION FIND_ARROW MAZE_RUN
+
+        mode = FIND_ARROW;
 
         Serial.println(F(">> BEGIN -> ###"));
         //delay(500);
@@ -83,8 +83,6 @@ void loop() {
       stepper.setSpeedProfile(LINEAR_SPEED, 500, 2000);    //TODO: LINEAR_SPEED | CONSTANT_SPEED   500,2000
 
       firstArrowFollow(COLOR_BLUE);
-      Serial.println("FIND ARROW CASE OVERRR");
-      delay(1000);
       break;
 
     case SECOND_ARROW_FOLLOW:
@@ -95,18 +93,14 @@ void loop() {
     //-------------------------------------------------------------------------------------------------------------- Drop box
     case DROP_BOX:
 
-      motorWrite(100, -1, -1);      // Need to calibrate this distance
       drop();
       beep(3);
       Serial.println(F(">> Task is completed"));
-      mode = PROG_END;
+      mode = BEGIN;
       break;
 
     //-------------------------------------------------------------------------------------------------------------- End of the program
-    case PROG_END:
-      delay(1000);
-      // ha ha its completed
-      break;
+    
 
     //-------------------------------------------------------------------------------------------------------------- Maze Option 1 : Run on pre defined maze
     case MAZE_OPTION:

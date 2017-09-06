@@ -72,7 +72,6 @@ void serialEvent() {
     }
 
     else if (inChar == 'y') {
-      motorWrite(100, -1, -1);      // Need to calibrate this distance
       drop();
       beep(3);
       Serial.println(F(">> Task is completed"));

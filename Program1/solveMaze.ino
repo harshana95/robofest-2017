@@ -91,12 +91,12 @@ void findPath(int* distance) {
     solvedCommandQueue[solvedCommandQueueIndex] = (-currentFacingDir + 4 + nextIndex) % 4;
 
     //checking for straight forward configurations
-    if (solvedCommandQueueIndex > 0 and solvedCommandQueue[solvedCommandQueueIndex] == 0) {
+    /*if (solvedCommandQueueIndex > 0 and solvedCommandQueue[solvedCommandQueueIndex] == 0) {
       if (solvedCommandQueue[solvedCommandQueueIndex - 1] % 10 == 0) {
         solvedCommandQueueIndex--;
         solvedCommandQueue[solvedCommandQueueIndex] = (solvedCommandQueue[solvedCommandQueueIndex]/10 + 1)*10;
       }
-    }
+    }*/
     
     solvedCommandQueueIndex++;
     currentFacingDir = nextIndex;
