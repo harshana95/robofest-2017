@@ -131,6 +131,7 @@ void StepperDriver::startMove(long steps) {
       // Initial pulse (c0) including error correction factor 0.676 [us]
       step_pulse = (1e+6) * 0.676 * sqrt(2.0f / (accel * microsteps));
       break;
+      
     case CONSTANT_SPEED:
     default:
       step_pulse = STEP_PULSE(rpm, motor_steps, microsteps);
