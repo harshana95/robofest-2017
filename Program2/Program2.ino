@@ -35,11 +35,11 @@ void setup() {
 
 void loop() {
 
-  //readColor();
+  readColor();
   delay(100);
   //readWalls(wall);
   //readCompass();
-  Serial.println(0);
+  //Serial.println(0);
 
 }
 

@@ -59,6 +59,26 @@ void serialEvent() {
       */
     }
 
+    else if (inChar == 'x') {
+      //Go suitable distance back, expand arm and go suitable distance forward, now take the box
+      motorWrite(50, -1, -1);
+      readyToPick();
+      delay(2000);                  // TODO : Must optimize the time, distance
+      motorWrite(80, 1, 1);
+      pick();
+      delay(1000);
+      beep();
+      Serial.println(F(">> PICKING_BOX -> FIND_ARROW"));
+    }
+
+    else if (inChar == 'y') {
+      motorWrite(100, -1, -1);      // Need to calibrate this distance
+      drop();
+      beep(3);
+      Serial.println(F(">> Task is completed"));
+    }
+
+
     //-------------------------------------------------------------------------------------------------------------- t -> test
     else if (inChar == 't') {
 

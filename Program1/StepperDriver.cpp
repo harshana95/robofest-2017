@@ -116,7 +116,7 @@ void StepperDriver::startMove(long steps) {
       // speed is in [steps/s]
       speed = rpm * motor_steps / 60;
       // how many steps from 0 to target rpm
-      steps_to_cruise = speed * speed * microsteps / (2 * accel);
+      steps_to_cruise = 10 * speed * speed * microsteps / (2 * accel);
       // how many steps from 0 til we need to begin slowing down
       steps_to_brake = steps_remaining * decel / (accel + decel);
       if (steps_to_cruise < steps_to_brake) {
