@@ -48,6 +48,26 @@ void serialEvent() {
       dropBox();
     }
 
+    // --------------------------------------------------------------------------------------- LED indicators   [ ] |
+
+    else if (inChar == '[') {
+      digitalWrite(PIN_RED, HIGH);
+      digitalWrite(PIN_GREEN, LOW);
+      digitalWrite(PIN_BLUE, LOW);
+
+    }
+    else if (inChar == '|') {
+      digitalWrite(PIN_RED, LOW);
+      digitalWrite(PIN_GREEN, HIGH);
+      digitalWrite(PIN_BLUE, LOW);
+
+    }
+    else if (inChar == ']') {
+      digitalWrite(PIN_RED, LOW);
+      digitalWrite(PIN_GREEN, LOW);
+      digitalWrite(PIN_BLUE, HIGH);
+    }
+    
     // --------------------------------------------------------------------------------------- Read box color
     else if (inChar == 'j') {
       char val = '0' + colorR0;

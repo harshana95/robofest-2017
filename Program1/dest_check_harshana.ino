@@ -31,23 +31,25 @@ bool isThisTheDestination(int boxColor) {
 
   int andsum = (1 << 7) - 1;
   int orsum = 0;
-  short int res = 5; //something divisible by 80
+  short int res = 2; //something divisible by 80
   for (int i = 0; i < res; i++) {
     readSensorLine(reading);
-    andsum = andsum && binaryEncodedIRReading;
-    orsum = orsum || binaryEncodedIRReading;
-    goFoward(80 / res);
+    andsum = andsum & binaryEncodedIRReading();
+    orsum = orsum | binaryEncodedIRReading();
+    goFoward(60 / res);
+    Serial.println(andsum,BIN);
+    Serial.println(orsum,BIN);
   }
-  Serial.println(andsum,BIN);
-  Serial.println(orsum,BIN);
-  
-  if (andsum == (1 << 7) - 1) {
+
+  if (andsum == (1 << 7) - 1 or andsum ==126 or andsum == (1<<6) -1) {
     // perfectly matched all the points.
     // good place to unload the box
-    goFoward(-80);
-    goFoward(-20);
+    /*goFoward(-80);
+      goFoward(-20);*/
     // TODO: goback needed distance
+    mode = DROP_BOX;
     return true;
+
   } else if (((andsum >> 2) % 2 == 1 or (andsum >> 3) % 2 == 1) and (orsum % 2 == 1 or (orsum >> 5) % 2 == 1)) {
     // now most probably destination is at a rotated position w.r.t robot
     // unlikely an arrow!!
@@ -57,14 +59,14 @@ bool isThisTheDestination(int boxColor) {
     // come back the half the distance that went
     // rotate a few steps
     // TO DISCUSS: HOW MUCH AND WHICH DIRECTION
-    goFoward(-40);
+    goFoward(-10);
     if (sign_ws) {
       // first encounter is in right side
       turnCW(10);
     } else {
       turnCW(-10);
     }
-    goFoward(-40);
+    goFoward(-30);
     // come back the other half
     // + a few more steps
     goFoward(-10);
@@ -75,9 +77,9 @@ bool isThisTheDestination(int boxColor) {
     // when 6IR condition is met this function will be called.
     // at the end it should be in the perfectly aligned position
   }
-  
+
   //come back the distance that went forward for checking
-  goFoward(-80);
+  goFoward(-60);
   return false;
 }
 

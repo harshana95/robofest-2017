@@ -65,10 +65,7 @@ void setup() {
 }
 
 void test() {
-  /*pick();
-    delay(2000);
-    drop();
-    delay(2000);*/
-  //readWalls(wall);
+  motorWrite(1000, 1, 1);
+  delay(5000);
 }
 

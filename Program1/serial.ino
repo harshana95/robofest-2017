@@ -186,4 +186,13 @@ void beep(int k) {
   for (k; k > 0; k--)mySerial.print("k");
 }
 
+void ledBlue(){
+  mySerial.print("]");
+}
+void ledRed(){
+  mySerial.print("]");
+}
+void ledGreen(){
+  mySerial.print("|");
+}
 

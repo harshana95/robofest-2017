@@ -64,6 +64,32 @@ void StepperDriver::move(long steps) {
   do {
     next_event = nextAction();
     microWaitUntil(micros() + next_event);
+
+    // Nuwan 2017-09-05
+    /*interreptCounter ++;
+
+      if (interreptCounter == 100)  { // check this for every 100 steps
+      irCounter = 0;
+      interreptCounter = 0;
+
+      if (analogRead(A0) > 512)irCounter += 1;
+      if (analogRead(A1) > 512)irCounter += 1;
+      if (analogRead(A2) > 512)irCounter += 1;
+      if (analogRead(A5) > 512)irCounter += 1;
+      if (analogRead(A6) > 512)irCounter += 1;
+      if (analogRead(A7) > 512)irCounter += 1;
+
+      if (irCounter > 0) {
+        digitalWrite(PIN_EN_LEFT, HIGH);
+        digitalWrite(PIN_EN_RIGHT, HIGH);
+        break;
+      }
+      //delay(1000);
+      }*/
+
+    // ------------------------------------------------
+
+
   } while (next_event);
 }
 
