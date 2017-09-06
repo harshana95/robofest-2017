@@ -12,7 +12,7 @@ void loop() {
       if (buttonStatus == 0 ) {
         beep();
         stand();
-        mode = FIND_ARROW;
+        mode = MAZE_OPTION;// FIND_ARROW;
 
         Serial.println(F(">> BEGIN -> ###"));
         delay(500);
@@ -102,15 +102,17 @@ void loop() {
 
     //-------------------------------------------------------------------------------------------------------------- Maze Option 1 : Run on pre defined maze
     case MAZE_OPTION:
-      buttonStatus = digitalRead(BUTTON_1);
 
-      if (buttonStatus == 0 ) {
+      mazeOption1();
+      /*buttonStatus = digitalRead(BUTTON_1);
+
+        if (buttonStatus == 0 ) {
         mode = BEGIN;
-      } else {
+        } else {
         loadCommandQueueFromEEPROM();
         executeCommand(commandNo);
         commandNo++;
-      }
+        }*/
       break;
   }
 }

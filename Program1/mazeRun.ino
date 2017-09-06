@@ -302,3 +302,29 @@ void printCurrentMazeWalls() {
   }
   Serial.println(F("----------------------------"));
 }
+
+
+
+
+int path[] = {FRONT, LEFT, RIGHT, RIGHT, LEFT, FRONT, FRONT, LEFT, FRONT, BACK, FRONT, RIGHT, FRONT,
+              RIGHT, RIGHT, LEFT, FRONT, RIGHT, BACK, FRONT, FRONT, FRONT, LEFT, RIGHT, RIGHT, FRONT,
+              RIGHT, FRONT, FRONT, FRONT, FRONT, BACK, FRONT, FRONT, RIGHT, FRONT
+             };
+
+
+int lenIndex = sizeof(path);
+int curIndex = 0;
+
+void mazeOption1() {
+
+ if (curIndex < lenIndex) {
+    if (path[curIndex] == FRONT) maze_goForward();
+    else if (path[curIndex] == LEFT) maze_turnLeft();
+    else if (path[curIndex] == RIGHT) maze_turnRight();
+    else if (path[curIndex] == BACK) maze_turnBack();
+
+    curIndex++;
+  }
+  delay(100);
+
+}
