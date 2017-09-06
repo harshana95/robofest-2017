@@ -144,19 +144,19 @@ void executeCommand(int i) {
     mode = PICK_BOX;
   } else if (solvedCommandQueue[i] == 10) {
     // fast farward 2 cells
-    motorForward(300*2);
+    motorForward(300 * 2);
   } else if (solvedCommandQueue[i] == 20) {
     // fast farward 3 cells
-    motorForward(300*3);
+    motorForward(300 * 3);
   } else if (solvedCommandQueue[i] == 30) {
     // fast farward 4 cells
-    motorForward(300*4);
+    motorForward(300 * 4);
   } else if (solvedCommandQueue[i] == 40) {
     // fast farward 5 cells
-    motorForward(300*5);
+    motorForward(300 * 5);
   } else if (solvedCommandQueue[i] == 50) {
     // fast farward 6 cells
-    motorForward(300*6);
+    motorForward(300 * 6);
   }
 }
 
@@ -317,13 +317,17 @@ int curIndex = 0;
 
 void mazeOption1() {
 
- if (curIndex < lenIndex) {
+  if (curIndex < lenIndex) {
     if (path[curIndex] == FRONT) maze_goForward();
     else if (path[curIndex] == LEFT) maze_turnLeft();
     else if (path[curIndex] == RIGHT) maze_turnRight();
     else if (path[curIndex] == BACK) maze_turnBack();
 
     curIndex++;
+  }
+  else {
+    mode = PICK_BOX;
+    delay(10000);
   }
   delay(100);
 
