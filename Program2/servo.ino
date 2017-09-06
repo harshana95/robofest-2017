@@ -40,7 +40,7 @@ void dropBox() {
 
 void stand() {
   attachServos();
-  grab.write(GRAB_UP);
+  grab.write(30);
   delay(500);
   pick.write(PICK_ON);
   delay(1000);
