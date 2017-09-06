@@ -10,19 +10,19 @@ void loop() {
       buttonStatus = digitalRead(BUTTON_1);
       readColor();
 
-      
       if (buttonStatus == 0 ) {
         beep();
         stand();
+
         mode = FIND_ARROW;
 
         Serial.println(F(">> BEGIN -> ###"));
-        delay(500);
+        //delay(500);
 
       } else {
         //readWalls(wall);
         //delay(1000);
-        delay(100);
+        delay(50);
       }
 
       break;
@@ -31,13 +31,6 @@ void loop() {
     //-------------------------------------------------------------------------------------------------------------- Test
     case TEST:
       buttonStatus = digitalRead(BUTTON_1);
-
-      for (int k = 0; k < 6; k++) {
-        Serial.print(analogRead(irPins[k]));
-        Serial.print(" ");
-      }
-      Serial.println();
-
 
       if (buttonStatus == 0 ) {
         mode = BEGIN;
