@@ -40,6 +40,7 @@ bool isThisTheDestination(int boxColor) {
     Serial.println(andsum,BIN);
     Serial.println(orsum,BIN);
   }
+
   if (andsum == (1 << 7) - 1 or andsum ==126 or andsum == (1<<6) -1) {
     // perfectly matched all the points.
     // good place to unload the box
