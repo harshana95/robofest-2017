@@ -104,6 +104,7 @@ void initialize() {
 }
 
 
+
 void readFloorColorGrid() {
   //06/09/2017 gihanchanaka@gmail.com
   //This function updates the global variable "floorColorGrid"
