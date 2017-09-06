@@ -54,7 +54,7 @@ void setup() {
     cleanEEPROM();
   }
 
-  calibrateColorLDR();
+  //calibrateColorLDR();
 
   stand();
   // Inform us that program is ready
