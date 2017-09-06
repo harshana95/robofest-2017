@@ -45,7 +45,7 @@ void setup() {
   //pinMode(BUTTON_2, INPUT_PULLUP);
 
   pinMode(PIN_LED, OUTPUT);
-  
+
   loadEEPROM(); // loading EEPROM data
   isMazeSolved = 0;
   if (isMazeSolved) { // maze has being traversed before.
@@ -54,7 +54,7 @@ void setup() {
     cleanEEPROM();
   }
 
-
+  //calibrateColorLDR();
 
   stand();
   // Inform us that program is ready
@@ -63,7 +63,6 @@ void setup() {
 }
 
 void test() {
-  motorWrite(1000, 1, 1);
-  delay(5000);
+
 }
 
