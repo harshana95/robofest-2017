@@ -1,6 +1,6 @@
 
 
-#define PICK_ON 120
+#define PICK_ON 160
 #define PICK_OFF 40
 
 #define GRAB_UP 30
