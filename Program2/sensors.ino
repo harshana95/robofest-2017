@@ -11,10 +11,10 @@ void sharpIRBegin() {
 void colorBegin() {
 
   if (color0.begin()) {
-    //Serial.println(">> ColorSensor : Begin");
+    Serial.println(">> ColorSensor : Begin");
   } else {
     Serial.println(">> ColorSensor : Not Found");
-    buzzer(4);
+    //buzzer(4);
     //while (1); // halt!
   }
 }
@@ -46,7 +46,7 @@ void readColor() {
   }
   indicatorShow(colorR0);
 
-  if (0) {
+  if (1) {
     Serial.print(blue0);
     Serial.print(" ");
     Serial.print(red0);
