@@ -104,7 +104,7 @@ int drift = 0;
 
 
 //-------------------------------------------------------------------------------------------------------------- Maze Traversal
-
+bool RIGHT_HAND_RULE = false;
 enum {LEFT_SENSOR, FRONT_SENSOR, RIGHT_SENSOR};
 int wall[] = {0, 0, 1};
 int isMazeSolved = 0;
@@ -163,11 +163,19 @@ const int noOfSpeedOptions = 3;
 const int noOfRotateOptions = 20;
 const int noOfDistanceOptions = 10;
 
+
+
+
 int speedOptions[noOfSpeedOptions] = {100, 200, 300};
 // 0 is needed to interpolate between 0th value and 1st value
 const int stepsGiven_Rotate[noOfRotateOptions] PROGMEM = {0, 10, 20, 30, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 170, 190, 210, 220, 230};
 const int stepsGiven_Distance[noOfDistanceOptions] PROGMEM = {0, 100, 200, 300, 400, 500, 600, 700, 800, 900};
-
+/*
+ * 
+ * 200
+ * 50-50 100-97 80-78 
+ * 
+ */
 const int angleRotated[noOfSpeedOptions][noOfRotateOptions] PROGMEM = {
   {0, 10, 20, 30, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 180, 1},
   {0, 20, 40, 50, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1},

@@ -120,7 +120,8 @@ void firstArrowFollow(int boxColor) {
 
 
 void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
-  Serial.println("\n\nStarting TO FIND A NEW ARROW \n\n");
+  Serial.println(F("\n\nStarting TO FIND A NEW ARROW \n\n"));
+  ledRed();
   /*
     31/08/2017
     We have to test this function by keeping the robot POINTED AT AN ARROW
@@ -154,6 +155,7 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
   //<<<<<<<<<The part of the function to find an arrow tail>>>>>>>>>
 
   while (!foundColor) {
+    ledRed();
     Serial.print("1. Free memory: ");
     Serial.println(freeMemory());
     readSensorLine(reading);
@@ -199,18 +201,37 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
       if (!foundColor) {
         int tempMemory[6];
         readSensorLine(tempMemory);
-        boolean inState=true;
+        boolean inState = true;
         while (inState) {
-      //    Serial.println(F("In the state"));
           goF();
           readSensorLine(reading);
-          
-          for (int i = 0; i < 6; i++)if (reading[i] == 0)tempMemory[i] = 0;
-          for (int i = 0; i < 6; i++)if (tempMemory[i] == 0)if (reading[i] == 1){
-      //      Serial.println(F("Breaking the state"));
-            inState=false;
-            break;
+
+          for (int i = 0; i < 6; i++) {
+            if (i == 0 || i == 5) {
+              if (i == 0 and reading[i] == 1 ) {
+                if (tempMemory[0] == 0 and tempMemory[1] == 0) {
+                  inState = false;
+                  break;
+                }
+              }
+              if (i == 5 and reading[i] == 1) {
+                if (tempMemory[4] == 0 and tempMemory[5] == 0) {
+                  inState = false;
+                  break;
+                }
+              }
+            }
+            else {
+              if (reading[i] == 1) {
+                if (tempMemory[i] == 0 and tempMemory[i - 1] == 0 and tempMemory[i + 1] == 0) {
+                  inState = false;
+                  break;
+                }
+              }
+            }
           }
+
+          for (int i = 0; i < 6; i++)tempMemory[i] = reading[i];
 
         }
       }
@@ -220,6 +241,8 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
 
 
   //<<<<<<<<<The part of the function to go along the arrow>>>>>>>>>
+
+  ledGreen();
 
   Serial.println("Found the tail of arrow");
   readSensorLine(reading);
@@ -238,6 +261,8 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
 
   goBB(); goBB();
   readSensorLine(reading);
+
+  ledRed();
   while (sumOfArray(reading, 6) != 0) {
 
     goBB();
@@ -254,7 +279,7 @@ void trailAndErrorArrowFollow_LoopOneArrow(int boxColor) {
 
   int alignedSteps = 0;
   boolean rightDirection = false;
-
+  ledGreen();
   readSensorLine(reading);
   while (sumOfArray(reading, 6) != 0) {
     if (updatedWeightedSum() == 0) alignedSteps++;
