@@ -77,10 +77,8 @@ void explore() {
   //check if the robo is out from the maze and change the mode to box picking thingy
 
   //if (posX < 0 or posX > 5 or posY < 0 or posY > 5) {
-  if (posX == finalXPosition && posY = finalYPosition) {
+  if (posX == finalXPosition && posY == finalYPosition) {
 
-    
-    
     mode = PICK_BOX; // TODO: change this to correct mode
     isMazeSolved = 1;
     saveEEPROM();

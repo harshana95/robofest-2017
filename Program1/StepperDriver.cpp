@@ -64,32 +64,6 @@ void StepperDriver::move(long steps) {
   do {
     next_event = nextAction();
     microWaitUntil(micros() + next_event);
-
-    // Nuwan 2017-09-05
-    /*interreptCounter ++;
-
-      if (interreptCounter == 100)  { // check this for every 100 steps
-      irCounter = 0;
-      interreptCounter = 0;
-
-      if (analogRead(A0) > 512)irCounter += 1;
-      if (analogRead(A1) > 512)irCounter += 1;
-      if (analogRead(A2) > 512)irCounter += 1;
-      if (analogRead(A5) > 512)irCounter += 1;
-      if (analogRead(A6) > 512)irCounter += 1;
-      if (analogRead(A7) > 512)irCounter += 1;
-
-      if (irCounter > 0) {
-        digitalWrite(PIN_EN_LEFT, HIGH);
-        digitalWrite(PIN_EN_RIGHT, HIGH);
-        break;
-      }
-      //delay(1000);
-      }*/
-
-    // ------------------------------------------------
-
-
   } while (next_event);
 }
 
@@ -116,8 +90,7 @@ void StepperDriver::startMove(long steps) {
       // speed is in [steps/s]
       speed = rpm * motor_steps / 60;
       // how many steps from 0 to target rpm
-
-      steps_to_cruise = speed * speed * microsteps / (2 * accel);    // 10*
+      steps_to_cruise = speed * speed * microsteps / (2 * accel);
       // how many steps from 0 til we need to begin slowing down
       steps_to_brake = steps_remaining * decel / (accel + decel);
       if (steps_to_cruise < steps_to_brake) {
@@ -131,7 +104,6 @@ void StepperDriver::startMove(long steps) {
       // Initial pulse (c0) including error correction factor 0.676 [us]
       step_pulse = (1e+6) * 0.676 * sqrt(2.0f / (accel * microsteps));
       break;
-      
     case CONSTANT_SPEED:
     default:
       step_pulse = STEP_PULSE(rpm, motor_steps, microsteps);
@@ -229,7 +201,6 @@ long StepperDriver::nextAction(void) {
       calcStepPulse();
     }
     m = micros() - m;
-
     /*
        We currently try to do a 50% duty cycle so it's easy to see.
        Other option is step_high_min, pulse_duration-step_high_min.

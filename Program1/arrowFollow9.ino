@@ -48,7 +48,7 @@ void firstArrowFollow(int boxColor) {
         for (int xx = 0; xx < 4; xx++) if (getColorReading() == boxColor)hitCount++;
         turnCW(-5);
         if (hitCount > 5) {
-          foundColor = true;
+          foundTheTailfOfFirstArrow = true;
           break;
         }
       }

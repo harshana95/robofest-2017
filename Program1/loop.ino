@@ -14,7 +14,7 @@ void loop() {
         beep();
         stand();
 
-        mode = FIND_ARROW;
+        mode = PICK_BOX; //FIND_ARROW;
 
         Serial.println(F(">> BEGIN -> ###"));
         //delay(500);
@@ -31,6 +31,8 @@ void loop() {
     //-------------------------------------------------------------------------------------------------------------- Test
     case TEST:
       buttonStatus = digitalRead(BUTTON_1);
+
+      debugProcedure() ;
 
       if (buttonStatus == 0 ) {
         mode = BEGIN;
@@ -80,7 +82,7 @@ void loop() {
     case FIND_ARROW:
 
       // Set speed profile to linear speed with default values
-      stepper.setSpeedProfile(LINEAR_SPEED, 500, 2000);    //TODO: LINEAR_SPEED | CONSTANT_SPEED   500,2000
+      //stepper.setSpeedProfile(LINEAR_SPEED, 500, 2000);    //TODO: LINEAR_SPEED | CONSTANT_SPEED   500,2000
 
       firstArrowFollow(COLOR_BLUE);
       break;
@@ -100,7 +102,7 @@ void loop() {
       break;
 
     //-------------------------------------------------------------------------------------------------------------- End of the program
-    
+
 
     //-------------------------------------------------------------------------------------------------------------- Maze Option 1 : Run on pre defined maze
     case MAZE_OPTION:
