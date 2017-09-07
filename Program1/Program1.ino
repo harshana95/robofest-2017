@@ -53,9 +53,6 @@ void setup() {
   } else {
     cleanEEPROM();
   }
-
-  //calibrateColorLDR();
-
   stand();
   // Inform us that program is ready
   //beep(2);
