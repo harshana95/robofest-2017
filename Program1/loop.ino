@@ -8,13 +8,13 @@ void loop() {
     //-------------------------------------------------------------------------------------------------------------- Begin
     case BEGIN:
       buttonStatus = digitalRead(BUTTON_1);
-      readColor();
+      //readColor();
 
       if (buttonStatus == 0 ) {
         beep();
         stand();
 
-        mode = FIND_ARROW;
+        mode = MAZE_OPTION;//PICK_BOX; //FIND_ARROW;
 
         Serial.println(F(">> BEGIN -> ###"));
         //delay(500);
@@ -31,6 +31,8 @@ void loop() {
     //-------------------------------------------------------------------------------------------------------------- Test
     case TEST:
       buttonStatus = digitalRead(BUTTON_1);
+
+      debugProcedure() ;
 
       if (buttonStatus == 0 ) {
         mode = BEGIN;
@@ -62,14 +64,18 @@ void loop() {
 
     //-------------------------------------------------------------------------------------------------------------- Pick the box
     case PICK_BOX:
+
       //Go suitable distance back, expand arm and go suitable distance forward, now take the box
-      motorWrite(50, -1, -1);
+      motorWrite(50, -1, -1);       // Going out from maze towards box
       readyToPick();
-      delay(2000);                  // TODO : Must optimize the time, distance
+      delay(2000);                  // TODO : Must optimize the time, distance Important !!!
       motorWrite(120, 1, 1);
+      readBoxColor();
+      delay(500);
       pick();
-      motorWrite(120, -1, -1);
       delay(1000);
+      motorWrite(120, -1, -1);
+      delay(500);
       mode = FIND_ARROW;
       beep();
       Serial.println(F(">> PICKING_BOX -> FIND_ARROW"));
@@ -80,9 +86,9 @@ void loop() {
     case FIND_ARROW:
 
       // Set speed profile to linear speed with default values
-      stepper.setSpeedProfile(LINEAR_SPEED, 500, 2000);    //TODO: LINEAR_SPEED | CONSTANT_SPEED   500,2000
+      //stepper.setSpeedProfile(LINEAR_SPEED, 500, 2000);    //TODO: LINEAR_SPEED | CONSTANT_SPEED   500,2000
 
-      firstArrowFollow(COLOR_BLUE);
+      firstArrowFollow(boxColorReading);
       break;
 
     case SECOND_ARROW_FOLLOW:
@@ -92,7 +98,6 @@ void loop() {
 
     //-------------------------------------------------------------------------------------------------------------- Drop box
     case DROP_BOX:
-
       drop();
       beep(3);
       Serial.println(F(">> Task is completed"));
@@ -100,7 +105,10 @@ void loop() {
       break;
 
     //-------------------------------------------------------------------------------------------------------------- End of the program
-    
+
+
+
+
 
     //-------------------------------------------------------------------------------------------------------------- Maze Option 1 : Run on pre defined maze
     case MAZE_OPTION:
@@ -155,3 +163,84 @@ void displayLoopStatus(int mode) {
     Serial.println(F("--------------------------------------------------"));
   }
 }
+
+
+
+void debugProcedure() {
+  //06/09/2017 gihanchanaka@gmail.com
+
+
+  //Go forward 1 feet
+  goF();
+  delay(1000);
+  goFF();
+  delay(1000);
+
+  //Take 2 clock wise 90 deg turns
+  turnCW(90);
+
+  //Take 2 anti cock wise 90 deg turns
+  turnCW(-90);
+
+  //Go backward 1 feet
+  goB();
+  delay(1000);
+  goBB();
+  delay(1000);
+
+  //print wall readings (3 times with 4 sec delays)
+  for (int j = 0; j < 3; j++) {
+    readWalls(wall);
+    for (int i = 0; i < 3; i++) {
+      Serial.print(wall[i]);
+      Serial.print(" ");
+    }
+    Serial.println();
+    delay(2000);
+  }
+
+  beep();
+
+  //Print LDR readings (3 times with 4 sec delays)
+  for (int j = 0; j < 3; j++) {
+    readSensorLine(reading);
+    for (int i = 0; i < 6; i++) {
+      Serial.print(reading[i]);
+      Serial.print(" ");
+    }
+    Serial.print("Weighted sum= ");
+    Serial.print(updatedWeightedSum());
+    Serial.println();
+    delay(4000);
+  }
+
+  beep();
+
+  //Print colour readings (3 times with 4 sec delays)
+  for (int j = 0; j < 3; j++) {
+    Serial.print("Floor = ");
+    printColor(getColorReading());
+    Serial.print(" Box= ");
+    readBoxColor();
+    printColor(boxColor);
+    Serial.println("");
+    delay(4000);
+  }
+
+
+  beep(3);
+}
+
+
+void printColor(int c) {
+  //06/09/2017 gihanchanaka@gmail.com
+  if (c == 1) Serial.print("R");
+  if (c == 2) Serial.print("G");
+  if (c == 3) Serial.print("B");
+  if (c<1 or c>3) Serial.print("N");
+}
+
+
+
+
+
