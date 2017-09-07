@@ -12,7 +12,6 @@ void mazeRunAdvanced() {
   if (isMazeSolved == 0) {
     mazeWalls[posX][posY] = giveBinaryWallCode();
     updateMazeWallAddress(posX, posY);
-
     explore();
 
   } else {

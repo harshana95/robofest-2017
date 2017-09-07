@@ -68,6 +68,7 @@ uint16_t raw_clr, raw_red, raw_green, raw_blue;
 enum {COLOR_OPEN, COLOR_RED, COLOR_GREEN, COLOR_BLUE};
 int floorColor = 0;
 int boxColor = 0;
+int boxColorReading = COLOR_BLUE;
 #define WHITE_THERSOLD  800 // **This depends with the distance from sensor to the object
 #define RED_GB_GAP 100
 

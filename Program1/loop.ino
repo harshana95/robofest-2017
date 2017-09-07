@@ -64,11 +64,14 @@ void loop() {
 
     //-------------------------------------------------------------------------------------------------------------- Pick the box
     case PICK_BOX:
+
       //Go suitable distance back, expand arm and go suitable distance forward, now take the box
-      motorWrite(50, -1, -1);
+      motorWrite(50, -1, -1);       // Going out from maze towards box
       readyToPick();
-      delay(2000);                  // TODO : Must optimize the time, distance
+      delay(2000);                  // TODO : Must optimize the time, distance Important !!!
       motorWrite(120, 1, 1);
+      readBoxColor();
+      delay(500);
       pick();
       delay(1000);
       motorWrite(120, -1, -1);
@@ -84,7 +87,8 @@ void loop() {
 
       // Set speed profile to linear speed with default values
       //stepper.setSpeedProfile(LINEAR_SPEED, 500, 2000);    //TODO: LINEAR_SPEED | CONSTANT_SPEED   500,2000
-      firstArrowFollow(COLOR_BLUE);
+
+      firstArrowFollow(boxColorReading);
       break;
 
     case SECOND_ARROW_FOLLOW:
@@ -94,7 +98,6 @@ void loop() {
 
     //-------------------------------------------------------------------------------------------------------------- Drop box
     case DROP_BOX:
-
       drop();
       beep(3);
       Serial.println(F(">> Task is completed"));
@@ -102,6 +105,9 @@ void loop() {
       break;
 
     //-------------------------------------------------------------------------------------------------------------- End of the program
+
+
+
 
 
     //-------------------------------------------------------------------------------------------------------------- Maze Option 1 : Run on pre defined maze
@@ -163,7 +169,7 @@ void displayLoopStatus(int mode) {
 void debugProcedure() {
   //06/09/2017 gihanchanaka@gmail.com
 
-  
+
   //Go forward 1 feet
   goF();
   delay(1000);
@@ -209,7 +215,7 @@ void debugProcedure() {
   }
 
   beep();
-  
+
   //Print colour readings (3 times with 4 sec delays)
   for (int j = 0; j < 3; j++) {
     Serial.print("Floor = ");
@@ -221,7 +227,7 @@ void debugProcedure() {
     delay(4000);
   }
 
- 
+
   beep(3);
 }
 
